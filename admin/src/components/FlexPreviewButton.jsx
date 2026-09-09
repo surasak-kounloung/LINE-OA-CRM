@@ -26,7 +26,7 @@ export default function FlexPreviewButton({ trigger }) {
             <div className="modal-head">
               <strong>{trigger}</strong>
               <div>
-                <button type="button" onClick={() => navigator.clipboard.writeText(json)}>คัดลอก</button>
+                <button type="button" onClick={() => navigator.clipboard.writeText(json).catch(() => setError("คัดลอกไม่สำเร็จ"))}>คัดลอก</button>
                 <button type="button" onClick={() => setJson(null)}>ปิด</button>
               </div>
             </div>

@@ -11,20 +11,26 @@ export function useResource(name) {
   const [status, setStatus] = useState("loading"); // loading | ready | saving | error
   const [message, setMessage] = useState("");
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (isActive = () => true) => {
     setStatus("loading");
     try {
       const data = await api.get(`/${name}`);
+      if (!isActive()) return;
       setSaved(data);
       setDraft(clone(data));
       setStatus("ready");
     } catch (e) {
+      if (!isActive()) return;
       setStatus("error");
       setMessage(e.message);
     }
   }, [name]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    let active = true;
+    load(() => active);
+    return () => { active = false; };
+  }, [load]);
 
   const dirty = draft !== null && JSON.stringify(draft) !== JSON.stringify(saved);
 
