@@ -53,7 +53,13 @@ function createDataStore(baseDir) {
     fs.writeFileSync(tmp, JSON.stringify(value, null, 2) + "\n", "utf8");
     fs.renameSync(tmp, target);
     cache.set(name, value);
-    listeners.forEach((fn) => fn(name, value));
+    listeners.forEach((fn) => {
+      try {
+        fn(name, value);
+      } catch (error) {
+        console.error(`dataStore: listener error for ${name}: ${error.message}`);
+      }
+    });
   }
 
   function getAll() {

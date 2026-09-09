@@ -57,3 +57,22 @@ test("getAll returns all four resources", () => {
   const store = createDataStore(tmpDir());
   assert.deepEqual(Object.keys(store.getAll()).sort(), [...DATA_NAMES].sort());
 });
+
+test("set does not throw if a listener throws, and continues calling other listeners", () => {
+  const store = createDataStore(tmpDir());
+  const secondListenerCalls = [];
+  const orig = console.error;
+  console.error = () => {};
+  try {
+    store.onChange(() => {
+      throw new Error("listener error");
+    });
+    store.onChange((name, value) => {
+      secondListenerCalls.push([name, value]);
+    });
+    store.set("branches", [{ id: "b1" }]);
+    assert.deepEqual(secondListenerCalls, [["branches", [{ id: "b1" }]]]);
+  } finally {
+    console.error = orig;
+  }
+});
