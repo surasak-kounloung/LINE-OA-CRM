@@ -6,95 +6,6 @@ const SEPARATOR_COLOR = "#79b9e5";
 const LOCATION_ICON_URL = "https://www.vsquareclinic.com/wp-content/uploads/2026/04/icon-blue-location-3d.png";
 const ARROW_ICON_URL = "https://www.vsquareclinic.com/wp-content/uploads/2026/04/icon-angle-right.png";
 
-// ข้อมูลสาขาแยกตามภูมิภาค (1 กลุ่ม = 1 bubble, extraSections = หัวข้อย่อยใน bubble เดียวกัน)
-// แต่ละสาขาใส่ได้ 2 แบบ:
-//   1) string         → "ชื่อสาขา" (กดแล้วส่งข้อความ = ชื่อสาขา)
-//   2) object         → { name: "ชื่อที่แสดง", actionText: "ข้อความที่ส่งตอนกด" }
-//                       ใช้เมื่อต้องการให้ข้อความ action ต่างจากชื่อที่แสดง
-const BRANCH_GROUPS = [
-    {
-        title: "กรุงเทพฯ ในเมือง",
-        branches: [
-            "สยาม สแควร์ วัน",
-            "เซ็นทรัล เวิล์ด",
-            "เทอร์มินอล อโศก",
-            "พระราม 9"
-            // "เอสพลานาด รัชดาภิเษก"
-        ]
-    },
-    {
-        title: "กรุงเทพฯ ตอนเหนือ",
-        branches: [
-            "เซ็นทรัล ลาดพร้าว",
-            "เมเจอร์ รัชโยธิน",
-            "เซ็นทรัล รามอินทรา",
-            "เดอะมอลล์ งามวงศ์วาน",
-            "เซ็นทรัล อีสวิลล์",
-            "เลียบด่วน"
-        ]
-    },
-    {
-        title: "กรุงเทพฯ ฝั่งตะวันออก",
-        branches: [
-            "เดอะ พรอมานาด",
-            "เดอะมอลล์ บางกะปิ",
-            "ซีคอน สแควร์ ศรีนครินทร์",
-            "เมกา บางนา",
-            "เซ็นทรัล บางนา"
-        ]
-    },
-    {
-        title: "กรุงเทพฯ ฝั่งธนบุรี",
-        branches: [
-            "เซ็นทรัล ปิ่นเกล้า",
-            "เดอะมอลล์ ท่าพระ",
-            "เซ็นทรัล พระราม 2",
-            "เดอะมอลล์ บางแค",
-            "พาซิโอ กาญจนา"
-        ]
-    },
-    {
-        title: "กรุงเทพฯ ตอนใต้",
-        branches: [
-            "ดุสิต เซ็นทรัล พาร์ค",
-            "วัน แบงค็อก",
-            { name: "ทองหล่อ", actionText: "ตารางแพทย์สาขาทองหล่อ" },
-            "เอ็มควอเทียร์",
-            "เกตเวย์ เอกมัย",
-            "เซ็นทรัล พระราม 3"
-        ]
-    },
-    {
-        title: "กรุงเทพฯ-ปทุมธานี",
-        branches: [
-            "ฟิวเจอร์พาร์ค รังสิต"
-        ],
-        extraSections: [
-            {
-                title: "กรุงเทพฯ-นนทบุรี",
-                branches: [
-                    "เซ็นทรัล เวสต์วิลล์",
-                    "เซ็นทรัล เวสต์เกต",
-                    "เซ็นทรัล แจ้งวัฒนะ"
-                ]
-            }
-        ]
-    },
-    {
-        title: "กรุงเทพฯ-นครปฐม",
-        branches: [
-            // "เซ็นทรัล ศาลายา",
-            "เซ็นทรัล นครปฐม"
-        ]
-        // extraSections: [
-        //     {
-        //         title: "กรุงเทพฯ-สมุทรสาคร",
-        //         branches: ["เซ็นทรัล มหาชัย"]
-        //     }
-        // ]
-    }
-];
-
 // ส่วนหัวข้อ: " สาขา" + ชื่อภูมิภาค + ไอคอนหมุดด้านขวา
 function createTitleContent(title) {
     return {
@@ -290,10 +201,12 @@ function createBranchBubble(group) {
     };
 }
 
-function FlexMessageTableDoctorsBubble() {
+// groups: [{ title, branches: [{ name, actionText }], extraSections?: [{ title, branches }] }]
+// สร้างจาก data/regions.json + data/branches.json ใน services/messageTable.js
+function FlexMessageTableDoctorsBubble(groups = []) {
     return {
         "type": "carousel",
-        "contents": BRANCH_GROUPS.map(createBranchBubble)
+        "contents": groups.map(createBranchBubble)
     };
 }
 

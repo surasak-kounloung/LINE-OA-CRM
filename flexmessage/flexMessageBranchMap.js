@@ -20,14 +20,25 @@ function sanitizePhoneNumber(phoneNumber) {
 
 // แถวข้อมูล: ป้ายกำกับซ้าย + ค่าขวา (จัดคอลัมน์ด้วย flex ไม่ใช้ margin px)
 function createInfoRow(label, value, actionUri) {
+    const valueText = {
+        "type": "text",
+        "text": value,
+        "size": "sm",
+        "color": VALUE_COLOR,
+        "align": "start",
+        "flex": VALUE_FLEX
+    };
+    if (actionUri) {
+        valueText.action = { "type": "uri", "uri": actionUri };
+    }
     return {
         "type": "box",
         "layout": "baseline",
         "paddingTop": "0px",
         "paddingBottom": "0px",
         "paddingStart": "20px",
-        "paddingEnd": "20px", 
-        "margin": "2px", 
+        "paddingEnd": "20px",
+        "margin": "2px",
         "contents": [
             {
                 "type": "text",
@@ -36,18 +47,7 @@ function createInfoRow(label, value, actionUri) {
                 "color": LABEL_COLOR,
                 "flex": LABEL_FLEX
             },
-            {
-                "type": "text",
-                "text": value,
-                "size": "sm",
-                "color": VALUE_COLOR,
-                "align": "start",
-                "flex": VALUE_FLEX,
-                "action": {
-                    "type": "uri",
-                    "uri": actionUri
-                }
-            }
+            valueText
         ]
     };
 }

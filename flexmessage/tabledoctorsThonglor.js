@@ -7,16 +7,6 @@ const SEPARATOR_COLOR = "#79b9e5";
 const LOCATION_ICON_URL = "https://www.vsquareclinic.com/wp-content/uploads/2026/04/icon-blue-location-3d.png";
 const ARROW_ICON_URL = "https://www.vsquareclinic.com/wp-content/uploads/2026/04/icon-angle-right.png";
 
-// ข้อมูลสาขา (1 กลุ่ม = 1 bubble)
-const BRANCH_GROUP = {
-    title: "กรุงเทพฯ ตอนใต้",
-    branches: [
-        "ทองหล่อ",
-        "ทองหล่อ เลเซอร์เซ็นเตอร์",
-        "ทองหล่อ เวลเนสเช็นเตอร์"
-    ]
-};
-
 // ส่วนหัวข้อ: "สาขา" + ชื่อภูมิภาค + ไอคอนหมุดด้านขวา
 function createTitleContent(title) {
     return {
@@ -60,14 +50,24 @@ function createTitleContent(title) {
     };
 }
 
-// แถวชื่อสาขา: ข้อความซ้าย + ลูกศรขวา กดแล้วส่งข้อความชื่อสาขา
-function createBranchRow(branchName) {
+// แปลงข้อมูลสาขาให้เป็นรูปแบบมาตรฐาน { name, actionText }
+// รองรับทั้งแบบ string และแบบ object — ถ้าไม่ระบุ actionText จะใช้ชื่อสาขาเป็นข้อความ action
+function normalizeBranch(branch) {
+    if (typeof branch === "string") {
+        return { name: branch, actionText: branch };
+    }
+    return { name: branch.name, actionText: branch.actionText || branch.name };
+}
+
+// แถวชื่อสาขา: ข้อความซ้าย + ลูกศรขวา กดแล้วส่งข้อความ action (กำหนดแยกจากชื่อที่แสดงได้)
+function createBranchRow(branch) {
+    const { name, actionText } = normalizeBranch(branch);
     return {
         "type": "box",
         "layout": "baseline",
         "action": {
             "type": "message",
-            "text": branchName
+            "text": actionText
         },
         "paddingTop": "10px",
         "paddingBottom": "10px",
@@ -76,7 +76,7 @@ function createBranchRow(branchName) {
         "contents": [
             {
                 "type": "text",
-                "text": branchName,
+                "text": name,
                 "color": TITLE_COLOR,
                 "size": "md",
                 "flex": 1
@@ -168,11 +168,12 @@ function createBranchBubble(group) {
     };
 }
 
-function FlexMessageTableDoctorsThonglorBubble() {
+// group: { title, branches: [{ name, actionText }] } — สร้างใน services/messageTable.js
+function FlexMessageTableDoctorsThonglorBubble(group) {
     return {
         "type": "carousel",
         "contents": [
-            createBranchBubble(BRANCH_GROUP)
+            createBranchBubble(group)
         ]
     };
 }
