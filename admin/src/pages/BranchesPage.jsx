@@ -20,7 +20,7 @@ export default function BranchesPage() {
       id, trigger: "", displayName: "", region: sections[0] || "", menu: "main", enabled: false,
       fontSize: "xxl", mapUrl: "", imageUrl: "", phoneNumber: "", lineId: "", lineUrl: "", doctors: [],
     }]);
-    window.location.hash = `#/branches/${id}`;
+    window.location.hash = `#/branches/${draft.length}`;
   }
 
   return (
@@ -34,7 +34,7 @@ export default function BranchesPage() {
           <tbody>
             {draft.map((b, i) => (
               <tr key={i} style={hasError(i) ? { background: "#fff0f0" } : undefined}>
-                <td><Link to={`/branches/${b.id}`}>{b.trigger || "(ยังไม่ตั้งชื่อ)"}</Link>{hasError(i) && <span className="badge">มีข้อผิดพลาด</span>}</td>
+                <td><Link to={`/branches/${i}`}>{b.trigger || "(ยังไม่ตั้งชื่อ)"}</Link>{hasError(i) && <span className="badge">มีข้อผิดพลาด</span>}</td>
                 <td>{b.region}</td>
                 <td>{menuLabel(b.menu)}</td>
                 <td>{b.enabled ? "เปิด" : <span className="badge muted">ปิด</span>}</td>

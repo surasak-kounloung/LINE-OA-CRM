@@ -11,16 +11,16 @@ import { move, removeAt, chunkCount, DAYS, MENUS, MAX_BUBBLES } from "../utils";
 const SCHEDULE_PREFIX = "สอบถามตารางแพทย์ สาขา";
 
 export default function BranchEditPage() {
-  const { id } = useParams();
+  const { index } = useParams();
   const resource = useBranches();
   const [tab, setTab] = useState("info");
   const { draft, setDraft, errors, status, message } = resource;
   if (status === "loading" || draft === null) return <p>กำลังโหลด...</p>;
   if (status === "error") return <p className="field-error">{message}</p>;
 
-  const i = draft.findIndex((b) => b.id === id);
-  if (i === -1) return <p>ไม่พบสาขา <Link to="/branches">กลับ</Link></p>;
+  const i = Number(index);
   const b = draft[i];
+  if (!Number.isInteger(i) || !b) return <p>ไม่พบสาขา <Link to="/branches">กลับ</Link></p>;
   const p = (field) => `[${i}].${field}`;
   const update = (patch) => setDraft(draft.map((x, j) => (j === i ? { ...x, ...patch } : x)));
   const updateDoctor = (k, patch) => update({ doctors: b.doctors.map((d, j) => (j === k ? { ...d, ...patch } : d)) });

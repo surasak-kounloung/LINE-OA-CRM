@@ -17,7 +17,7 @@ function BranchRoutes() {
   return (
     <Routes>
       <Route index element={<BranchesPage />} />
-      <Route path=":id" element={<BranchEditPage />} />
+      <Route path=":index" element={<BranchEditPage />} />
     </Routes>
   );
 }
