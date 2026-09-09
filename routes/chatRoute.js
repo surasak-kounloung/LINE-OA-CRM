@@ -19,6 +19,7 @@ const processLocally = process.env.FORWARD_WEBHOOK_URL_PROCESS === "true";
 
 // ตาราง trigger → ข้อความตอบ สร้างจาก data/*.json และสร้างใหม่อัตโนมัติเมื่อหน้า admin บันทึก
 const messageTable = createMessageTable(getDefaultStore());
+const lineClient = new line.Client(lineConfig);
 
 router.post("/", line.middleware(lineConfig), async (req, res) => {
   try {
@@ -56,8 +57,7 @@ const handleEvents = async (event) => {
     if (!messages) {
       return null;
     }
-    const client = new line.Client(lineConfig);
-    await client.replyMessage(event.replyToken, messages);
+    await lineClient.replyMessage(event.replyToken, messages);
     return null;
   } catch (error) {
     console.error("เกิดข้อผิดพลาดในการจัดการอีเวนต์:", error);

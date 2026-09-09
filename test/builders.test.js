@@ -1,11 +1,11 @@
+// legacyMessages is a frozen snapshot of the verified Flex output (test/fixtures/menu-messages.json),
+// verified byte-identical to the legacy bot's output in Task 6. Regenerate it (see the command in
+// that file's history / the Task 7 report) only when the Flex design changes intentionally.
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const legacyPromotions = require("../data/promotions.json");
 const legacyServices = require("../data/services.json").map(({ subtitle, ...s }) => ({ ...s, inquiryText: subtitle }));
-const { build } = require("../services/messageTable");
-const { createDataStore } = require("../services/dataStore");
-const path = require("path");
-const legacyMessages = Object.fromEntries(build(createDataStore(path.join(__dirname, "..", "data")).getAll()));
+const legacyMessages = require("./fixtures/menu-messages.json");
 const { FlexMessagePromotionBubble } = require("../flexmessage/promotion");
 const { FlexMessageServicesBubble } = require("../flexmessage/services");
 const { FlexMessageTableDoctorsBubble } = require("../flexmessage/tabledoctors");
@@ -53,7 +53,17 @@ test("thonglor table builder renders a single bubble", () => {
   assert.equal(out.contents.length, 1);
   const rows = out.contents[0].body.contents[0].contents[0].contents.filter((c) => c.layout === "baseline");
   assert.deepEqual(rows.map((r) => [r.contents[0].text, r.action.text]), [["ทองหล่อ", "ทองหล่อ"], ["ทองหล่อ เลเซอร์เซ็นเตอร์", "ทองหล่อ เลเซอร์เซ็นเตอร์"]]);
-  // exact equality with the legacy carousel is checked in scripts/verify-migration.js (Task 6)
+
+  // exact equality against the frozen fixture (all three thonglor-menu branches, matching live data)
+  const full = FlexMessageTableDoctorsThonglorBubble({
+    title: "กรุงเทพฯ ตอนใต้",
+    branches: [
+      { name: "ทองหล่อ", actionText: "ทองหล่อ" },
+      { name: "ทองหล่อ เลเซอร์เซ็นเตอร์", actionText: "ทองหล่อ เลเซอร์เซ็นเตอร์" },
+      { name: "ทองหล่อ เวลเนสเช็นเตอร์", actionText: "ทองหล่อ เวลเนสเช็นเตอร์" },
+    ],
+  });
+  assert.deepEqual(full, legacyMessages["ตารางแพทย์สาขาทองหล่อ"][0].contents);
 });
 
 test("branch map omits LINE row action when lineUrl is empty", () => {
