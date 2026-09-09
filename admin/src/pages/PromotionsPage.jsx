@@ -18,7 +18,7 @@ export default function PromotionsPage() {
   if (status === "error") return <p className="field-error">{message}</p>;
 
   const update = (i, patch) => setDraft(draft.map((p, j) => (j === i ? { ...p, ...patch } : p)));
-  const updateLine = (i, k, value) => update(i, { lines: draft[i].lines.map((l, j) => (j === k ? value : l)) });
+  const updateLine = (i, k, value) => update(i, { lines: (draft[i].lines || []).map((l, j) => (j === k ? value : l)) });
 
   return (
     <div>
@@ -36,14 +36,14 @@ export default function PromotionsPage() {
             <label>ข้อความปุ่มสอบถาม<input value={p.inquiryText} onChange={(e) => update(i, { inquiryText: e.target.value })} /><FieldError errors={errors} path={`[${i}].inquiryText`} /></label>
             <div>บรรทัดบรรยาย</div>
             <div className="inline-list">
-              {p.lines.map((line, k) => (
+              {(p.lines || []).map((line, k) => (
                 <div key={k}>
                   <input value={line} onChange={(e) => updateLine(i, k, e.target.value)} />
-                  <button type="button" onClick={() => update(i, { lines: removeAt(p.lines, k) })}>ลบ</button>
+                  <button type="button" onClick={() => update(i, { lines: removeAt((p.lines || []), k) })}>ลบ</button>
                   <FieldError errors={errors} path={`[${i}].lines[${k}]`} />
                 </div>
               ))}
-              <div><button type="button" onClick={() => update(i, { lines: [...p.lines, ""] })}>+ เพิ่มบรรทัด</button></div>
+              <div><button type="button" onClick={() => update(i, { lines: [...(p.lines || []), ""] })}>+ เพิ่มบรรทัด</button></div>
             </div>
             <label style={{ marginTop: "0.6rem" }}>
               <input type="checkbox" style={{ width: "auto" }} checked={p.hot} onChange={(e) => update(i, { hot: e.target.checked })} /> แสดงป้าย HOT!

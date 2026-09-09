@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { api } from "../api";
+import { setDirty } from "../dirtyState";
 
 const clone = (v) => JSON.parse(JSON.stringify(v));
 
@@ -40,6 +41,8 @@ export function useResource(name) {
     window.addEventListener("beforeunload", handler);
     return () => window.removeEventListener("beforeunload", handler);
   }, [dirty]);
+
+  useEffect(() => { setDirty(dirty); return () => setDirty(false); }, [dirty]);
 
   async function save() {
     setStatus("saving");

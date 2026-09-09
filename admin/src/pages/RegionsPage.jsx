@@ -17,7 +17,7 @@ export default function RegionsPage() {
     <div>
       <h1>ภูมิภาคในเมนู "ตารางแพทย์" <FlexPreviewButton trigger="ตารางแพทย์" /></h1>
       <UnsavedBar resource={resource} />
-      <p className="muted">1 กล่อง = 1 bubble ในเมนู หัวข้อแรกเป็นหัวข้อหลัก หัวข้อถัดไปเป็นหัวข้อย่อยใน bubble เดียวกัน ลบหัวข้อไม่ได้ถ้ายังมีสาขาใช้อยู่</p>
+      <p className="muted">1 กล่อง = 1 bubble ในเมนู หัวข้อแรกเป็นหัวข้อหลัก หัวข้อถัดไปเป็นหัวข้อย่อยใน bubble เดียวกัน ลบหัวข้อไม่ได้ถ้ายังมีสาขาใช้อยู่ หากต้องการเปลี่ยนชื่อหัวข้อ ให้เพิ่มชื่อใหม่ก่อน แล้วย้ายสาขาทั้งหมดไปที่ชื่อใหม่ในหน้าสาขา บันทึก แล้วจึงลบชื่อเดิมทิ้ง</p>
       <FieldError errors={errors} path="" />
       {draft.map((r, i) => (
         <div className="card card-row" key={i} style={{ gridTemplateColumns: "1fr auto" }}>

@@ -17,7 +17,7 @@ const branch = {
   doctors: [{ day: "วันจันทร์", name: "หมอ", license: "ว.1", imageUrl: "https://x/d.png" }],
 };
 
-async function startApp() {
+async function startApp(routerOverrides = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "vsq-admin-"));
   const seed = { promotions: [], services: [], branches: [branch], regions: [region] };
   for (const [name, value] of Object.entries(seed)) fs.writeFileSync(path.join(dir, `${name}.json`), JSON.stringify(value));
@@ -25,7 +25,7 @@ async function startApp() {
   const messageTable = createMessageTable(store);
   const app = express();
   app.use(express.json({ limit: "2mb" }));
-  app.use("/api/admin", createAdminRouter({ store, messageTable, loginFailureDelayMs: 0 }));
+  app.use("/api/admin", createAdminRouter({ store, messageTable, loginFailureDelayMs: 0, ...routerOverrides }));
   const server = await new Promise((resolve) => { const s = app.listen(0, () => resolve(s)); });
   const base = `http://127.0.0.1:${server.address().port}/api/admin`;
   const call = (method, p, body, token) => fetch(base + p, {
@@ -92,6 +92,22 @@ test("preview returns messages for a trigger, 404 for unknown", async () => {
   assert.equal(messages[0].altText, "สาขาสยาม");
   assert.equal((await call("GET", "/preview/ไม่มี", undefined, token)).status, 404);
   close();
+});
+
+test("login lockout: too many failures returns 429, resets on success, fresh router unaffected", async () => {
+  const { call, close } = await startApp({ loginMaxFailures: 2, loginWindowMs: 15 * 60 * 1000 });
+  assert.equal((await call("POST", "/login", { password: "nope" })).status, 401);
+  assert.equal((await call("POST", "/login", { password: "nope" })).status, 401);
+  const locked = await call("POST", "/login", { password: "pw" });
+  assert.equal(locked.status, 429);
+  assert.equal((await locked.json()).error, "พยายามเข้าสู่ระบบผิดหลายครั้ง กรุณารอ 15 นาที");
+  close();
+
+  // เราเตอร์ใหม่ (เช่น หลัง restart) ไม่ควรถูกล็อกตามเรานเตอร์เก่า
+  const fresh = await startApp({ loginMaxFailures: 2, loginWindowMs: 15 * 60 * 1000 });
+  const ok = await fresh.call("POST", "/login", { password: "pw" });
+  assert.equal(ok.status, 200);
+  fresh.close();
 });
 
 test("everything is 503 when ADMIN_PASSWORD is unset", async () => {

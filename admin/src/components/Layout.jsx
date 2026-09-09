@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { clearToken } from "../api";
+import { confirmDiscard } from "../dirtyState";
 
 const links = [
   ["/promotions", "โปรโมชั่น"],
@@ -11,6 +12,7 @@ const links = [
 export default function Layout({ children }) {
   const navigate = useNavigate();
   function logout() {
+    if (!confirmDiscard()) return;
     clearToken();
     navigate("/login");
   }
@@ -20,7 +22,14 @@ export default function Layout({ children }) {
         <strong>VSQ LINE Admin</strong>
         <nav>
           {links.map(([to, label]) => (
-            <NavLink key={to} to={to} className={({ isActive }) => (isActive ? "active" : "")}>{label}</NavLink>
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) => (isActive ? "active" : "")}
+              onClick={(e) => { if (!confirmDiscard()) e.preventDefault(); }}
+            >
+              {label}
+            </NavLink>
           ))}
         </nav>
         <button type="button" className="link" onClick={logout}>ออกจากระบบ</button>

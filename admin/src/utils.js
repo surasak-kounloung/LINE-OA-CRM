@@ -1,8 +1,3 @@
-export function errorFor(errors, path) {
-  const hit = (errors || []).find((e) => e.path === path);
-  return hit ? hit.message : undefined;
-}
-
 export function errorsFor(errors, path) {
   return (errors || []).filter((e) => e.path === path).map((e) => e.message);
 }
@@ -17,11 +12,6 @@ export function move(list, from, to) {
 
 export function removeAt(list, index) {
   return list.filter((_, i) => i !== index);
-}
-
-export function slugify(text, fallback) {
-  const s = String(text || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-  return s || fallback;
 }
 
 export function chunkCount(n, size) {

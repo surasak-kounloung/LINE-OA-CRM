@@ -30,17 +30,27 @@ const inMainMenu = (b) => b.enabled && (b.menu === "main" || b.menu === "both");
 const inThonglorMenu = (b) => b.enabled && (b.menu === "thonglor" || b.menu === "both");
 
 // เมนู "ตารางแพทย์": 1 region = 1 bubble, section แรกเป็นหัวข้อหลัก ที่เหลือเป็น extraSections
+// section ที่ไม่มีสาขาเปิดใช้เลย (0 rows) ต้องถูกตัดทิ้ง — LINE reject ทั้งข้อความถ้า box.contents ว่าง
+// ถ้า section หลักว่างแต่มี extraSection ที่มีข้อมูล ให้เลื่อน section แรกที่ไม่ว่างขึ้นมาเป็นหลักแทน
+// ถ้าทุก section ในภูมิภาคว่างหมด ให้ตัดทั้งกลุ่ม (region) นั้นออกจากเมนู
 function buildMainMenuGroups(regions, branches) {
   const rowsFor = (section) =>
     branches
       .filter((b) => inMainMenu(b) && b.region === section)
       .map((b) => ({ name: b.trigger, actionText: b.mainMenuActionText || b.trigger }));
-  return regions.map((region) => {
-    const [first, ...rest] = region.sections;
-    const group = { title: first, branches: rowsFor(first) };
-    if (rest.length) group.extraSections = rest.map((s) => ({ title: s, branches: rowsFor(s) }));
+
+  const groups = regions.map((region) => {
+    const nonEmptySections = region.sections
+      .map((title) => ({ title, branches: rowsFor(title) }))
+      .filter((section) => section.branches.length > 0);
+    if (!nonEmptySections.length) return null;
+    const [main, ...rest] = nonEmptySections;
+    const group = { title: main.title, branches: main.branches };
+    if (rest.length) group.extraSections = rest;
     return group;
   });
+
+  return groups.filter(Boolean);
 }
 
 // เมนู "ตารางแพทย์สาขาทองหล่อ": bubble เดียว
@@ -57,9 +67,16 @@ function build(data) {
   }
   const table = new Map();
 
-  table.set("บริการทั้งหมด", [createFlexMessage("บริการทั้งหมด", FlexMessageServicesBubble(services))]);
-  table.set("โปรโมชั่นล่าสุด", [createFlexMessage("โปรโมชั่นล่าสุด", FlexMessagePromotionBubble(promotions))]);
-  table.set("ตารางแพทย์", [createFlexMessage("ตารางแพทย์", FlexMessageTableDoctorsBubble(buildMainMenuGroups(regions, branches)))]);
+  if (services.length) {
+    table.set("บริการทั้งหมด", [createFlexMessage("บริการทั้งหมด", FlexMessageServicesBubble(services))]);
+  }
+  if (promotions.length) {
+    table.set("โปรโมชั่นล่าสุด", [createFlexMessage("โปรโมชั่นล่าสุด", FlexMessagePromotionBubble(promotions))]);
+  }
+  const mainMenuGroups = buildMainMenuGroups(regions, branches);
+  if (mainMenuGroups.length) {
+    table.set("ตารางแพทย์", [createFlexMessage("ตารางแพทย์", FlexMessageTableDoctorsBubble(mainMenuGroups))]);
+  }
 
   const thonglor = buildThonglorGroup(branches);
   if (thonglor) {

@@ -23,7 +23,7 @@ export default function BranchEditPage() {
   if (!Number.isInteger(i) || !b) return <p>ไม่พบสาขา <Link to="/branches">กลับ</Link></p>;
   const p = (field) => `[${i}].${field}`;
   const update = (patch) => setDraft(draft.map((x, j) => (j === i ? { ...x, ...patch } : x)));
-  const updateDoctor = (k, patch) => update({ doctors: b.doctors.map((d, j) => (j === k ? { ...d, ...patch } : d)) });
+  const updateDoctor = (k, patch) => update({ doctors: (b.doctors || []).map((d, j) => (j === k ? { ...d, ...patch } : d)) });
   const field = (label, name, type = "text") => (
     <label>{label}<input type={type} value={b[name] ?? ""} onChange={(e) => update({ [name]: e.target.value })} /><FieldError errors={errors} path={p(name)} /></label>
   );
@@ -35,7 +35,7 @@ export default function BranchEditPage() {
       <UnsavedBar resource={resource} />
       <div className="tabs">
         <button type="button" className={tab === "info" ? "active" : ""} onClick={() => setTab("info")}>ข้อมูลสาขา</button>
-        <button type="button" className={tab === "doctors" ? "active" : ""} onClick={() => setTab("doctors")}>ตารางแพทย์ ({b.doctors.length})</button>
+        <button type="button" className={tab === "doctors" ? "active" : ""} onClick={() => setTab("doctors")}>ตารางแพทย์ ({(b.doctors || []).length})</button>
       </div>
 
       {tab === "info" && (
@@ -62,13 +62,13 @@ export default function BranchEditPage() {
 
       {tab === "doctors" && (
         <div className="card">
-          <p className="muted">แสดงเป็น {chunkCount(b.doctors.length, MAX_BUBBLES) || 0} carousel (สูงสุด {MAX_BUBBLES} คนต่อ carousel) · trigger: {SCHEDULE_PREFIX}{b.trigger} <FlexPreviewButton trigger={SCHEDULE_PREFIX + b.trigger} /></p>
+          <p className="muted">แสดงเป็น {chunkCount((b.doctors || []).length, MAX_BUBBLES) || 0} carousel (สูงสุด {MAX_BUBBLES} คนต่อ carousel) · trigger: {SCHEDULE_PREFIX}{b.trigger} <FlexPreviewButton trigger={SCHEDULE_PREFIX + b.trigger} /></p>
           <FieldError errors={errors} path={p("doctors")} />
           <div className="table-wrap">
             <table className="table">
               <thead><tr><th>รูป</th><th>วัน</th><th>ชื่อแพทย์</th><th>เลขใบอนุญาต</th><th>URL รูป</th><th></th></tr></thead>
               <tbody>
-                {b.doctors.map((d, k) => {
+                {(b.doctors || []).map((d, k) => {
                   const dp = (f) => `${p("doctors")}[${k}].${f}`;
                   return (
                     <tr key={k}>
@@ -77,14 +77,14 @@ export default function BranchEditPage() {
                       <td><input value={d.name} onChange={(e) => updateDoctor(k, { name: e.target.value })} /><FieldError errors={errors} path={dp("name")} /></td>
                       <td><input value={d.license} onChange={(e) => updateDoctor(k, { license: e.target.value })} /><FieldError errors={errors} path={dp("license")} /></td>
                       <td><input value={d.imageUrl} onChange={(e) => updateDoctor(k, { imageUrl: e.target.value })} /><FieldError errors={errors} path={dp("imageUrl")} /></td>
-                      <td><RowControls index={k} length={b.doctors.length} onMove={(a, c) => update({ doctors: move(b.doctors, a, c) })} onDelete={(j) => update({ doctors: removeAt(b.doctors, j) })} /></td>
+                      <td><RowControls index={k} length={(b.doctors || []).length} onMove={(a, c) => update({ doctors: move((b.doctors || []), a, c) })} onDelete={(j) => update({ doctors: removeAt((b.doctors || []), j) })} /></td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
           </div>
-          <button type="button" style={{ marginTop: "0.6rem" }} onClick={() => update({ doctors: [...b.doctors, { day: DAYS[0], name: "", license: "", imageUrl: "" }] })}>+ เพิ่มแพทย์</button>
+          <button type="button" style={{ marginTop: "0.6rem" }} onClick={() => update({ doctors: [...(b.doctors || []), { day: DAYS[0], name: "", license: "", imageUrl: "" }] })}>+ เพิ่มแพทย์</button>
         </div>
       )}
     </div>

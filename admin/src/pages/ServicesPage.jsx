@@ -18,7 +18,7 @@ export default function ServicesPage() {
   if (status === "error") return <p className="field-error">{message}</p>;
 
   const update = (i, patch) => setDraft(draft.map((s, j) => (j === i ? { ...s, ...patch } : s)));
-  const updatePrice = (i, k, value) => update(i, { priceImages: draft[i].priceImages.map((u, j) => (j === k ? value : u)) });
+  const updatePrice = (i, k, value) => update(i, { priceImages: (draft[i].priceImages || []).map((u, j) => (j === k ? value : u)) });
 
   return (
     <div>
@@ -38,21 +38,21 @@ export default function ServicesPage() {
             <label><input type="checkbox" style={{ width: "auto" }} checked={s.hot} onChange={(e) => update(i, { hot: e.target.checked })} /> แสดงป้าย HOT!</label>
 
             <div>
-              รูปราคา ({s.priceImages.length}/{MAX_PRICE_IMAGES}) <FlexPreviewButton trigger={s.actionText} />
-              {s.priceImages.length === 0 && <span className="muted"> — ไม่มีรูป: บอทจะตอบข้อความ "ปรึกษาหมอได้เลย" อย่างเดียว</span>}
-              {s.priceImages.length > MAX_PRICE_IMAGES && <span className="field-error"> เกิน {MAX_PRICE_IMAGES} รูป LINE แสดงได้ไม่ครบ</span>}
+              รูปราคา ({(s.priceImages || []).length}/{MAX_PRICE_IMAGES}) <FlexPreviewButton trigger={s.actionText} />
+              {(s.priceImages || []).length === 0 && <span className="muted"> — ไม่มีรูป: บอทจะตอบข้อความ "ปรึกษาหมอได้เลย" อย่างเดียว</span>}
+              {(s.priceImages || []).length > MAX_PRICE_IMAGES && <span className="field-error"> เกิน {MAX_PRICE_IMAGES} รูป LINE แสดงได้ไม่ครบ</span>}
             </div>
             <FieldError errors={errors} path={`[${i}].priceImages`} />
             <div className="inline-list">
-              {s.priceImages.map((url, k) => (
+              {(s.priceImages || []).map((url, k) => (
                 <div key={k}>
                   <ImagePreview url={url} size={48} />
                   <input value={url} onChange={(e) => updatePrice(i, k, e.target.value)} />
-                  <RowControls index={k} length={s.priceImages.length} onMove={(a, b) => update(i, { priceImages: move(s.priceImages, a, b) })} onDelete={(j) => update(i, { priceImages: removeAt(s.priceImages, j) })} />
+                  <RowControls index={k} length={(s.priceImages || []).length} onMove={(a, b) => update(i, { priceImages: move((s.priceImages || []), a, b) })} onDelete={(j) => update(i, { priceImages: removeAt((s.priceImages || []), j) })} />
                   <FieldError errors={errors} path={`[${i}].priceImages[${k}]`} />
                 </div>
               ))}
-              <div><button type="button" onClick={() => update(i, { priceImages: [...s.priceImages, ""] })}>+ เพิ่มรูปราคา</button></div>
+              <div><button type="button" onClick={() => update(i, { priceImages: [...(s.priceImages || []), ""] })}>+ เพิ่มรูปราคา</button></div>
             </div>
           </div>
           <RowControls index={i} length={draft.length} onMove={(a, b) => setDraft(move(draft, a, b))} onDelete={(k) => setDraft(removeAt(draft, k))} />

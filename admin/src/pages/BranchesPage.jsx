@@ -38,7 +38,7 @@ export default function BranchesPage() {
                 <td>{b.region}</td>
                 <td>{menuLabel(b.menu)}</td>
                 <td>{b.enabled ? "เปิด" : <span className="badge muted">ปิด</span>}</td>
-                <td>{b.doctors.length}</td>
+                <td>{(b.doctors || []).length}</td>
                 <td><RowControls index={i} length={draft.length} onMove={(a, c) => setDraft(move(draft, a, c))} onDelete={(k) => setDraft(removeAt(draft, k))} /></td>
               </tr>
             ))}

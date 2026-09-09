@@ -1,6 +1,8 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const path = require("path");
 const { build, createMessageTable, scheduleTrigger, FOLLOW_UP_TEXT } = require("../services/messageTable");
+const { createDataStore } = require("../services/dataStore");
 
 const doctor = (n) => ({ day: "วันจันทร์", name: `หมอ${n}`, license: `ว.${n}`, imageUrl: `https://x/${n}.png` });
 const branch = (over = {}) => ({
@@ -109,4 +111,73 @@ test("createMessageTable rebuilds on store change and keeps old table when rebui
   listeners.forEach((fn) => fn("services", null));
   assert.equal(mt.getTable().has("ใหม่"), true);
   assert.equal(logs.length, 1);
+});
+
+// ===== ไม่ส่ง Flex ที่มี contents ว่าง (LINE reject ทั้งข้อความ) =====
+
+const titleOf = (bubble) => bubble.header.contents[0].contents[0].contents[1].text;
+const rowsOf = (card) => card.contents[0].contents.filter((c) => c.layout === "baseline");
+
+test("a region whose only section has no enabled branch is omitted from the ตารางแพทย์ carousel", () => {
+  const t = build(data({
+    regions: [{ sections: ["ว่าง"] }, { sections: ["มีสาขา"] }],
+    branches: [branch({ region: "มีสาขา" })],
+  }));
+  const groups = t.get("ตารางแพทย์")[0].contents.contents;
+  assert.equal(groups.length, 1);
+  assert.equal(titleOf(groups[0]), "มีสาขา");
+});
+
+test("a region with an empty main section but a populated extraSection still renders one bubble with that section as title", () => {
+  const t = build(data({
+    regions: [{ sections: ["ว่าง", "มีของ"] }],
+    branches: [branch({ region: "มีของ" })],
+  }));
+  const groups = t.get("ตารางแพทย์")[0].contents.contents;
+  assert.equal(groups.length, 1);
+  const bubble = groups[0];
+  assert.equal(titleOf(bubble), "มีของ");
+  // ไม่มี extraSection เหลือ (ว่างถูกตัดทิ้งไปแล้ว, มีของถูกโปรโมทเป็นหลัก) → มีแค่การ์ดเดียวใน body
+  assert.equal(bubble.body.contents.length, 1);
+  assert.deepEqual(rowsOf(bubble.body.contents[0]).map((r) => r.contents[0].text), ["สยาม"]);
+});
+
+test("promotions: [] → no โปรโมชั่นล่าสุด key", () => {
+  assert.equal(build(data({ promotions: [] })).has("โปรโมชั่นล่าสุด"), false);
+});
+
+test("services: [] → no บริการทั้งหมด key", () => {
+  assert.equal(build(data({ services: [] })).has("บริการทั้งหมด"), false);
+});
+
+test("all branches disabled → no ตารางแพทย์ key", () => {
+  assert.equal(build(data({ branches: [branch({ enabled: false })] })).has("ตารางแพทย์"), false);
+});
+
+function assertNoEmptyContents(node, ctx) {
+  if (Array.isArray(node)) {
+    node.forEach((item, i) => assertNoEmptyContents(item, `${ctx}[${i}]`));
+    return;
+  }
+  if (node && typeof node === "object") {
+    if (Array.isArray(node.contents)) {
+      assert.ok(node.contents.length > 0, `empty contents at ${ctx}.contents`);
+    }
+    Object.entries(node).forEach(([k, v]) => assertNoEmptyContents(v, `${ctx}.${k}`));
+  }
+}
+
+function assertTableHasNoEmptyContents(table) {
+  for (const [trigger, messages] of table.entries()) {
+    assertNoEmptyContents(messages, `[${trigger}]`);
+  }
+}
+
+test("no message in the table has an empty box/carousel contents array (synthetic data)", () => {
+  assertTableHasNoEmptyContents(build(data()));
+});
+
+test("no message in the table has an empty box/carousel contents array (real data/*.json)", () => {
+  const store = createDataStore(path.join(__dirname, "..", "data"));
+  assertTableHasNoEmptyContents(build(store.getAll()));
 });

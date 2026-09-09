@@ -3,18 +3,60 @@ const express = require("express");
 const { requireAdmin, isAdminEnabled, passwordMatches, createToken } = require("../middlewares/adminAuth");
 const { validatePromotions, validateServices, validateBranches, validateRegions } = require("../services/validate");
 
-function createAdminRouter({ store, messageTable, loginFailureDelayMs = 1000 }) {
+const LOGIN_MAX_FAILURES = 5;
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+
+function createAdminRouter({
+  store,
+  messageTable,
+  loginFailureDelayMs = 1000,
+  loginMaxFailures = LOGIN_MAX_FAILURES,
+  loginWindowMs = LOGIN_WINDOW_MS,
+}) {
   const router = express.Router();
+
+  // ป้องกัน brute-force: จำกัดจำนวนครั้งที่ login ผิดต่อ IP ภายในช่วงเวลาหนึ่ง (ในหน่วยความจำ ไม่ persist)
+  const loginFailures = new Map(); // ip -> { count, firstAt }
+
+  function isLockedOut(ip) {
+    const entry = loginFailures.get(ip);
+    if (!entry) return false;
+    if (Date.now() - entry.firstAt > loginWindowMs) {
+      loginFailures.delete(ip);
+      return false;
+    }
+    return entry.count >= loginMaxFailures;
+  }
+
+  function recordFailure(ip) {
+    const now = Date.now();
+    const entry = loginFailures.get(ip);
+    if (!entry || now - entry.firstAt > loginWindowMs) {
+      loginFailures.set(ip, { count: 1, firstAt: now });
+    } else {
+      entry.count += 1;
+    }
+  }
+
+  function clearFailures(ip) {
+    loginFailures.delete(ip);
+  }
 
   router.post("/login", async (req, res) => {
     if (!isAdminEnabled()) {
       return res.status(503).json({ error: "admin disabled: ตั้งค่า ADMIN_PASSWORD ใน .env ก่อน" });
     }
+    const ip = req.ip;
+    if (isLockedOut(ip)) {
+      return res.status(429).json({ error: "พยายามเข้าสู่ระบบผิดหลายครั้ง กรุณารอ 15 นาที" });
+    }
     const password = req.body && req.body.password;
     if (!passwordMatches(password)) {
+      recordFailure(ip);
       await new Promise((resolve) => setTimeout(resolve, loginFailureDelayMs));
       return res.status(401).json({ error: "รหัสผ่านไม่ถูกต้อง" });
     }
+    clearFailures(ip);
     return res.json(createToken());
   });
 
@@ -35,7 +77,12 @@ function createAdminRouter({ store, messageTable, loginFailureDelayMs = 1000 }) 
       if (errors.length) {
         return res.status(400).json({ error: "ข้อมูลไม่ถูกต้อง", errors });
       }
-      store.set(name, req.body);
+      try {
+        store.set(name, req.body);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "บันทึกไฟล์ไม่สำเร็จ" });
+      }
       return res.json(store.get(name));
     });
   }

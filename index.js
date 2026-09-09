@@ -25,10 +25,10 @@ app.use(
   })
 );
 
-app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use("/webhook", cors());
 app.use("/webhook", chatRouter);
 
 // หน้า admin + API (ต้องอยู่ก่อน app.get("/"))
@@ -40,7 +40,7 @@ const adminDist = path.join(__dirname, "admin", "dist");
 if (fs.existsSync(adminDist)) {
   app.use("/admin", express.static(adminDist));
 } else {
-  app.get("/admin", (req, res) => res.status(404).send("admin UI not built: run `npm run build` inside admin/"));
+  app.use("/admin", (req, res) => res.status(404).send("admin UI not built: run `npm run admin:build`"));
 }
 
 app.get("/", (req, res) => {

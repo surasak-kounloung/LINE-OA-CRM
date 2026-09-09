@@ -44,6 +44,10 @@ LINE_CHANNEL_SECRET=YOUR_LINE_CHANNEL_SECRET
 # เมื่อตั้งค่าเป็น "true" และกำหนด URL ระบบจะส่งต่อ req.body ไปยัง URL ดังกล่าว
 FORWARD_WEBHOOK_URL_PROCESS=false
 FORWARD_WEBHOOK_URL=https://your-api.example.com/line-webhook
+
+# หน้า Admin (/admin): รหัสผ่านเข้าใช้งาน และ secret สำหรับเซ็น token (ไม่ตั้งก็ derive จากรหัสผ่านได้ แต่แนะนำให้ตั้งแยก)
+ADMIN_PASSWORD=
+ADMIN_TOKEN_SECRET=
 ```
 
 หมายเหตุ: ในโค้ดจะตรวจ `FORWARD_WEBHOOK_URL_PROCESS === "true"` ดังนั้นให้กำหนดเป็นสตริง "true" เพื่อเปิดการส่งต่อ
@@ -76,6 +80,11 @@ curl http://localhost:8080/
 ## Endpoints ที่มีให้ใช้งาน
 - `GET /` → ใช้เช็คสถานะเซิร์ฟเวอร์ (ตอบกลับเป็น `ok`)
 - `POST /webhook` → จุดรับอีเวนต์จาก LINE (ต้องผ่านการตรวจลายเซ็น)
+- `GET /admin` → หน้า Admin UI (ต้อง build ด้วย `npm run admin:build` ก่อน)
+- `POST /api/admin/login` → ล็อกอินหน้า Admin ด้วยรหัสผ่าน ได้ token กลับมา
+- `GET/PUT /api/admin/promotions`, `/api/admin/services`, `/api/admin/branches`, `/api/admin/regions` → อ่าน/แก้ไขข้อมูลแต่ละชุด (ต้องแนบ token)
+- `GET /api/admin/triggers` → รายการ trigger ทั้งหมดที่บอทตอบได้จริงในขณะนี้
+- `GET /api/admin/preview/:trigger` → ดูตัวอย่างข้อความ Flex ที่บอทจะตอบสำหรับ trigger นั้น
 
 ## คำสั่งข้อความที่รองรับ (ตัวอย่าง)
 เมื่อผู้ใช้พิมพ์ข้อความด้านล่าง บอทจะตอบกลับ Flex Message ที่เกี่ยวข้องทันที (ตัวอย่างบางส่วน)
@@ -95,7 +104,6 @@ curl http://localhost:8080/
 - ตารางแพทย์ตามสาขา (ตอบกลับตารางแพทย์โดยตรง)
   - `สอบถามตารางแพทย์ สาขาสยาม สแควร์ วัน`
   - `สอบถามตารางแพทย์ สาขาเซ็นทรัล เวิล์ด`
-  - `สอบถามตารางแพทย์ สาขาเอสพลานาด รัชดาภิเษก`
   - `สอบถามตารางแพทย์ สาขาเซ็นทรัล ลาดพร้าว`
   - ฯลฯ
 
@@ -140,6 +148,16 @@ curl http://localhost:8080/
 ## การดีพลอยและโดเมน
 - หากทดสอบบนเครื่องท้องถิ่น แนะนำให้ใช้เครื่องมือเช่น ngrok เพื่อเปิด public URL ให้ LINE เรียก `POST /webhook`
 - โปรดตั้งค่าไฟร์วอลล์และ HTTPS ให้เรียบร้อยเมื่อขึ้นโปรดักชัน
+
+## การ deploy
+
+`data/*.json` ถูก commit เข้า git **และ** ถูกแก้ไขสด ๆ บน server โดยหน้า Admin พร้อมกัน จึงต้องระวังไม่ให้การ deploy เขียนทับข้อมูลที่แอดมินแก้ผ่านหน้าเว็บ:
+
+1. **ก่อน deploy เวอร์ชันใหม่** ให้คัดลอกไฟล์ `data/*.json` จาก server กลับเข้า repo (หรือ commit จาก server โดยตรง) เพื่อไม่ให้การแก้ไขของแอดมินหายไป
+2. `git pull` จะปฏิเสธการเขียนทับไฟล์ใน `data/` ถ้ามีการแก้ไขค้างอยู่บน server (working tree มี local changes) — แก้ปัญหานี้โดย commit ข้อมูลจาก server ก่อน แล้วค่อย pull
+3. อีกทางเลือกหนึ่ง: สั่ง `git update-index --skip-worktree data/*.json` บน server เพื่อบอก git ไม่ให้สนใจการเปลี่ยนแปลงของไฟล์เหล่านี้อีกต่อไป (เหมาะกับ server ที่ไม่ต้องการ sync ข้อมูลกลับ repo)
+4. โฟลเดอร์ `admin/dist` ถูกใส่ไว้ใน `.gitignore` (ไม่ commit เข้า repo) ดังนั้นทุกครั้งที่ deploy ต้องรัน `npm run admin:build` เพื่อ build หน้า Admin ใหม่
+5. ต้อง **restart เซิร์ฟเวอร์** หลัง build เสมอ เพราะ `index.js` เช็คว่ามีโฟลเดอร์ `admin/dist` อยู่หรือไม่แค่ครั้งเดียวตอนบูต (ถ้าไม่ restart หน้า `/admin` จะยังขึ้น 404 อยู่แม้ build เสร็จแล้ว)
 
 ## ใบอนุญาต
 โครงการนี้ใช้สัญญาอนุญาตแบบ ISC (อ้างอิงจาก `package.json`)
