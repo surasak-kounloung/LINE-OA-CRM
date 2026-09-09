@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
 import PlaceholderPage from "./pages/PlaceholderPage";
 import PromotionsPage from "./pages/PromotionsPage";
+import ServicesPage from "./pages/ServicesPage";
 
 function Private({ children }) {
   return getToken() ? <Layout>{children}</Layout> : <Navigate to="/login" replace />;
@@ -15,7 +16,7 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/promotions" element={<Private><PromotionsPage /></Private>} />
-        <Route path="/services" element={<Private><PlaceholderPage title="บริการ" /></Private>} />
+        <Route path="/services" element={<Private><ServicesPage /></Private>} />
         <Route path="/branches" element={<Private><PlaceholderPage title="สาขา" /></Private>} />
         <Route path="/branches/:id" element={<Private><PlaceholderPage title="แก้ไขสาขา" /></Private>} />
         <Route path="/regions" element={<Private><PlaceholderPage title="ภูมิภาค" /></Private>} />
