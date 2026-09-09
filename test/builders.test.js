@@ -1,8 +1,11 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const legacyMessages = require("../scripts/legacy/messages.json");
-const legacyPromotions = require("../scripts/legacy/promotions.json");
-const legacyServices = require("../scripts/legacy/services.json");
+const legacyPromotions = require("../data/promotions.json");
+const legacyServices = require("../data/services.json").map(({ subtitle, ...s }) => ({ ...s, inquiryText: subtitle }));
+const { build } = require("../services/messageTable");
+const { createDataStore } = require("../services/dataStore");
+const path = require("path");
+const legacyMessages = Object.fromEntries(build(createDataStore(path.join(__dirname, "..", "data")).getAll()));
 const { FlexMessagePromotionBubble } = require("../flexmessage/promotion");
 const { FlexMessageServicesBubble } = require("../flexmessage/services");
 const { FlexMessageTableDoctorsBubble } = require("../flexmessage/tabledoctors");

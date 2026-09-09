@@ -17,6 +17,7 @@ const app = express();
 
 app.use(
   express.json({
+    limit: "2mb",
     verify: rawBodySaver,
   })
 );
@@ -26,7 +27,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use("/webhook", chatRouter);
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("ok");
 });
 
