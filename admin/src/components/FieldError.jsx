@@ -1,6 +1,11 @@
-import { errorFor } from "../utils";
+import { errorsFor } from "../utils";
 
 export default function FieldError({ errors, path }) {
-  const msg = errorFor(errors, path);
-  return msg ? <div className="field-error">{msg}</div> : null;
+  const messages = errorsFor(errors, path);
+  if (!messages.length) return null;
+  return (
+    <div className="field-error">
+      {messages.map((m, i) => <div key={i}>{m}</div>)}
+    </div>
+  );
 }
