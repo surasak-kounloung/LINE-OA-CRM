@@ -2,3 +2,6 @@ node_modules
 .env
 # SDD scratch workspace
 .superpowers/
+data/backup/
+admin/node_modules/
+admin/dist/
