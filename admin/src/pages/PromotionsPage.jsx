@@ -4,7 +4,7 @@ import FieldError from "../components/FieldError";
 import ImagePreview from "../components/ImagePreview";
 import RowControls from "../components/RowControls";
 import FlexPreviewButton from "../components/FlexPreviewButton";
-import { move, removeAt, slugify } from "../utils";
+import { move, removeAt } from "../utils";
 
 const emptyPromotion = (list) => ({
   id: `promotion-${list.length + 1}-${Date.now().toString(36)}`,
@@ -25,11 +25,11 @@ export default function PromotionsPage() {
       <h1>โปรโมชั่นล่าสุด <span className="muted">({draft.length} รายการ · trigger "โปรโมชั่นล่าสุด")</span> <FlexPreviewButton trigger="โปรโมชั่นล่าสุด" /></h1>
       <UnsavedBar resource={resource} />
       {draft.map((p, i) => (
-        <div className="card card-row" key={p.id}>
+        <div className="card card-row" key={i}>
           <ImagePreview url={p.image} />
           <div>
             <div className="grid-2">
-              <label>ชื่อโปรโมชั่น<input value={p.title} onChange={(e) => update(i, { title: e.target.value, id: p.id.startsWith("promotion-") ? slugify(e.target.value, p.id) : p.id })} /><FieldError errors={errors} path={`[${i}].title`} /></label>
+              <label>ชื่อโปรโมชั่น<input value={p.title} onChange={(e) => update(i, { title: e.target.value })} /><FieldError errors={errors} path={`[${i}].title`} /></label>
               <label>id<input value={p.id} onChange={(e) => update(i, { id: e.target.value })} /><FieldError errors={errors} path={`[${i}].id`} /></label>
             </div>
             <label>URL รูป<input value={p.image} onChange={(e) => update(i, { image: e.target.value })} /><FieldError errors={errors} path={`[${i}].image`} /></label>
