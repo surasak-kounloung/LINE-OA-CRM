@@ -28,6 +28,10 @@ test("token round-trips and expires", () => {
   assert.equal(auth.verifyToken(token + "x", now), false);
   assert.equal(auth.verifyToken("garbage", now), false);
   assert.equal(auth.verifyToken(undefined, now), false);
+  // Verify non-ASCII and non-hex signatures are rejected without throwing
+  const [expPart] = token.split(".");
+  assert.equal(auth.verifyToken(`${expPart}.${"é".repeat(64)}`, now), false);
+  assert.equal(auth.verifyToken(`${expPart}.${"z".repeat(64)}`, now), false);
 });
 
 test("requireAdmin: 401 without/with bad token, next with good token", () => {

@@ -38,9 +38,9 @@ function verifyToken(token, now = Date.now()) {
   if (!expPart || !signature) return false;
   const expiresAt = Number(Buffer.from(expPart, "base64url").toString());
   if (!Number.isFinite(expiresAt) || expiresAt < now) return false;
+  if (!/^[0-9a-f]{64}$/.test(signature)) return false;
   const expected = sign(expiresAt);
-  if (signature.length !== expected.length) return false;
-  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+  return crypto.timingSafeEqual(Buffer.from(signature, "hex"), Buffer.from(expected, "hex"));
 }
 
 function requireAdmin(req, res, next) {
