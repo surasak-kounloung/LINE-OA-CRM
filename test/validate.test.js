@@ -60,6 +60,11 @@ test("branches: mainMenuActionText optional but must be string if present", () =
   assert.deepEqual(paths(validateBranches([{ ...branch(), mainMenuActionText: 5 }], regions())), ["[0].mainMenuActionText"]);
 });
 
+test("id must be a string", () => {
+  assert.deepEqual(paths(validatePromotions([{ ...promo(), id: 123 }])), ["[0].id"]);
+  assert.deepEqual(paths(validateBranches([{ ...branch(), id: true }], regions())), ["[0].id"]);
+});
+
 test("regions: valid", () => {
   assert.deepEqual(validateRegions(regions(), [branch()]), []);
 });

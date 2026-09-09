@@ -23,7 +23,7 @@ function checkBool(errors, path, v) {
   if (typeof v !== "boolean") errors.push({ path, message: "ต้องเป็น true/false" });
 }
 function checkId(errors, path, v) {
-  if (!/^[a-z0-9-]+$/.test(String(v ?? ""))) errors.push({ path, message: "id ใช้ได้เฉพาะ a-z, 0-9 และ -" });
+  if (typeof v !== "string" || !/^[a-z0-9-]+$/.test(v)) errors.push({ path, message: "id ใช้ได้เฉพาะ a-z, 0-9 และ -" });
 }
 function checkUnique(errors, items, field, label) {
   const seen = new Map();
