@@ -1,0 +1,65 @@
+[
+  {
+    "image": "https://www.vsquareclinic.com/wp-content/uploads/2026/04/Botox.jpg",
+    "title": "โปรแกรมฉีด โบท็อกซ์",
+    "inquiryText": "Botox Program",
+    "actionText": "สอบถามโปรโมชั่นโปรแกรมฉีด โบท็อกซ์",
+    "hot": true
+  },
+  {
+    "image": "https://www.vsquareclinic.com/wp-content/uploads/2026/04/Filler-1.jpg",
+    "title": "โปรแกรมฉีด ฟิลเลอร์",
+    "inquiryText": "Filler Program",
+    "actionText": "สอบถามโปรโมชั่นโปรแกรมฉีด ฟิลเลอร์",
+    "hot": true
+  },
+  {
+    "image": "https://www.vsquareclinic.com/wp-content/uploads/2026/06/ปากกาลดน้ำหนัก.png",
+    "title": "โปรแกรม V Safe Slim",
+    "inquiryText": "V Safe Slim Program",
+    "actionText": "สอบถามโปรโมชั่นโปรแกรม V Safe Slim",
+    "hot": true
+  },
+  {
+    "image": "https://www.vsquareclinic.com/wp-content/uploads/2026/04/04_เครื่องยกกระชับ.jpg",
+    "title": "โปรแกรมเครื่องยกกระชับ",
+    "inquiryText": "Facial Lifting Program",
+    "actionText": "สอบถามโปรโมชั่นโปรแกรมเครื่องยกกระชับ",
+    "hot": true
+  },
+  {
+    "image": "https://www.vsquareclinic.com/wp-content/uploads/2026/04/03_กระตุ้นคอลลาเจน.jpg",
+    "title": "โปรแกรมฉีด กระตุ้นคอลลาเจน",
+    "inquiryText": "Biostimulator Program",
+    "actionText": "สอบถามโปรโมชั่นโปรแกรมฉีด กระตุ้นคอลลาเจน",
+    "hot": true
+  },
+  {
+    "image": "https://www.vsquareclinic.com/wp-content/uploads/2026/06/โปรคอลลาเจนสด.jpg",
+    "title": "โปรแกรมคอลลาเจนสด",
+    "inquiryText": "Collagen Program",
+    "actionText": "สอบถามโปรโมชั่นโปรแกรมคอลลาเจนสด",
+    "hot": true
+  },
+  {
+    "image": "https://www.vsquareclinic.com/wp-content/uploads/2026/06/โปรดริปวิตามิน.1.jpg",
+    "title": "โปรแกรมดริปวิตามิน",
+    "inquiryText": "IV Drip Vitamin Program",
+    "actionText": "สอบถามโปรโมชั่นโปรแกรมดริปวิตามิน",
+    "hot": true
+  },
+  {
+    "image": "https://www.vsquareclinic.com/wp-content/uploads/2026/06/โปรดริปวิตามินผิว.1.jpg",
+    "title": "โปรแกรมหน้าใส",
+    "inquiryText": "V-ID Facial Program",
+    "actionText": "สอบถามโปรโมชั่นโปรแกรมหน้าใส",
+    "hot": true
+  },
+  {
+    "image": "https://www.vsquareclinic.com/wp-content/uploads/2026/04/06_อื่นๆCool-YAG.jpg",
+    "title": "หัตถการอื่นๆ",
+    "inquiryText": "สอบถามโปรโมชั่นหัตถการอื่นๆ",
+    "actionText": "สอบถามโปรโมชั่นหัตถการอื่นๆ",
+    "hot": true
+  }
+]

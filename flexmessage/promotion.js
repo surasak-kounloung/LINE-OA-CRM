@@ -243,4 +243,5 @@ function FlexMessagePromotionBubble() {
 
 module.exports = {
     FlexMessagePromotionBubble,
+    PROMOTIONS,
 };

@@ -227,4 +227,5 @@ function FlexMessageServicesBubble() {
 
 module.exports = {
     FlexMessageServicesBubble,
+    SERVICES,
 };

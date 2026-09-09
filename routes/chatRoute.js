@@ -883,3 +883,4 @@ const handleEvents = async (event) => {
 };
 
 module.exports = router;
+module.exports.flexMessage = flexMessage;
