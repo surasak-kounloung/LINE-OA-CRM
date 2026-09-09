@@ -12,10 +12,12 @@ A Node.js/Express webhook server for the V Square Clinic LINE Official Account. 
 npm install          # install dependencies
 npm run server       # dev: run with nodemon (auto-reload) on PORT (default 8080)
 npm start            # prod: node index.js
+npm test             # run the test suite (node --test)
+npm run admin:build  # install admin/ deps and build the React admin UI into admin/dist
 curl http://localhost:8080/   # health check -> responds "ok"
 ```
 
-There is **no test suite** — `npm test` is the default placeholder that exits with an error. There is no linter or build step.
+There is no linter or root build step.
 
 ### Testing the webhook locally
 `POST /webhook` is wrapped in `line.middleware(lineConfig)`, which verifies the `X-Line-Signature` header against the raw body. A plain `curl` will fail signature verification. To test end-to-end, expose the server with a public HTTPS tunnel (e.g. ngrok), set it as the Webhook URL in the LINE Developers console, and use that console's "Verify" / send a real message from the OA.
@@ -27,33 +29,30 @@ Copy `.env.example` to `.env`. Required vars:
 - `LINE_CHANNEL_TOKEN` / `LINE_CHANNEL_SECRET` — from the LINE Developers Channel
 - `FORWARD_WEBHOOK_URL_PROCESS` — the string `"true"` enables forwarding; any other value disables it
 - `FORWARD_WEBHOOK_URL` — destination CRM/beacon URL when forwarding is enabled
+- `ADMIN_PASSWORD` — required to enable the admin UI/API; if unset, every `/api/admin` endpoint returns 503
+- `ADMIN_TOKEN_SECRET` — optional; secret used to sign admin auth tokens (derived from `ADMIN_PASSWORD` if not set)
 
 ## Architecture
 
-The request path is small; the bulk of the repo is Flex Message content.
+- **`index.js`** — Express bootstrap. `rawBodySaver` on `express.json({ limit: "2mb", verify })` keeps the raw body for LINE's signature check. Mounts `/webhook` (LINE), `/api/admin` (admin API), `/admin` (static build of the React admin, only if `admin/dist` exists). `GET /` returns `"ok"`.
+- **`data/*.json`** — the single source of truth for all bot content: `promotions.json`, `services.json` (service cards + their price images, keyed by `actionText`), `branches.json` (map/contact + `doctors[]` per branch, `enabled`, `menu`, `region`), `regions.json` (bubbles of the "ตารางแพทย์" menu). Edited via the admin UI; `data/backup/` holds the last 20 versions per file (git-ignored).
+- **`services/dataStore.js`** — reads/writes those files (atomic write, backup, cache, `onChange`).
+- **`services/messageTable.js`** — `build(data)` produces `Map<trigger, Message[]>` using the Flex builders; `createMessageTable(store)` rebuilds on every save. Fixed triggers: `บริการทั้งหมด`, `โปรโมชั่นล่าสุด`, `ตารางแพทย์`, `ตารางแพทย์สาขาทองหล่อ`; per service: `actionText`; per enabled branch: `trigger` and `"สอบถามตารางแพทย์ สาขา" + trigger` (doctor carousels are split every 12).
+- **`services/validate.js`** — validation rules applied on every admin PUT (returns `{path, message}[]`).
+- **`routes/chatRoute.js`** — webhook only: optional forwarding to CRM, then `messageTable.getTable().get(text)` → `replyMessage`. No match → no reply.
+- **`routes/adminRoute.js` / `middlewares/adminAuth.js`** — `POST /api/admin/login` (`ADMIN_PASSWORD` → 12h HMAC token), `GET/PUT /api/admin/{promotions|services|branches|regions}`, `GET /api/admin/triggers`, `GET /api/admin/preview/:trigger`. Without `ADMIN_PASSWORD` every admin endpoint returns 503.
+- **`flexmessage/`** — pure Flex builders; they take data as parameters and contain no content.
+- **`admin/`** — Vite + React admin UI (HashRouter, `base: /admin/`). `cd admin && npm run dev` (proxies `/api` to :8080) or `npm run admin:build` from the root to produce `admin/dist`.
 
-- **`index.js`** — Express bootstrap. Note `rawBodySaver` on `express.json({ verify })`: it preserves the raw request body, which LINE's signature middleware needs. Mounts `chatRoute` at `/webhook`; `GET /` returns `"ok"`. Uses `middlewares/errorHandler.js` for 404 / error JSON.
+## Adding or changing content
 
-- **`routes/chatRoute.js`** — the entire request logic and routing table (~700 lines, mostly the table). The `POST /` handler runs two things concurrently via `Promise.all`:
-  1. **Forwarding** — if `FORWARD_WEBHOOK_URL_PROCESS === "true"` and a URL is set, `axios.post`s the raw `req.body` to the external CRM. Failures are caught and logged, never block the reply.
-  2. **Event handling** — `req.body.events.map(handleEvents)`.
+Use the admin UI at `/admin` (or edit `data/*.json` by hand and restart). Trigger strings must byte-match what the Rich Menu sends. A new branch needs `trigger`, contact fields, `region` (must exist in `regions.json`), `menu` and `enabled: true`. No code changes are required for new promotions, services, branches or doctors. Note: a branch with `enabled: false` answers neither its map trigger nor its doctor-schedule trigger; a service with an empty `priceImages` array replies with the follow-up text only.
 
-- **The `flexMessage` lookup table** (in `chatRoute.js`) is the core routing mechanism. It maps an **exact Thai text string** (the message a user sends, usually via a Rich Menu / quick-reply button) to a function returning an array of Flex Message objects. `handleEvents` only processes `message` events of type `text`, does an exact-string lookup of `event.message.text` in this table, and replies via `new line.Client(lineConfig).replyMessage(...)`. No match → no reply (returns `null`). There is no fuzzy matching, no NLP, and no fallback message.
+## Tests
 
-- **`flexmessage/`** — splits into two kinds of files:
-  - *Builders* (functions that produce Flex JSON): `flexMessageBranchMap.js`, `flexMessageIconTable.js`, `flexMessageDoctorSchedules.js`, `services.js`, `promotion.js`, `tabledoctors.js`, `tabledoctorsThonglor.js`.
-  - *Data* (`doctor<Branch>SchedulesData.js`): each exports an array of `{ day, name, license, imageUrl }` doctor records for one branch. `FlexMessageDoctorSchedules(data)` renders one bubble per record (a carousel).
-
-- **`flexmessage-bk/`** and **`template_flexmessage/`** are a backup copy and per-branch templates, respectively — not imported by the running app.
-
-## Adding or changing a menu/branch
-
-1. Build the Flex bubble — either reuse a builder (`FlexMessageBranchMap`, `FlexMessageDoctorSchedules`, etc.) or add a new builder file in `flexmessage/`.
-2. For doctor schedules, add/edit the matching `doctor<Branch>SchedulesData.js` data file.
-3. `require` it at the top of `chatRoute.js` and add an entry to the `flexMessage` table keyed by the **exact** Thai trigger text. The key must byte-match what the user's Rich Menu button sends.
-4. Always pass a meaningful `altText` to `createFlexMessage(altText, bubble)` — it's what shows in notifications and unsupported clients.
+`npm test` runs `node --test` over `test/*.test.js` (data store, validators, builders, message table, admin auth/routes) — 44 tests, no test framework dependencies. `test/builders.test.js` compares Flex output against the frozen fixture `test/fixtures/menu-messages.json`; regenerate that fixture only when the Flex design changes intentionally.
 
 ## Notes
 
-- `README.md` is in Thai and partly outdated: it refers to `singleFlexMap` / `branchMenuMap`, which no longer exist — the single routing table is now `flexMessage` in `chatRoute.js`.
-- Several dependencies in `package.json` (`mongoose`, `openai`, `cheerio`, `html-to-docx`, `turndown`) are not used by the current request path; treat them as leftovers unless you find active imports.
+- `template_flexmessage/` is not imported by the running app.
+- Several dependencies in `package.json` (`mongoose`, `openai`, `cheerio`, `html-to-docx`, `turndown`) are unused leftovers.

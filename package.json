@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js",
-    "test": "node --test"
+    "test": "node --test",
+    "admin:build": "cd admin && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
