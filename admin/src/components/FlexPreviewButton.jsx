@@ -2,7 +2,7 @@ import { useState } from "react";
 import { api } from "../api";
 
 // ดึงข้อความที่บอทจะตอบสำหรับ trigger นี้ (จากข้อมูลที่บันทึกแล้ว) และให้ copy ไปวางใน LINE Flex Simulator
-export default function FlexPreviewButton({ trigger }) {
+export default function FlexPreviewButton({ trigger, label = "ดู Flex JSON" }) {
   const [json, setJson] = useState(null);
   const [error, setError] = useState("");
 
@@ -18,7 +18,7 @@ export default function FlexPreviewButton({ trigger }) {
 
   return (
     <span className="flex-preview">
-      <button type="button" className="link" onClick={open}>ดู Flex JSON</button>
+      <button type="button" className="link" onClick={open}>{label}</button>
       {error && <span className="field-error">{error}</span>}
       {json !== null && (
         <div className="modal-backdrop" onClick={() => setJson(null)}>

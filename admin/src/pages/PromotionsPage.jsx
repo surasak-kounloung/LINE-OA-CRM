@@ -1,58 +1,63 @@
-import { useResource } from "../hooks/useResource";
+import { Link } from "react-router-dom";
+import { useResourceContext } from "../hooks/useResourceContext";
+import PageHeader from "../components/PageHeader";
 import UnsavedBar from "../components/UnsavedBar";
-import FieldError from "../components/FieldError";
 import ImagePreview from "../components/ImagePreview";
 import RowControls from "../components/RowControls";
 import FlexPreviewButton from "../components/FlexPreviewButton";
 import { move, removeAt } from "../utils";
 
-const emptyPromotion = (list) => ({
+export const emptyPromotion = (list) => ({
   id: `promotion-${list.length + 1}-${Date.now().toString(36)}`,
   image: "", title: "", lines: [""], inquiryText: "สอบถามโปร", hot: false,
 });
 
 export default function PromotionsPage() {
-  const resource = useResource("promotions");
+  const resource = useResourceContext();
   const { draft, setDraft, errors, status, message } = resource;
-  if (status === "loading" || draft === null) return <p>กำลังโหลด...</p>;
+  if (status === "loading" || draft === null) return <p className="muted">กำลังโหลด...</p>;
   if (status === "error") return <p className="field-error">{message}</p>;
 
-  const update = (i, patch) => setDraft(draft.map((p, j) => (j === i ? { ...p, ...patch } : p)));
-  const updateLine = (i, k, value) => update(i, { lines: (draft[i].lines || []).map((l, j) => (j === k ? value : l)) });
+  const hasError = (i) => errors.some((e) => e.path.startsWith(`[${i}]`));
+
+  function addPromotion() {
+    setDraft([...draft, emptyPromotion(draft)]);
+    window.location.hash = `#/promotions/${draft.length}`;
+  }
 
   return (
     <div>
-      <h1>โปรโมชั่นล่าสุด <span className="muted">({draft.length} รายการ · trigger "โปรโมชั่นล่าสุด")</span> <FlexPreviewButton trigger="โปรโมชั่นล่าสุด" /></h1>
+      <PageHeader
+        title="โปรโมชั่นล่าสุด"
+        subtitle={`${draft.length} รายการ · ตอบเมื่อผู้ใช้ส่ง "โปรโมชั่นล่าสุด" · ลำดับในตาราง = ลำดับใน carousel`}
+        actions={<><FlexPreviewButton trigger="โปรโมชั่นล่าสุด" /><button type="button" className="primary" onClick={addPromotion}>+ เพิ่มโปรโมชั่น</button></>}
+      />
       <UnsavedBar resource={resource} />
-      {draft.map((p, i) => (
-        <div className="card card-row" key={i}>
-          <ImagePreview url={p.image} />
-          <div>
-            <div className="grid-2">
-              <label>ชื่อโปรโมชั่น<input value={p.title} onChange={(e) => update(i, { title: e.target.value })} /><FieldError errors={errors} path={`[${i}].title`} /></label>
-              <label>id<input value={p.id} onChange={(e) => update(i, { id: e.target.value })} /><FieldError errors={errors} path={`[${i}].id`} /></label>
-            </div>
-            <label>URL รูป<input value={p.image} onChange={(e) => update(i, { image: e.target.value })} /><FieldError errors={errors} path={`[${i}].image`} /></label>
-            <label>ข้อความปุ่มสอบถาม<input value={p.inquiryText} onChange={(e) => update(i, { inquiryText: e.target.value })} /><FieldError errors={errors} path={`[${i}].inquiryText`} /></label>
-            <div>บรรทัดบรรยาย</div>
-            <div className="inline-list">
-              {(p.lines || []).map((line, k) => (
-                <div key={k}>
-                  <input value={line} onChange={(e) => updateLine(i, k, e.target.value)} />
-                  <button type="button" onClick={() => update(i, { lines: removeAt((p.lines || []), k) })}>ลบ</button>
-                  <FieldError errors={errors} path={`[${i}].lines[${k}]`} />
-                </div>
-              ))}
-              <div><button type="button" onClick={() => update(i, { lines: [...(p.lines || []), ""] })}>+ เพิ่มบรรทัด</button></div>
-            </div>
-            <label style={{ marginTop: "0.6rem" }}>
-              <input type="checkbox" style={{ width: "auto" }} checked={p.hot} onChange={(e) => update(i, { hot: e.target.checked })} /> แสดงป้าย HOT!
-            </label>
-          </div>
-          <RowControls index={i} length={draft.length} onMove={(a, b) => setDraft(move(draft, a, b))} onDelete={(k) => setDraft(removeAt(draft, k))} />
-        </div>
-      ))}
-      <button type="button" className="primary" onClick={() => setDraft([...draft, emptyPromotion(draft)])}>+ เพิ่มโปรโมชั่น</button>
+      <div className="table-wrap">
+        <table className="table">
+          <thead><tr><th style={{ width: 72 }}>รูป</th><th>โปรโมชั่น</th><th>ข้อความปุ่มสอบถาม</th><th className="num">HOT</th><th style={{ width: 200 }}></th></tr></thead>
+          <tbody>
+            {draft.length === 0 && <tr><td colSpan={5} className="empty">ยังไม่มีโปรโมชั่น กด "+ เพิ่มโปรโมชั่น" เพื่อเริ่ม</td></tr>}
+            {draft.map((p, i) => (
+              <tr key={i} className={hasError(i) ? "has-error" : ""}>
+                <td className="thumb-sm"><ImagePreview url={p.image} size={48} /></td>
+                <td>
+                  <div className="cell-main"><Link to={`/promotions/${i}`}>{p.title || "(ยังไม่ตั้งชื่อ)"}</Link>{hasError(i) && <span className="badge">มีข้อผิดพลาด</span>}</div>
+                  <div className="cell-sub">{(p.lines || []).filter(Boolean).join(" · ") || "—"}</div>
+                </td>
+                <td className="muted">{p.inquiryText}</td>
+                <td className="num">{p.hot ? <span className="badge" style={{ margin: 0 }}>HOT!</span> : <span className="muted">—</span>}</td>
+                <td>
+                  <div className="actions">
+                    <Link to={`/promotions/${i}`} className="btn sm">แก้ไข</Link>
+                    <RowControls index={i} length={draft.length} onMove={(a, b) => setDraft(move(draft, a, b))} onDelete={(k) => setDraft(removeAt(draft, k))} />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

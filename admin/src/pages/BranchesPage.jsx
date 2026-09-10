@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
-import { useBranches } from "../hooks/useBranches";
+import { useResourceContext } from "../hooks/useResourceContext";
+import PageHeader from "../components/PageHeader";
 import UnsavedBar from "../components/UnsavedBar";
+import ImagePreview from "../components/ImagePreview";
 import RowControls from "../components/RowControls";
+import FlexPreviewButton from "../components/FlexPreviewButton";
 import { move, removeAt, MENUS } from "../utils";
 
 const menuLabel = (v) => (MENUS.find((m) => m.value === v) || {}).label || v;
 
 export default function BranchesPage() {
-  const resource = useBranches();
+  const resource = useResourceContext();
   const { draft, setDraft, errors, status, message, sections } = resource;
-  if (status === "loading" || draft === null) return <p>กำลังโหลด...</p>;
+  if (status === "loading" || draft === null) return <p className="muted">กำลังโหลด...</p>;
   if (status === "error") return <p className="field-error">{message}</p>;
 
   const hasError = (i) => errors.some((e) => e.path.startsWith(`[${i}]`));
@@ -25,27 +28,38 @@ export default function BranchesPage() {
 
   return (
     <div>
-      <h1>สาขา <span className="muted">({draft.length} สาขา, เปิดใช้ {draft.filter((b) => b.enabled).length})</span></h1>
+      <PageHeader
+        title="สาขา"
+        subtitle={`${draft.length} สาขา · เปิดใช้ ${draft.filter((b) => b.enabled).length} · ลำดับในตาราง = ลำดับภายในภูมิภาคในเมนู "ตารางแพทย์"`}
+        actions={<><FlexPreviewButton trigger="ตารางแพทย์" /><button type="button" className="primary" onClick={addBranch}>+ เพิ่มสาขาใหม่</button></>}
+      />
       <UnsavedBar resource={resource} />
-      <p className="muted">ลำดับในตารางนี้ = ลำดับที่แสดงภายในภูมิภาคในเมนู "ตารางแพทย์"</p>
       <div className="table-wrap">
         <table className="table">
-          <thead><tr><th>ชื่อ (trigger)</th><th>ภูมิภาค</th><th>เมนู</th><th>สถานะ</th><th>แพทย์</th><th></th></tr></thead>
+          <thead><tr><th style={{ width: 72 }}>รูป</th><th>สาขา</th><th>ภูมิภาค</th><th>เมนู</th><th className="num">สถานะ</th><th className="num">แพทย์</th><th style={{ width: 200 }}></th></tr></thead>
           <tbody>
             {draft.map((b, i) => (
-              <tr key={i} style={hasError(i) ? { background: "#fff0f0" } : undefined}>
-                <td><Link to={`/branches/${i}`}>{b.trigger || "(ยังไม่ตั้งชื่อ)"}</Link>{hasError(i) && <span className="badge">มีข้อผิดพลาด</span>}</td>
+              <tr key={i} className={hasError(i) ? "has-error" : ""}>
+                <td className="thumb-sm"><ImagePreview url={b.imageUrl} size={48} /></td>
+                <td>
+                  <div className="cell-main"><Link to={`/branches/${i}`}>{b.trigger || "(ยังไม่ตั้งชื่อ)"}</Link>{hasError(i) && <span className="badge">มีข้อผิดพลาด</span>}</div>
+                  <div className="cell-sub">{b.displayName}{b.phoneNumber ? ` · ${b.phoneNumber}` : ""}</div>
+                </td>
                 <td>{b.region}</td>
-                <td>{menuLabel(b.menu)}</td>
-                <td>{b.enabled ? "เปิด" : <span className="badge muted">ปิด</span>}</td>
-                <td>{(b.doctors || []).length}</td>
-                <td><RowControls index={i} length={draft.length} onMove={(a, c) => setDraft(move(draft, a, c))} onDelete={(k) => setDraft(removeAt(draft, k))} /></td>
+                <td className="muted">{menuLabel(b.menu)}</td>
+                <td className="num">{b.enabled ? <span className="badge ok" style={{ margin: 0 }}>เปิด</span> : <span className="badge muted" style={{ margin: 0 }}>ปิด</span>}</td>
+                <td className="num">{(b.doctors || []).length}</td>
+                <td>
+                  <div className="actions">
+                    <Link to={`/branches/${i}`} className="btn sm">แก้ไข</Link>
+                    <RowControls index={i} length={draft.length} onMove={(a, c) => setDraft(move(draft, a, c))} onDelete={(k) => setDraft(removeAt(draft, k))} />
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <button type="button" className="primary" style={{ marginTop: "1rem" }} onClick={addBranch}>+ เพิ่มสาขาใหม่</button>
     </div>
   );
 }
