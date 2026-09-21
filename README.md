@@ -10,7 +10,7 @@
 - โฟลเดอร์ `flexmessage/` มีเฉพาะฟังก์ชันสร้าง Flex Message (builder) รับข้อมูลเป็นพารามิเตอร์ ไม่มีเนื้อหาฝังในไฟล์
 
 ## โครงสร้างโดยย่อ
-- `index.js` : ตั้งค่า Express, มิดเดิลแวร์, เมานต์เราท์ (`/webhook`, `/api/admin`, `/admin`) และเริ่มต้นเซิร์ฟเวอร์
+- `index.js` : ตั้งค่า Express, มิดเดิลแวร์, เมานต์เราท์ (`/webhook`, `/api/admin`, `/backoffice`) และเริ่มต้นเซิร์ฟเวอร์
 - `routes/chatRoute.js` : รับอีเวนต์จาก LINE, ค้นหาข้อความผู้ใช้ในตารางที่สร้างจาก `services/messageTable.js`, (ออปชัน) ส่งต่ออีเวนต์ไปปลายทางภายนอก
 - `routes/adminRoute.js`, `middlewares/adminAuth.js` : API ของหน้า Admin (login, อ่าน/แก้ไขข้อมูล) และมิดเดิลแวร์ตรวจสิทธิ์
 - `services/dataStore.js` : อ่าน/เขียนไฟล์ใน `data/*.json` (เขียนแบบ atomic, สำรองไฟล์เดิม, cache)
@@ -45,7 +45,7 @@ LINE_CHANNEL_SECRET=YOUR_LINE_CHANNEL_SECRET
 FORWARD_WEBHOOK_URL_PROCESS=false
 FORWARD_WEBHOOK_URL=https://your-api.example.com/line-webhook
 
-# หน้า Admin (/admin): รหัสผ่านเข้าใช้งาน และ secret สำหรับเซ็น token (ไม่ตั้งก็ derive จากรหัสผ่านได้ แต่แนะนำให้ตั้งแยก)
+# หน้า Admin (/backoffice): รหัสผ่านเข้าใช้งาน และ secret สำหรับเซ็น token (ไม่ตั้งก็ derive จากรหัสผ่านได้ แต่แนะนำให้ตั้งแยก)
 ADMIN_PASSWORD=
 ADMIN_TOKEN_SECRET=
 ```
@@ -80,7 +80,7 @@ curl http://localhost:8080/
 ## Endpoints ที่มีให้ใช้งาน
 - `GET /` → ใช้เช็คสถานะเซิร์ฟเวอร์ (ตอบกลับเป็น `ok`)
 - `POST /webhook` → จุดรับอีเวนต์จาก LINE (ต้องผ่านการตรวจลายเซ็น)
-- `GET /admin` → หน้า Admin UI (ต้อง build ด้วย `npm run admin:build` ก่อน)
+- `GET /backoffice` → หน้า Admin UI (ต้อง build ด้วย `npm run admin:build` ก่อน)
 - `POST /api/admin/login` → ล็อกอินหน้า Admin ด้วยรหัสผ่าน ได้ token กลับมา
 - `GET/PUT /api/admin/promotions`, `/api/admin/services`, `/api/admin/branches`, `/api/admin/regions` → อ่าน/แก้ไขข้อมูลแต่ละชุด (ต้องแนบ token)
 - `GET /api/admin/triggers` → รายการ trigger ทั้งหมดที่บอทตอบได้จริงในขณะนี้
@@ -113,12 +113,12 @@ curl http://localhost:8080/
 
 1. ตั้ง `ADMIN_PASSWORD` ใน `.env` (และ `ADMIN_TOKEN_SECRET` ถ้าต้องการ)
 2. สร้างหน้า admin ครั้งแรก: `npm run admin:build`
-3. เปิด `https://<โดเมนของ server>/admin` แล้วใส่รหัสผ่าน
+3. เปิด `https://<โดเมนของ server>/backoffice/` แล้วใส่รหัสผ่าน
 
 ข้อมูลทั้งหมดอยู่ใน `data/*.json` (โปรโมชั่น, บริการ+รูปราคา, สาขา+ตารางแพทย์, ภูมิภาคของเมนูตารางแพทย์)
 บันทึกแล้วบอทใช้ข้อมูลใหม่ทันที ไม่ต้อง restart ไฟล์เดิมถูกสำรองไว้ใน `data/backup/`
 
-สำหรับนักพัฒนา: `cd admin && npm run dev` เปิด http://localhost:5173/admin/ (proxy API ไปที่ :8080)
+สำหรับนักพัฒนา: `cd admin && npm run dev` เปิด http://localhost:5173/backoffice/ (proxy API ไปที่ :8080)
 
 ## การส่งต่อ Webhook ไปยังระบบภายนอก (Forward)
 ภายใน `routes/chatRoute.js` จะอ่านค่าจาก `.env`
@@ -131,7 +131,7 @@ curl http://localhost:8080/
 - รองรับกรณี LINE ทำการ retry ควรทำปลายทางให้ idempotent
 
 ## การเพิ่ม/แก้ไขเนื้อหา (โปรโมชั่น, บริการ, สาขา, ตารางแพทย์)
-สำหรับเนื้อหาทั่วไปให้แก้ผ่านหน้า Admin ที่ `/admin` (ดูหัวข้อด้านบน) — ไม่ต้องแก้โค้ดหรือ deploy ใหม่
+สำหรับเนื้อหาทั่วไปให้แก้ผ่านหน้า Admin ที่ `/backoffice` (ดูหัวข้อด้านบน) — ไม่ต้องแก้โค้ดหรือ deploy ใหม่
 คำสั่ง (trigger) ต้องตรงกับข้อความที่ปุ่ม Rich Menu ส่งมาแบบ byte ต่อ byte
 
 หากต้องแก้โครงสร้าง Flex Message เอง (เพิ่ม builder ใหม่):
@@ -157,7 +157,7 @@ curl http://localhost:8080/
 2. `git pull` จะปฏิเสธการเขียนทับไฟล์ใน `data/` ถ้ามีการแก้ไขค้างอยู่บน server (working tree มี local changes) — แก้ปัญหานี้โดย commit ข้อมูลจาก server ก่อน แล้วค่อย pull
 3. อีกทางเลือกหนึ่ง: สั่ง `git update-index --skip-worktree data/*.json` บน server เพื่อบอก git ไม่ให้สนใจการเปลี่ยนแปลงของไฟล์เหล่านี้อีกต่อไป (เหมาะกับ server ที่ไม่ต้องการ sync ข้อมูลกลับ repo)
 4. โฟลเดอร์ `admin/dist` ถูกใส่ไว้ใน `.gitignore` (ไม่ commit เข้า repo) ดังนั้นทุกครั้งที่ deploy ต้องรัน `npm run admin:build` เพื่อ build หน้า Admin ใหม่
-5. ต้อง **restart เซิร์ฟเวอร์** หลัง build เสมอ เพราะ `index.js` เช็คว่ามีโฟลเดอร์ `admin/dist` อยู่หรือไม่แค่ครั้งเดียวตอนบูต (ถ้าไม่ restart หน้า `/admin` จะยังขึ้น 404 อยู่แม้ build เสร็จแล้ว)
+5. ต้อง **restart เซิร์ฟเวอร์** หลัง build เสมอ เพราะ `index.js` เช็คว่ามีโฟลเดอร์ `admin/dist` อยู่หรือไม่แค่ครั้งเดียวตอนบูต (ถ้าไม่ restart หน้า `/backoffice` จะยังขึ้น 404 อยู่แม้ build เสร็จแล้ว)
 
 ## ใบอนุญาต
 โครงการนี้ใช้สัญญาอนุญาตแบบ ISC (อ้างอิงจาก `package.json`)

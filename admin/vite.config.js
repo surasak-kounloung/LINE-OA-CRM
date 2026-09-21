@@ -2,7 +2,8 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  base: "/admin/",
+  // ต้องตรงกับ ADMIN_UI_PATH ใน index.js (มี / ปิดท้าย)
+  base: "/backoffice/",
   plugins: [react()],
   server: {
     port: 5173,

@@ -41,11 +41,13 @@ app.use("/api/admin", createAdminRouter({
   store: require("./services/dataStore").getDefaultStore(),
   messageTable: chatRouter.messageTable,
 }));
+// path ของหน้า admin UI — ต้องตรงกับ `base` ใน admin/vite.config.js (ต้อง build ใหม่ทุกครั้งที่เปลี่ยน)
+const ADMIN_UI_PATH = "/backoffice";
 const adminDist = path.join(__dirname, "admin", "dist");
 if (fs.existsSync(adminDist)) {
-  app.use("/admin", express.static(adminDist));
+  app.use(ADMIN_UI_PATH, express.static(adminDist));
 } else {
-  app.use("/admin", (req, res) => res.status(404).send("admin UI not built: run `npm run admin:build`"));
+  app.use(ADMIN_UI_PATH, (req, res) => res.status(404).send("admin UI not built: run `npm run admin:build`"));
 }
 
 app.get("/", (req, res) => {
