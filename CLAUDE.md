@@ -57,6 +57,7 @@ Use the admin UI at `/admin` (or edit `data/*.json` by hand and restart). Trigge
 `data/*.json` is committed to git **and** edited live on the server by the admin UI, so a naive deploy can clobber admin edits:
 - Before deploying a new version, copy the server's `data/*.json` back into the repo (or commit from the server) so admin edits aren't overwritten. `git pull` will refuse to overwrite modified `data/` files on the server — resolve by committing the server's data first, then pulling. Alternatively, mark them `git update-index --skip-worktree data/*.json` on the server so git stops tracking their local changes.
 - `admin/dist` is git-ignored, so every deploy must run `npm run admin:build` to produce it.
+- Behind nginx (same host): `index.js` sets `app.set("trust proxy", "loopback")`, so the proxy **must** send the real client IP, e.g. `proxy_set_header X-Forwarded-For $http_cf_connecting_ip;` (Cloudflare) or `$remote_addr`. Without that header every request has `req.ip = 127.0.0.1` and the admin login lockout (5 failures / 15 min) becomes one shared bucket for all admins. Use `location ^~ /admin/` and `location ^~ /api/admin/` so nginx regex locations (e.g. image caching rules) never intercept admin assets.
 - The server must be **restarted** after building, because `index.js` checks whether `admin/dist` exists only once at boot — without a restart `/admin` keeps 404ing even after a successful build.
 
 ## Notes

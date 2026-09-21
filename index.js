@@ -18,6 +18,11 @@ const rawBodySaver = (req, res, buf, encoding) => {
 
 const app = express();
 
+// อยู่หลัง nginx บนเครื่องเดียวกัน: เชื่อ X-Forwarded-For เฉพาะที่มาจาก loopback
+// เพื่อให้ req.ip เป็น IP จริงของผู้ใช้ (login lockout ใน adminRoute นับแยกตาม IP)
+// ถ้าไม่ตั้ง ทุกคำขอจะเป็น 127.0.0.1 และการใส่รหัสผิดของคนเดียวจะล็อกแอดมินทุกคน
+app.set("trust proxy", "loopback");
+
 app.use(
   express.json({
     limit: "2mb",
