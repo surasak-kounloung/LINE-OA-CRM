@@ -149,7 +149,7 @@ export default function RichMenuPage() {
         </div>
       </div>
 
-      <RichMenuStatus dirty={dirty} />
+      <RichMenuStatus dirty={dirty} savedKey={dirty ? null : JSON.stringify(draft)} />
     </div>
   );
 }

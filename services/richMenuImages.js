@@ -4,6 +4,7 @@ const { inspectImage } = require("./imageInfo");
 
 const MAX_IMAGE_BYTES = 1024 * 1024;
 const FETCH_TIMEOUT_MS = 15000;
+const MAX_REDIRECTS = 3;
 const CONTENT_TYPES = { jpeg: "image/jpeg", png: "image/png" };
 const TOO_BIG = "ไฟล์รูปใหญ่เกิน 1 MB";
 // ข้อกำหนดรูป Rich Menu ของ LINE — รูปไม่ต้องมีขนาดเท่ากับ size ของเมนู (LINE ย่อ/ขยายให้) แต่สัดส่วนต้องตรงกัน
@@ -51,17 +52,30 @@ const isTimeout = (error) => Boolean(error) && (error.name === "TimeoutError" ||
 
 // คืน { buffer, contentType, width, height, bytes } หรือ throw พร้อมข้อความที่แสดงให้แอดมินได้
 async function loadMenuImage(imageUrl, size, { fetchImpl = fetch, timeoutMs = FETCH_TIMEOUT_MS } = {}) {
-  assertFetchableUrl(imageUrl);
   const timeoutMessage = `โหลดรูปไม่ทันใน ${Math.round(timeoutMs / 1000)} วินาที`;
+  const signal = AbortSignal.timeout(timeoutMs);
 
+  // ตาม redirect เองทีละทอด เพื่อให้ปลายทางทุกทอดผ่านกติกาเดียวกับ URL ที่กรอก "ก่อน" จะส่ง request ไปหา
   let response;
-  try {
-    response = await fetchImpl(imageUrl, { redirect: "follow", signal: AbortSignal.timeout(timeoutMs) });
-  } catch (error) {
-    throw new Error(isTimeout(error) ? timeoutMessage : "โหลดรูปไม่ได้ ตรวจว่า URL เปิดได้จริง");
+  let target = imageUrl;
+  for (let hop = 0; ; hop += 1) {
+    assertFetchableUrl(target);
+    try {
+      response = await fetchImpl(target, { redirect: "manual", signal });
+    } catch (error) {
+      throw new Error(isTimeout(error) ? timeoutMessage : "โหลดรูปไม่ได้ ตรวจว่า URL เปิดได้จริง");
+    }
+    const location = response.status >= 300 && response.status < 400 ? response.headers.get("location") : null;
+    if (!location) break;
+    if (hop === MAX_REDIRECTS) {
+      throw new Error(`URL ของรูป redirect เกิน ${MAX_REDIRECTS} ทอด`);
+    }
+    try {
+      target = new URL(location, target).toString();
+    } catch (error) {
+      throw new Error("URL ของรูป redirect ไปยังที่อยู่ที่ไม่ถูกต้อง");
+    }
   }
-  // ปลายทางหลัง redirect ต้องผ่านกติกาเดียวกับ URL ที่กรอก
-  if (response.url) assertFetchableUrl(response.url);
   if (!response.ok) {
     throw new Error(`โหลดรูปไม่ได้ (HTTP ${response.status})`);
   }

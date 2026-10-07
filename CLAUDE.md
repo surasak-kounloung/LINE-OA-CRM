@@ -58,7 +58,7 @@ Use the admin UI at `/backoffice/` (or edit `data/*.json` by hand and restart). 
 
 One menu set for every OA, edited on the Rich Menu page of the admin UI: shared settings and tap areas, one image per membership level, and one level marked as the default menu. Save, then press Sync for each OA; the page shows whether each OA matches the saved set.
 
-- Images are URLs: JPEG or PNG, at most 1 MB, 800–2500 px wide, same proportions as the menu `size`. The image does not have to be `size` itself — LINE scales it (the current artwork is 1200x810 for a 2500x1686 menu). A changed image needs a new URL; overwriting the file at the same URL is not detected.
+- Images are URLs: JPEG or PNG, at most 1 MB, 800–2500 px wide, same proportions as the menu `size`. The image does not have to be `size` itself — LINE scales it (the current artwork is 1200x810 for a 2500x1686 menu). A changed image needs a new URL; overwriting the file at the same URL is not detected. The server follows at most 3 redirects itself and checks every hop (https only, never `localhost` or an IP address) before requesting it.
 - Sync never touches a rich menu it did not create (names starting with `vsq|`). An OA that has API-created menus from another system is `blocked`; today that is the original OA, whose six membership menus are linked to members by the CRM LIFF project (`vsq-crm/CRM-LINE-Liff-App/vsq_crm_project`) using menu IDs in its own env. Moving that OA over is phase 2B.
 - Changing a level creates a new LINE menu, repoints the alias `vsq-<key>`, moves every linked user to it with LINE's batch API, then deletes the old menu. Removing a level unlinks its users, who fall back to the default menu.
 - `data/richmenu.json` is edited live on the server like the other data files, so the deploy cautions below apply to it too. A file that is missing or not valid JSON makes the Rich Menu routes answer 500 (the webhook keeps working); a file that breaks the validation rules shows every OA as `invalid` and is never synced.
@@ -70,7 +70,7 @@ Add `LINE_CHANNEL_TOKEN_<n>` / `LINE_CHANNEL_SECRET_<n>` (optionally `LINE_CHANN
 
 ## Tests
 
-`npm test` runs `node --test` over `test/*.test.js` (data store, validators, builders, message table, admin auth/routes, OA list, webhook route, error handler, and rich menu validation / images / plan / sync / SDK adapter / routes) — 173 tests, no test framework dependencies. `test-helpers/` holds an in-memory fake of LINE's rich menu API and image-byte builders; it sits outside `test/` because `node --test` runs every `.js` file under `test/` as a test. `test/builders.test.js` compares Flex output against the frozen fixture `test/fixtures/menu-messages.json`; regenerate that fixture only when the Flex design changes intentionally.
+`npm test` runs `node --test` over `test/*.test.js` (data store, validators, builders, message table, admin auth/routes, OA list, webhook route, error handler, and rich menu validation / images / plan / sync / SDK adapter / routes) — 176 tests, no test framework dependencies. `test-helpers/` holds an in-memory fake of LINE's rich menu API and image-byte builders; it sits outside `test/` because `node --test` runs every `.js` file under `test/` as a test. `test/builders.test.js` compares Flex output against the frozen fixture `test/fixtures/menu-messages.json`; regenerate that fixture only when the Flex design changes intentionally.
 
 ## Deploying
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "../api";
 
 const STATE_LABELS = {
@@ -30,7 +30,8 @@ function describePlan(oa) {
 
 // สถานะ Rich Menu ของแต่ละ LINE OA + ปุ่ม sync (ทีละ OA หนึ่ง request ต่อหนึ่ง OA)
 // dirty: หน้ามีการแก้ไขที่ยังไม่บันทึก — sync ไม่ได้จนกว่าจะบันทึก เพราะ sync ใช้ข้อมูลที่บันทึกแล้ว
-export default function RichMenuStatus({ dirty }) {
+// savedKey: ตัวแทนของข้อมูลที่บันทึกไว้ล่าสุด (null ระหว่างที่มีการแก้ไขค้างอยู่)
+export default function RichMenuStatus({ dirty, savedKey }) {
   const [statuses, setStatuses] = useState(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(""); // "" | "load" | "sync"
@@ -48,8 +49,14 @@ export default function RichMenuStatus({ dirty }) {
     }
   }, []);
 
-  // โหลดตอนเปิดหน้า และโหลดใหม่ทุกครั้งที่บันทึกหรือยกเลิกการแก้ไข
-  useEffect(() => { if (!dirty) load(); }, [dirty, load]);
+  // โหลดตอนเปิดหน้า และโหลดใหม่หลังบันทึก
+  // savedKey เปลี่ยนเฉพาะเมื่อข้อมูลที่บันทึกไว้เปลี่ยนจริง: พิมพ์แก้แล้วลบกลับ หรือกดยกเลิก จึงไม่ถาม LINE ซ้ำ
+  const loadedKey = useRef(null);
+  useEffect(() => {
+    if (savedKey === null || savedKey === loadedKey.current) return;
+    loadedKey.current = savedKey;
+    load();
+  }, [savedKey, load]);
 
   async function sync(targets) {
     setBusy("sync");

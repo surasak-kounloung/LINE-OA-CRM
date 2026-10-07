@@ -15,13 +15,13 @@ test("loads a JPEG or PNG of the right size and reports its type", async () => {
   assert.equal((await load(respond(png, { headers: { "content-type": "text/plain" } }))).contentType, "image/png");
 });
 
-test("asks for the URL it was given, follows redirects and sets a timeout", async () => {
+test("asks for the URL it was given, handles redirects itself and sets a timeout", async () => {
   const seen = [];
   await load(async (target, options) => {
     seen.push({ target, redirect: options.redirect, hasSignal: options.signal instanceof AbortSignal });
     return new Response(jpegBytes(2500, 1686));
   });
-  assert.deepEqual(seen, [{ target: url, redirect: "follow", hasSignal: true }]);
+  assert.deepEqual(seen, [{ target: url, redirect: "manual", hasSignal: true }]);
 });
 
 test("reports an HTTP error, a network failure and a timeout in words an admin can act on", async () => {
@@ -91,11 +91,52 @@ test("never fetches a URL that is not https or points at localhost or an IP addr
   assert.equal(fetched, 0);
 });
 
-test("rejects a redirect that lands on a forbidden address", async () => {
-  const redirected = async () => ({ ok: true, status: 200, url: "https://10.0.0.5/internal.jpg", headers: new Headers(), body: null });
-  await assert.rejects(load(redirected), /localhost หรือเลข IP/);
-  const downgraded = async () => ({ ok: true, status: 200, url: "http://img.example/menu.jpg", headers: new Headers(), body: null });
-  await assert.rejects(load(downgraded), /ต้องขึ้นต้นด้วย https/);
+// fetch ปลอมที่ตอบ redirect ตามแผนที่ routes และบันทึกทุก URL ที่ถูกขอจริง
+function redirecting(routes) {
+  const requested = [];
+  const fetchImpl = async (target) => {
+    requested.push(target);
+    const location = routes[target];
+    return location === undefined
+      ? new Response(jpegBytes(2500, 1686))
+      : new Response(null, { status: 302, headers: { location } });
+  };
+  return { fetchImpl, requested };
+}
+
+test("follows redirects to another https host, including a relative Location", async () => {
+  const { fetchImpl, requested } = redirecting({
+    [url]: "https://cdn.example/a/menu.jpg",
+    "https://cdn.example/a/menu.jpg": "../b/menu.jpg",
+  });
+  assert.equal((await load(fetchImpl)).contentType, "image/jpeg");
+  assert.deepEqual(requested, [url, "https://cdn.example/a/menu.jpg", "https://cdn.example/b/menu.jpg"]);
+});
+
+test("never requests a redirect target that is not https or is localhost or an IP address", async () => {
+  const cases = [
+    ["https://10.0.0.5/internal.jpg", /localhost หรือเลข IP/],
+    ["https://169.254.169.254/latest/meta-data", /localhost หรือเลข IP/],
+    ["https://localhost:8080/menu.jpg", /localhost หรือเลข IP/],
+    ["http://img.example/menu.jpg", /ต้องขึ้นต้นด้วย https/],
+    ["//127.0.0.1/menu.jpg", /localhost หรือเลข IP/],
+  ];
+  for (const [location, pattern] of cases) {
+    const { fetchImpl, requested } = redirecting({ [url]: location });
+    await assert.rejects(load(fetchImpl), pattern, location);
+    // มีแค่ request แรกเท่านั้น: ปลายทางต้องห้ามต้องไม่ถูกแตะเลย
+    assert.deepEqual(requested, [url], location);
+  }
+});
+
+test("gives up on a redirect loop after three hops", async () => {
+  const { fetchImpl, requested } = redirecting({ [url]: url });
+  await assert.rejects(load(fetchImpl), /redirect เกิน 3 ทอด/);
+  assert.equal(requested.length, 4);
+});
+
+test("a redirect without a Location header is reported as an HTTP error", async () => {
+  await assert.rejects(load(async () => new Response(null, { status: 302 })), /โหลดรูปไม่ได้ \(HTTP 302\)/);
 });
 
 const menu = (key, image) => ({ key, label: key, image, isDefault: key === "default" });
