@@ -115,7 +115,7 @@ export default function RichMenuPage() {
             <tbody>
               {draft.menus.length === 0 && <tr><td colSpan={6} className="empty">ยังไม่มีเมนู กด "+ เพิ่มเมนู" แล้วใส่รูปของแต่ละระดับ</td></tr>}
               {draft.menus.map((menu, i) => (
-                <tr key={i} className={errors.some((e) => e.path.startsWith(`menus[${i}]`)) ? "has-error" : ""}>
+                <tr key={i} className={errors.some((e) => e.path === `menus[${i}]` || e.path.startsWith(`menus[${i}].`)) ? "has-error" : ""}>
                   <td className="thumb-sm rm-thumb"><ImagePreview url={menu.image} size={72} /></td>
                   <td>
                     <input value={menu.key} placeholder="เช่น gold" onChange={(e) => setMenu(i, { key: e.target.value })} />

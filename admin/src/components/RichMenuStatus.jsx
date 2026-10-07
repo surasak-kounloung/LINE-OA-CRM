@@ -7,6 +7,7 @@ const STATE_LABELS = {
   blocked: ["sync ไม่ได้", ""],
   empty: ["ยังไม่มีเมนู", "muted"],
   error: ["เรียก LINE ไม่ได้", ""],
+  invalid: ["ข้อมูลที่บันทึกไว้ไม่ถูกต้อง", ""],
 };
 const MENU_LABELS = { ok: "ตรงแล้ว", missing: "ยังไม่มีบน LINE", outdated: "ต้องสร้างใหม่" };
 
@@ -19,7 +20,11 @@ function describePlan(oa) {
     lines.push(`• ลบเมนูของระดับ: ${oa.removedKeys.join(", ")} — ลูกค้าที่ผูกกับเมนูนี้จะกลับไปเห็นเมนูเริ่มต้น`);
   }
   if (oa.staleCount) lines.push(`• เก็บกวาดเมนูเก่าที่ค้างอยู่ ${oa.staleCount} เมนู`);
-  lines.push("• ลูกค้าที่ผูกกับเมนูเดิมของแต่ละระดับจะถูกย้ายไปเมนูใหม่ของระดับเดียวกัน");
+  if (oa.menus.some((menu) => menu.state === "outdated") || oa.staleCount) {
+    lines.push("• ลูกค้าที่ผูกกับเมนูเดิมของแต่ละระดับจะถูกย้ายไปเมนูใหม่ของระดับเดียวกัน");
+  }
+  // ไม่มีอะไรต้องสร้างหรือลบ: สิ่งเดียวที่ต่างคือเมนูเริ่มต้นของ OA
+  if (lines.length === 2) lines.push("• ตั้งเมนูเริ่มต้นของ OA ให้ตรงกับที่บันทึกไว้");
   return lines.join("\n");
 }
 
