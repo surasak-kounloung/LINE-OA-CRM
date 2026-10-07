@@ -4,6 +4,7 @@
 
 ## ภาพรวมโปรเจกต์
 - ใช้ Express.js เปิดให้บริการเส้นทาง `POST /webhook` เพื่อรับอีเวนต์จาก LINE
+- แอปเดียวรองรับ LINE OA หลายบัญชีบน Webhook URL เดียวกัน ทุกบัญชีตอบเนื้อหาชุดเดียวกัน — ดูหัวข้อ [ใช้หลาย LINE OA กับแอปเดียว](#ใช้หลาย-line-oa-กับแอปเดียว)
 - ตรวจสอบลายเซ็นด้วย `@line/bot-sdk` และตอบกลับข้อความ/ Flex Message ผ่าน LINE Messaging API
 - รองรับการ Forward อีเวนต์ไปยังปลายทางภายนอกผ่านตัวแปรแวดล้อม (ทำงานแบบ async ไม่บล็อกการตอบกลับ LINE)
 - เนื้อหาบอททั้งหมด (โปรโมชั่น, บริการ, สาขา, ตารางแพทย์) เก็บเป็นไฟล์ JSON ใน `data/` และแก้ไขได้ผ่านหน้า Admin โดยไม่ต้องแก้โค้ด — ดูหัวข้อ [หน้า Admin](#หน้า-admin-แก้ไขข้อมูลบอทโดยไม่แก้โค้ด) ด้านล่าง
@@ -11,7 +12,8 @@
 
 ## โครงสร้างโดยย่อ
 - `index.js` : ตั้งค่า Express, มิดเดิลแวร์, เมานต์เราท์ (`/webhook`, `/api/admin`, `/backoffice`) และเริ่มต้นเซิร์ฟเวอร์
-- `routes/chatRoute.js` : รับอีเวนต์จาก LINE, ค้นหาข้อความผู้ใช้ในตารางที่สร้างจาก `services/messageTable.js`, (ออปชัน) ส่งต่ออีเวนต์ไปปลายทางภายนอก
+- `routes/chatRoute.js` : รับอีเวนต์จาก LINE, หาว่ามาจาก OA ไหนจากลายเซ็น, ค้นหาข้อความผู้ใช้ในตารางที่สร้างจาก `services/messageTable.js` แล้วตอบด้วย token ของ OA นั้น, (ออปชัน) ส่งต่ออีเวนต์ไปปลายทางภายนอก
+- `services/channels.js` : อ่านรายชื่อ LINE OA จาก `.env`, หา OA ต้นทางจากลายเซ็น, ตรวจ token ตอนเปิดแอป
 - `routes/adminRoute.js`, `middlewares/adminAuth.js` : API ของหน้า Admin (login, อ่าน/แก้ไขข้อมูล) และมิดเดิลแวร์ตรวจสิทธิ์
 - `services/dataStore.js` : อ่าน/เขียนไฟล์ใน `data/*.json` (เขียนแบบ atomic, สำรองไฟล์เดิม, cache)
 - `services/messageTable.js` : สร้างตาราง trigger → Flex Message จากข้อมูลใน `data/*.json`
@@ -36,14 +38,23 @@ npm install
 # พอร์ตของเซิร์ฟเวอร์ (ค่าเริ่มต้น 8080 หากไม่กำหนด)
 PORT=8080
 
-# ค่าจาก LINE Developers
+# ค่าจาก LINE Developers ของ OA แรก (บังคับ)
 LINE_CHANNEL_TOKEN=YOUR_LINE_CHANNEL_ACCESS_TOKEN
 LINE_CHANNEL_SECRET=YOUR_LINE_CHANNEL_SECRET
+# ชื่อที่ใช้ใน log (ไม่บังคับ ค่าเริ่มต้น "OA 1")
+LINE_CHANNEL_NAME=
 
-# ตั้งค่าเพื่อส่งต่ออีเวนต์ไปยังปลายทางภายนอก (ออปชัน)
+# LINE OA เพิ่มเติม (ออปชัน): ใช้เลขต่อท้ายตั้งแต่ _2 ขึ้นไป token กับ secret ต้องมาคู่กัน
+LINE_CHANNEL_TOKEN_2=
+LINE_CHANNEL_SECRET_2=
+LINE_CHANNEL_NAME_2=
+
+# ส่งต่ออีเวนต์ของ OA แรกไปยังปลายทางภายนอก (ออปชัน)
 # เมื่อตั้งค่าเป็น "true" และกำหนด URL ระบบจะส่งต่อ req.body ไปยัง URL ดังกล่าว
 FORWARD_WEBHOOK_URL_PROCESS=false
 FORWARD_WEBHOOK_URL=https://your-api.example.com/line-webhook
+# ส่งต่ออีเวนต์ของ OA เพิ่มเติม: ใส่ URL = ส่งต่อ, เว้นว่าง = ไม่ส่งต่อ
+FORWARD_WEBHOOK_URL_2=
 
 # หน้า Admin (/backoffice): รหัสผ่านเข้าใช้งาน และ secret สำหรับเซ็น token (ไม่ตั้งก็ derive จากรหัสผ่านได้ แต่แนะนำให้ตั้งแยก)
 ADMIN_PASSWORD=
@@ -51,6 +62,8 @@ ADMIN_TOKEN_SECRET=
 ```
 
 หมายเหตุ: ในโค้ดจะตรวจ `FORWARD_WEBHOOK_URL_PROCESS === "true"` ดังนั้นให้กำหนดเป็นสตริง "true" เพื่อเปิดการส่งต่อ
+
+หาก `.env` ตั้งค่า LINE OA ไม่ถูกต้อง (เช่น มี token แต่ไม่มี secret, เลขต่อท้ายเป็น `_1`, หรือ secret ซ้ำกันสองบัญชี) แอปจะไม่เปิดและแจ้งชื่อตัวแปรที่ผิด
 
 ## การรันแอป
 โหมดพัฒนา (auto-reload ด้วย nodemon):
@@ -75,11 +88,24 @@ curl http://localhost:8080/
 3. เปิดใช้งาน Use Webhook และกด Verify เพื่อทดสอบ
 4. ทดสอบส่งข้อความจากบัญชี LINE ของคุณไปยัง OA
 
-หมายเหตุ: เส้นทาง `/webhook` ใช้ `line.middleware` เพื่อตรวจลายเซ็น HTTP Header ดังนั้นการทดสอบด้วย `curl` จำเป็นต้องมีลายเซ็นที่ถูกต้อง แนะนำให้ทดสอบผ่านปุ่ม Test webhook ใน LINE Developers หรือส่งข้อความจริงจาก OA
+หมายเหตุ: เส้นทาง `/webhook` ตรวจลายเซ็นใน HTTP Header `X-Line-Signature` กับ channel secret ของทุก OA ที่ตั้งค่าไว้ คำขอที่ลายเซ็นไม่ตรงกับ OA ใดจะได้ `401` ดังนั้นการทดสอบด้วย `curl` จำเป็นต้องมีลายเซ็นที่ถูกต้อง แนะนำให้ทดสอบผ่านปุ่ม Verify ใน LINE Developers หรือส่งข้อความจริงจาก OA
+
+## ใช้หลาย LINE OA กับแอปเดียว
+
+แอปเดียวเป็น webhook ให้ LINE OA ได้หลายบัญชี ทุกบัญชีใช้ Webhook URL เดียวกัน และตอบเนื้อหาชุดเดียวกันจาก `data/*.json` (แก้ในหน้า Admin ครั้งเดียวมีผลทุกบัญชี) แอปรู้ว่าอีเวนต์มาจากบัญชีไหนจากลายเซ็น แล้วตอบด้วย token ของบัญชีนั้น
+
+วิธีเพิ่ม OA:
+1. เพิ่ม `LINE_CHANNEL_TOKEN_<n>` และ `LINE_CHANNEL_SECRET_<n>` ใน `.env` ของเซิร์ฟเวอร์ (`<n>` เริ่มที่ 2) จะตั้ง `LINE_CHANNEL_NAME_<n>` เป็นชื่อที่ใช้ใน log ด้วยก็ได้
+2. restart เซิร์ฟเวอร์ แล้วดู log ตอนเปิดแอปว่ามีบัญชีใหม่และ token ใช้ได้
+3. ใน LINE Developers console ของ OA นั้น ใส่ Webhook URL เดียวกับ OA อื่น (`https://<your-domain>/webhook`) เปิด Use webhook แล้วกด Verify
+4. ใน LINE Official Account Manager ของ OA นั้น เปิด Webhook ใน Response settings
+5. สร้าง Rich Menu ของ OA นั้นให้ส่งข้อความ trigger ตรงกับ OA อื่นทุกตัวอักษร
+
+OA ที่เพิ่มมาจะไม่ส่งต่ออีเวนต์ไประบบภายนอก จนกว่าจะตั้ง `FORWARD_WEBHOOK_URL_<n>`
 
 ## Endpoints ที่มีให้ใช้งาน
 - `GET /` → ใช้เช็คสถานะเซิร์ฟเวอร์ (ตอบกลับเป็น `ok`)
-- `POST /webhook` → จุดรับอีเวนต์จาก LINE (ต้องผ่านการตรวจลายเซ็น)
+- `POST /webhook` → จุดรับอีเวนต์จาก LINE (ต้องผ่านการตรวจลายเซ็น ใช้ URL เดียวกันทุก OA)
 - `GET /backoffice` → หน้า Admin UI (ต้อง build ด้วย `npm run admin:build` ก่อน)
 - `POST /api/admin/login` → ล็อกอินหน้า Admin ด้วยรหัสผ่าน ได้ token กลับมา
 - `GET/PUT /api/admin/promotions`, `/api/admin/services`, `/api/admin/branches`, `/api/admin/regions` → อ่าน/แก้ไขข้อมูลแต่ละชุด (ต้องแนบ token)
@@ -121,10 +147,10 @@ curl http://localhost:8080/
 สำหรับนักพัฒนา: `cd admin && npm run dev` เปิด http://localhost:5173/backoffice/ (proxy API ไปที่ :8080)
 
 ## การส่งต่อ Webhook ไปยังระบบภายนอก (Forward)
-ภายใน `routes/chatRoute.js` จะอ่านค่าจาก `.env`
+การส่งต่อตั้งค่าแยกต่อ OA ใน `.env` (อ่านโดย `services/channels.js`)
 
-- `FORWARD_WEBHOOK_URL_PROCESS` = "true" และมีค่า `FORWARD_WEBHOOK_URL` → ระบบจะส่งต่อ `req.body` ไปยังปลายทางด้วย `axios.post()` แบบ async (พร้อม ๆ กับการประมวลผลภายใน)
-- หากไม่ต้องการส่งต่อ ให้ตั้ง `FORWARD_WEBHOOK_URL_PROCESS` เป็นค่าอื่น ๆ ที่ไม่ใช่ "true" หรือไม่กำหนดค่า
+- OA แรก: `FORWARD_WEBHOOK_URL_PROCESS` = "true" และมีค่า `FORWARD_WEBHOOK_URL` → ระบบจะส่งต่อ `req.body` ไปยังปลายทางด้วย `axios.post()` แบบ async (พร้อม ๆ กับการประมวลผลภายใน) หากไม่ต้องการส่งต่อ ให้ตั้ง `FORWARD_WEBHOOK_URL_PROCESS` เป็นค่าอื่น ๆ ที่ไม่ใช่ "true" หรือไม่กำหนดค่า
+- OA เพิ่มเติม: ใส่ `FORWARD_WEBHOOK_URL_<n>` → ส่งต่ออีเวนต์ของ OA นั้นไป URL ดังกล่าว ถ้าไม่ใส่จะไม่ส่งต่อ (ไม่มีตัวแปร `_PROCESS` สำหรับ OA เพิ่มเติม)
 
 คำแนะนำ:
 - ควรใช้ HTTPS สำหรับปลายทาง
@@ -140,7 +166,7 @@ curl http://localhost:8080/
 3. ทดสอบและปรับปรุงข้อความ `altText` ให้สอดคล้องกับเนื้อหา
 
 ## ไลบรารีหลักที่ใช้งาน
-- `@line/bot-sdk` สำหรับ LINE Messaging API และ middleware ตรวจลายเซ็น
+- `@line/bot-sdk` สำหรับ LINE Messaging API และการตรวจลายเซ็น
 - `express`, `body-parser`, `cookie-parser`, `cors` สำหรับเซิร์ฟเวอร์และมิดเดิลแวร์
 - `axios` สำหรับการเรียก API ภายนอก/ส่งต่ออีเวนต์
 - `dotenv` สำหรับโหลดตัวแปรแวดล้อมจากไฟล์ `.env`
