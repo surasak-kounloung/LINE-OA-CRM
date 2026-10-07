@@ -217,6 +217,28 @@ label.check { display: flex; align-items: center; font-weight: 500; }
 .modal-head > div { display: flex; gap: 0.4rem; }
 .modal textarea { flex: 1; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.78rem; resize: none; background: #f9fafb; }
 
+/* ---------- rich menu ---------- */
+.rm-status-head { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+.rm-preview-pick { display: flex; align-items: center; gap: 0.5rem; margin: 0; white-space: nowrap; }
+.rm-preview-pick select { margin: 0; width: auto; }
+.rm-preview { position: relative; width: 100%; max-width: 640px; margin: 0 auto 1rem; background: #eef1f5; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.rm-preview img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.rm-preview-note { text-align: center; margin: -0.5rem 0 1rem; }
+.rm-box { position: absolute; border: 2px solid var(--primary); background: rgba(50, 131, 232, 0.18); display: flex; align-items: center; justify-content: center; }
+.rm-box span, .rm-index { display: inline-flex; align-items: center; justify-content: center; min-width: 1.6rem; height: 1.6rem; padding: 0 0.3rem; border-radius: 999px; background: var(--primary); color: #fff; font-weight: 700; font-size: 0.8rem; }
+.rm-table td { vertical-align: top; }
+.rm-table .rm-number { width: 5.5rem; }
+.rm-thumb .img-preview { object-fit: contain; }
+.rm-oa { border-top: 1px solid #eef1f5; padding: 0.8rem 0; }
+.rm-oa-head { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.35rem; }
+.rm-oa-name { font-weight: 600; margin-right: 0.5rem; }
+.rm-levels { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+.rm-levels .badge { margin: 0; }
+.rm-report { border-radius: 10px; padding: 0.7rem 1rem; margin-top: 0.75rem; font-size: 0.85rem; }
+.rm-report.ok { background: #e6f6ee; color: #1f7a4d; }
+.rm-report.failed { background: var(--danger-soft); color: var(--danger); }
+.rm-report ol { margin: 0.4rem 0 0; padding-left: 1.2rem; }
+
 /* ---------- login ---------- */
 .login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; background: linear-gradient(140deg, #1a2b4c 0%, #2549a2 55%, #3283e8 100%); }
 .login .card { width: 360px; padding: 2rem; margin: 0; border: none; }

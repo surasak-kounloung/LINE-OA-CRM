@@ -2522,7 +2522,7 @@ export default function RichMenuAreas({ size, areas, onChange, previewUrl, trigg
   return (
     <div className="rm-areas">
       <div className="rm-preview" style={{ aspectRatio: `${size.width || 1} / ${size.height || 1}` }}>
-        {previewUrl ? <img src={previewUrl} alt="" /> : <span className="rm-preview-empty">เพิ่มเมนูและใส่ URL รูปเพื่อดูกรอบซ้อนบนรูปจริง</span>}
+        {previewUrl && <img src={previewUrl} alt="" />}
         {areas.map((area, i) => (
           <div
             key={i}
@@ -2538,6 +2538,7 @@ export default function RichMenuAreas({ size, areas, onChange, previewUrl, trigg
           </div>
         ))}
       </div>
+      {!previewUrl && <div className="muted rm-preview-note">เพิ่มเมนูและใส่ URL รูป เพื่อดูกรอบซ้อนบนรูปจริง</div>}
 
       <div className="table-wrap">
         <table className="table rm-table">
@@ -2978,7 +2979,7 @@ Replace with:
 .rm-preview-pick select { margin: 0; width: auto; }
 .rm-preview { position: relative; width: 100%; max-width: 640px; margin: 0 auto 1rem; background: #eef1f5; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 .rm-preview img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.rm-preview-empty { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.85rem; padding: 1rem; text-align: center; }
+.rm-preview-note { text-align: center; margin: -0.5rem 0 1rem; }
 .rm-box { position: absolute; border: 2px solid var(--primary); background: rgba(50, 131, 232, 0.18); display: flex; align-items: center; justify-content: center; }
 .rm-box span, .rm-index { display: inline-flex; align-items: center; justify-content: center; min-width: 1.6rem; height: 1.6rem; padding: 0 0.3rem; border-radius: 999px; background: var(--primary); color: #fff; font-weight: 700; font-size: 0.8rem; }
 .rm-table td { vertical-align: top; }

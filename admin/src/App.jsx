@@ -10,6 +10,7 @@ import ServiceEditPage from "./pages/ServiceEditPage";
 import BranchesPage from "./pages/BranchesPage";
 import BranchEditPage from "./pages/BranchEditPage";
 import RegionsPage from "./pages/RegionsPage";
+import RichMenuPage from "./pages/RichMenuPage";
 
 function Private({ children }) {
   return getToken() ? <Layout>{children}</Layout> : <Navigate to="/login" replace />;
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/services/*" element={<Section name="services" List={ServicesPage} Edit={ServiceEditPage} />} />
         <Route path="/branches/*" element={<Section name="branches" List={BranchesPage} Edit={BranchEditPage} withRegions />} />
         <Route path="/regions" element={<Private><RegionsPage /></Private>} />
+        <Route path="/richmenu" element={<Private><RichMenuPage /></Private>} />
         <Route path="*" element={<Navigate to="/promotions" replace />} />
       </Routes>
     </HashRouter>
