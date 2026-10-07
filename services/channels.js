@@ -18,7 +18,7 @@ function readValue(env, key) {
 function forwardUrlFor(env, id) {
   if (id === 1) {
     // OA แรกคงความหมายเดิม: ต้องเปิดด้วย FORWARD_WEBHOOK_URL_PROCESS="true" ก่อน
-    return env.FORWARD_WEBHOOK_URL_PROCESS === "true" ? readValue(env, "FORWARD_WEBHOOK_URL") : null;
+    return readValue(env, "FORWARD_WEBHOOK_URL_PROCESS") === "true" ? readValue(env, "FORWARD_WEBHOOK_URL") : null;
   }
   return readValue(env, `FORWARD_WEBHOOK_URL_${id}`);
 }
@@ -98,7 +98,8 @@ async function checkChannelTokens(channels, { getBotInfo = defaultGetBotInfo } =
     channels.map(async (channel) => {
       try {
         const info = await getBotInfo(channel);
-        return { id: channel.id, name: channel.name, ok: true, basicId: info.basicId, displayName: info.displayName };
+        // userId คือค่าเดียวกับ destination ใน webhook ของ OA นั้น — ใช้เทียบกับ log ตอน signature ไม่ผ่าน
+        return { id: channel.id, name: channel.name, ok: true, basicId: info.basicId, displayName: info.displayName, userId: info.userId };
       } catch (error) {
         return { id: channel.id, name: channel.name, ok: false, error: error.message };
       }

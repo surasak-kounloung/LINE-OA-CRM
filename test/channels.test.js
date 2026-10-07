@@ -135,6 +135,11 @@ test("loadChannels: the first account forwards only when PROCESS is exactly \"tr
   assert.equal(forwardUrl({ FORWARD_WEBHOOK_URL_PROCESS: "true", FORWARD_WEBHOOK_URL: "" }), null);
 });
 
+test("loadChannels: FORWARD_WEBHOOK_URL_PROCESS is trimmed like every other value", () => {
+  const channels = loadChannels({ ...oa1, FORWARD_WEBHOOK_URL_PROCESS: " true\r", FORWARD_WEBHOOK_URL: "https://crm.example/one" });
+  assert.equal(channels[0].forwardUrl, "https://crm.example/one");
+});
+
 test("loadChannels: later accounts forward only when their own URL is set", () => {
   const channels = loadChannels({
     ...oa1, FORWARD_WEBHOOK_URL_PROCESS: "true", FORWARD_WEBHOOK_URL: "https://crm.example/one",
@@ -202,9 +207,9 @@ test("checkChannelTokens: reports every account in order and passes the channel 
   });
   assert.deepEqual(seen, ["tok-AAA", "tok-BBB", "tok-CCC"]);
   assert.deepEqual(results, [
-    { id: 1, name: "OA 1", ok: true, basicId: "@oa1", displayName: "VSQ 1" },
-    { id: 2, name: "OA 2", ok: true, basicId: "@oa2", displayName: "VSQ 2" },
-    { id: 3, name: "OA 3", ok: true, basicId: "@oa3", displayName: "VSQ 3" },
+    { id: 1, name: "OA 1", ok: true, basicId: "@oa1", displayName: "VSQ 1", userId: "U1" },
+    { id: 2, name: "OA 2", ok: true, basicId: "@oa2", displayName: "VSQ 2", userId: "U2" },
+    { id: 3, name: "OA 3", ok: true, basicId: "@oa3", displayName: "VSQ 3", userId: "U3" },
   ]);
 });
 
@@ -213,13 +218,13 @@ test("checkChannelTokens: a rejected or throwing check is reported, never thrown
     getBotInfo: (channel) => {
       if (channel.id === 1) throw new Error("boom");
       if (channel.id === 2) return Promise.reject(new Error("Request failed with status code 401"));
-      return Promise.resolve({ basicId: "@oa3", displayName: "VSQ 3" });
+      return Promise.resolve({ basicId: "@oa3", displayName: "VSQ 3", userId: "U3" });
     },
   });
   assert.deepEqual(results, [
     { id: 1, name: "OA 1", ok: false, error: "boom" },
     { id: 2, name: "OA 2", ok: false, error: "Request failed with status code 401" },
-    { id: 3, name: "OA 3", ok: true, basicId: "@oa3", displayName: "VSQ 3" },
+    { id: 3, name: "OA 3", ok: true, basicId: "@oa3", displayName: "VSQ 3", userId: "U3" },
   ]);
   assert.deepEqual(await checkChannelTokens([], { getBotInfo: () => { throw new Error("unused"); } }), []);
 });

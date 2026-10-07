@@ -103,6 +103,8 @@ curl http://localhost:8080/
 
 OA ที่เพิ่มมาจะไม่ส่งต่ออีเวนต์ไประบบภายนอก จนกว่าจะตั้ง `FORWARD_WEBHOOK_URL_<n>`
 
+ถ้ากด Verify แล้วไม่ผ่าน ให้ดู log ของเซิร์ฟเวอร์: บรรทัด `signature ไม่ตรงกับ LINE OA ใดที่ตั้งค่าไว้` จะบอก IP และ destination ถ้า destination ตรงกับ user ID ของ OA ที่ log ไว้ตอนเปิดแอป แปลว่า `LINE_CHANNEL_SECRET_<n>` ของ OA นั้นผิด
+
 ## Endpoints ที่มีให้ใช้งาน
 - `GET /` → ใช้เช็คสถานะเซิร์ฟเวอร์ (ตอบกลับเป็น `ok`)
 - `POST /webhook` → จุดรับอีเวนต์จาก LINE (ต้องผ่านการตรวจลายเซ็น ใช้ URL เดียวกันทุก OA)
@@ -149,7 +151,7 @@ OA ที่เพิ่มมาจะไม่ส่งต่ออีเว�
 ## การส่งต่อ Webhook ไปยังระบบภายนอก (Forward)
 การส่งต่อตั้งค่าแยกต่อ OA ใน `.env` (อ่านโดย `services/channels.js`)
 
-- OA แรก: `FORWARD_WEBHOOK_URL_PROCESS` = "true" และมีค่า `FORWARD_WEBHOOK_URL` → ระบบจะส่งต่อ `req.body` ไปยังปลายทางด้วย `axios.post()` แบบ async (พร้อม ๆ กับการประมวลผลภายใน) หากไม่ต้องการส่งต่อ ให้ตั้ง `FORWARD_WEBHOOK_URL_PROCESS` เป็นค่าอื่น ๆ ที่ไม่ใช่ "true" หรือไม่กำหนดค่า
+- OA แรก: `FORWARD_WEBHOOK_URL_PROCESS` = "true" และมีค่า `FORWARD_WEBHOOK_URL` → ระบบจะส่งต่อ `req.body` ไปยังปลายทางด้วย `axios.post()` โดยไม่รอผล (LINE ได้คำตอบทันที) และตัดการเชื่อมต่อถ้าปลายทางไม่ตอบภายใน 10 วินาที หากไม่ต้องการส่งต่อ ให้ตั้ง `FORWARD_WEBHOOK_URL_PROCESS` เป็นค่าอื่น ๆ ที่ไม่ใช่ "true" หรือไม่กำหนดค่า
 - OA เพิ่มเติม: ใส่ `FORWARD_WEBHOOK_URL_<n>` → ส่งต่ออีเวนต์ของ OA นั้นไป URL ดังกล่าว ถ้าไม่ใส่จะไม่ส่งต่อ (ไม่มีตัวแปร `_PROCESS` สำหรับ OA เพิ่มเติม ถ้าใส่ `FORWARD_WEBHOOK_URL_PROCESS_<n>` แอปจะไม่เปิดและแจ้งให้ลบออก)
 
 คำแนะนำ:

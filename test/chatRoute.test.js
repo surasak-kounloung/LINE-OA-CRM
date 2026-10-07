@@ -19,6 +19,19 @@ const sign = (raw, secret) => crypto.createHmac("sha256", secret).update(raw).di
 const textEvent = (text, replyToken = "rt-1") => ({ type: "message", replyToken, message: { type: "text", text } });
 const payload = (...events) => ({ destination: "Udest", events });
 
+// เก็บสิ่งที่ถูก log ผ่าน console[method] ระหว่างรัน fn
+async function captureLog(method, fn) {
+  const logged = [];
+  const original = console[method];
+  console[method] = (...args) => { logged.push(util.format(...args)); };
+  try {
+    await fn();
+  } finally {
+    console[method] = original;
+  }
+  return logged;
+}
+
 // เปิด express จริงบนพอร์ตสุ่ม ใช้ client และ forward ปลอมที่บันทึกการเรียกไว้
 async function startApp(overrides = {}) {
   const replies = []; // { channelId, replyToken, messages }
@@ -216,19 +229,70 @@ test("a forward that rejects or throws still answers the customer and returns 20
   }
 });
 
-test("a slow forward target does not delay the reply to the customer", async () => {
+test("a slow forward target delays neither the reply to the customer nor the response to LINE", async () => {
   let release;
   const gate = new Promise((resolve) => { release = resolve; });
   const { replies, post, close } = await startApp({ forward: () => gate });
-  const pending = post(payload(textEvent(TRIGGER)), { secret: "sec-AAA" });
-  for (let i = 0; i < 100 && replies.length === 0; i += 1) {
-    await new Promise((resolve) => setTimeout(resolve, 10));
+  try {
+    const pending = post(payload(textEvent(TRIGGER)), { secret: "sec-AAA" });
+    const timedOut = new Promise((resolve) => setTimeout(() => resolve(null), 1000));
+    // ปลายทางส่งต่อยังไม่ตอบกลับเลย แต่ LINE ต้องได้ 200 และลูกค้าต้องได้คำตอบแล้ว
+    const res = await Promise.race([pending, timedOut]);
+    assert.ok(res, "the response to LINE waited for the forward target");
+    assert.equal(res.status, 200);
+    assert.deepEqual(replies, [{ channelId: 1, replyToken: "rt-1", messages: REPLY }]);
+  } finally {
+    release({ status: 200 });
+    close();
   }
-  // ตอบลูกค้าแล้ว ทั้งที่ปลายทางส่งต่อยังไม่ตอบกลับ
-  assert.deepEqual(replies, [{ channelId: 1, replyToken: "rt-1", messages: REPLY }]);
-  release({ status: 200 });
-  assert.equal((await pending).status, 200);
+});
+
+test("the default forward posts the payload as JSON with a timeout", async () => {
+  const axios = require("axios");
+  const originalPost = axios.post;
+  const calls = [];
+  axios.post = async (url, body, config) => {
+    calls.push({ url, body, config });
+    return { status: 200 };
+  };
+  const { post, close } = await startApp({ forward: undefined });
+  try {
+    const body = payload(textEvent("สวัสดี"));
+    assert.equal((await post(body, { secret: "sec-AAA" })).status, 200);
+    assert.deepEqual(calls, [
+      { url: "https://crm.example/one", body, config: { headers: { "Content-Type": "application/json" }, timeout: 10000 } },
+    ]);
+  } finally {
+    axios.post = originalPost;
+    close();
+  }
+});
+
+test("a message event with no message field is skipped without logging an error", async () => {
+  const { replies, post, close } = await startApp();
+  let res;
+  const logged = await captureLog("error", async () => {
+    res = await post(payload({ type: "message", replyToken: "rt-odd" }, textEvent(TRIGGER, "rt-hit")), { secret: "sec-BBB" });
+  });
   close();
+  assert.equal(res.status, 200);
+  assert.deepEqual(replies, [{ channelId: 2, replyToken: "rt-hit", messages: REPLY }]);
+  assert.deepEqual(logged, []);
+});
+
+test("a rejected signature is logged with the caller's IP and only a well-formed destination", async () => {
+  const { post, close } = await startApp();
+  const destination = `U${"0123456789abcdef".repeat(2)}`;
+  const logged = await captureLog("warn", async () => {
+    assert.equal((await post({ destination, events: [] }, { secret: "sec-ZZZ" })).status, 401);
+    // destination มาจาก body ที่ยังไม่ผ่านการตรวจ — ค่าที่หน้าตาไม่ใช่ user ID ของ LINE ต้องไม่ถูกพิมพ์
+    assert.equal((await post({ destination: "U123\nFAKE LOG LINE", events: [] }, { secret: "sec-ZZZ" })).status, 401);
+  });
+  close();
+  assert.equal(logged.length, 2);
+  assert.match(logged[0], /ip [0-9a-f:.]+, destination U0123456789abcdef0123456789abcdef\)/);
+  assert.match(logged[1], /destination -\)/);
+  assert.ok(!logged[1].includes("FAKE LOG LINE"));
 });
 
 test("one client is created per account, not per request", async () => {

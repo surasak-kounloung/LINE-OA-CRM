@@ -81,7 +81,7 @@ app.listen(PORT, () => {
   checkChannelTokens(channels).then((results) => {
     for (const result of results) {
       if (result.ok) {
-        console.log(`[${result.name}] token ใช้ได้: ${result.displayName} (${result.basicId})`);
+        console.log(`[${result.name}] token ใช้ได้: ${result.displayName} (${result.basicId}, user ID ${result.userId})`);
       } else {
         console.warn(`[${result.name}] ตรวจ token ไม่ผ่าน: ${result.error}`);
       }

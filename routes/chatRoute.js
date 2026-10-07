@@ -7,7 +7,13 @@ const { findChannelBySignature } = require("../services/channels");
 const defaultCreateClient = (channel) =>
   new line.Client({ channelAccessToken: channel.channelAccessToken, channelSecret: channel.channelSecret });
 
-const defaultForward = (url, body) => axios.post(url, body, { headers: { "Content-Type": "application/json" } });
+// ปลายทางส่งต่อที่ค้างต้องไม่กิน connection ไปเรื่อย ๆ
+const FORWARD_TIMEOUT_MS = 10000;
+const defaultForward = (url, body) =>
+  axios.post(url, body, { headers: { "Content-Type": "application/json" }, timeout: FORWARD_TIMEOUT_MS });
+
+// destination ใน body ยังไม่ผ่านการตรวจ signature — จะ log ก็ต่อเมื่อหน้าตาเป็น user ID ของ LINE จริง
+const LINE_USER_ID = /^U[0-9a-f]{32}$/;
 
 // ข้อความสำหรับ log — ห้าม log error ของ LINE SDK ทั้ง object เพราะ originalError มี header Authorization (access token) อยู่ข้างใน
 function describeError(error) {
@@ -27,7 +33,7 @@ function createChatRouter({ channels, messageTable, createClient = defaultCreate
 
   const handleEvent = async (channel, event) => {
     try {
-      if (event.type !== "message" || event.message.type !== "text") {
+      if (event.type !== "message" || event.message?.type !== "text") {
         return null;
       }
       const messages = messageTable.getTable().get(event.message.text);
@@ -42,34 +48,30 @@ function createChatRouter({ channels, messageTable, createClient = defaultCreate
     }
   };
 
+  // ส่งต่อ payload ดิบไป CRM โดยไม่รอผล — LINE ต้องได้คำตอบทันทีแม้ปลายทางช้าหรือล่ม
+  const forwardInBackground = (channel, body) => {
+    new Promise((resolve) => resolve(forward(channel.forwardUrl, body)))
+      .then((response) => console.log(`[${channel.name}] ส่งต่อข้อมูลสำเร็จ:`, response && response.status))
+      .catch((error) => console.error(`[${channel.name}] เกิดข้อผิดพลาดในการส่งต่อข้อมูล:`, error?.message));
+  };
+
   router.post("/", async (req, res) => {
     // req.rawBody มาจาก rawBodySaver ใน index.js — signature ของ LINE คำนวณจาก body ดิบ
     const channel = findChannelBySignature(channels, req.rawBody, req.get("x-line-signature"));
     if (!channel) {
-      console.warn("webhook: signature ไม่ตรงกับ LINE OA ใดที่ตั้งค่าไว้");
+      // ถ้า destination ตรงกับ user ID ของ OA ที่ log ไว้ตอนเปิดแอป แปลว่า secret ของ OA นั้นใน .env ผิด
+      const destination = LINE_USER_ID.test(req.body?.destination) ? req.body.destination : "-";
+      console.warn(`webhook: signature ไม่ตรงกับ LINE OA ใดที่ตั้งค่าไว้ (ip ${req.ip}, destination ${destination})`);
       return res.status(401).json({ message: "invalid signature" });
     }
 
     try {
-      let forwardPromise = Promise.resolve(null);
-
-      // ส่งต่อ payload ดิบไป CRM ถ้า OA นี้ตั้งค่าไว้ (ไม่บล็อกการตอบ)
       if (channel.forwardUrl) {
-        forwardPromise = Promise.resolve()
-          .then(() => forward(channel.forwardUrl, req.body))
-          .then((response) => {
-            console.log(`[${channel.name}] ส่งต่อข้อมูลสำเร็จ:`, response && response.status);
-            return response;
-          })
-          .catch((error) => {
-            console.error(`[${channel.name}] เกิดข้อผิดพลาดในการส่งต่อข้อมูล:`, error.message);
-            return null;
-          });
+        forwardInBackground(channel, req.body);
       }
 
       const events = Array.isArray(req.body.events) ? req.body.events : [];
-      const handlePromise = Promise.all(events.map((event) => handleEvent(channel, event)));
-      const [, handleResult] = await Promise.all([forwardPromise, handlePromise]);
+      const handleResult = await Promise.all(events.map((event) => handleEvent(channel, event)));
       return res.json(handleResult);
     } catch (error) {
       console.error(`[${channel.name}] เกิดข้อผิดพลาดในการดำเนินการ:`, error.message);
