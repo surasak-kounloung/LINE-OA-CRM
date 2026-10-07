@@ -1,4 +1,5 @@
-// รายชื่อ LINE OA ที่แอปนี้เป็น webhook ให้ (อ่านจาก .env)
+// รายชื่อ LINE OA ที่แอปนี้เป็น webhook ให้: อ่านจาก .env, หา OA ต้นทางจาก signature, ตรวจ token
+const line = require("@line/bot-sdk");
 
 // ตัวแปรที่มีเลขต่อท้ายสำหรับ OA ที่ 2 ขึ้นไป (OA แรกใช้ชื่อเดิมที่ไม่มีเลข)
 const SUFFIXED_KEY = /^(LINE_CHANNEL_TOKEN|LINE_CHANNEL_SECRET|LINE_CHANNEL_NAME|FORWARD_WEBHOOK_URL)_(\d+)$/;
@@ -75,4 +76,27 @@ function loadChannels(env = process.env) {
   return channels;
 }
 
-module.exports = { loadChannels };
+// หา OA ที่ secret ของมันเซ็น rawBody ได้ตรงกับ signature — ไม่เจอคืน null
+function findChannelBySignature(channels, rawBody, signature) {
+  if (!rawBody || typeof signature !== "string" || signature === "") return null;
+  return channels.find((channel) => line.validateSignature(rawBody, channel.channelSecret, signature)) || null;
+}
+
+const defaultGetBotInfo = (channel) =>
+  new line.Client({ channelAccessToken: channel.channelAccessToken }).getBotInfo();
+
+// ถาม LINE ว่า token ของแต่ละ OA ใช้ได้ไหม — ไม่ throw, คืนผลครบทุก OA ตามลำดับเดิม
+async function checkChannelTokens(channels, { getBotInfo = defaultGetBotInfo } = {}) {
+  return Promise.all(
+    channels.map(async (channel) => {
+      try {
+        const info = await getBotInfo(channel);
+        return { id: channel.id, name: channel.name, ok: true, basicId: info.basicId, displayName: info.displayName };
+      } catch (error) {
+        return { id: channel.id, name: channel.name, ok: false, error: error.message };
+      }
+    })
+  );
+}
+
+module.exports = { loadChannels, findChannelBySignature, checkChannelTokens };

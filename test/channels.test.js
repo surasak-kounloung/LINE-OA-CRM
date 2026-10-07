@@ -1,6 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const { loadChannels } = require("../services/channels");
+const crypto = require("crypto");
+const { loadChannels, findChannelBySignature, checkChannelTokens } = require("../services/channels");
 
 const oa1 = { LINE_CHANNEL_TOKEN: "tok-AAA", LINE_CHANNEL_SECRET: "sec-AAA" };
 const oa2 = { LINE_CHANNEL_TOKEN_2: "tok-BBB", LINE_CHANNEL_SECRET_2: "sec-BBB" };
@@ -144,4 +145,69 @@ test("loadChannels: later accounts forward only when their own URL is set", () =
 
   const off = loadChannels({ ...oa1, FORWARD_WEBHOOK_URL_PROCESS: "false", ...oa2, FORWARD_WEBHOOK_URL_2: "https://crm.example/two" });
   assert.deepEqual(off.map((c) => c.forwardUrl), [null, "https://crm.example/two"]);
+});
+
+const sign = (rawBody, secret) => crypto.createHmac("sha256", secret).update(rawBody).digest("base64");
+const channels = loadChannels({ ...oa1, ...oa2, ...oa3 });
+const rawBody = JSON.stringify({
+  destination: "U1",
+  events: [{ type: "message", replyToken: "rt", message: { type: "text", text: "โปรโมชั่นล่าสุด 👨‍⚕️" } }],
+});
+
+test("findChannelBySignature: returns the account whose secret signed the body", () => {
+  for (const channel of channels) {
+    assert.equal(findChannelBySignature(channels, rawBody, sign(rawBody, channel.channelSecret)), channel);
+  }
+  assert.equal(findChannelBySignature(channels, Buffer.from(rawBody, "utf8"), sign(rawBody, "sec-BBB")), channels[1]);
+});
+
+test("findChannelBySignature: unknown, tampered or malformed signatures give null", () => {
+  assert.equal(findChannelBySignature(channels, rawBody, sign(rawBody, "sec-ZZZ")), null);
+  assert.equal(findChannelBySignature(channels, rawBody + " ", sign(rawBody, "sec-AAA")), null);
+  assert.equal(findChannelBySignature(channels, rawBody, "not-base64-!!"), null);
+  assert.equal(findChannelBySignature([], rawBody, sign(rawBody, "sec-AAA")), null);
+});
+
+test("findChannelBySignature: a missing signature or body gives null instead of throwing", () => {
+  const signature = sign(rawBody, "sec-AAA");
+  for (const missing of [undefined, null, "", ["a", "b"], 42]) {
+    assert.equal(findChannelBySignature(channels, rawBody, missing), null);
+  }
+  for (const missing of [undefined, null, ""]) {
+    assert.equal(findChannelBySignature(channels, missing, signature), null);
+  }
+});
+
+test("checkChannelTokens: reports every account in order and passes the channel to getBotInfo", async () => {
+  const seen = [];
+  const results = await checkChannelTokens(channels, {
+    getBotInfo: async (channel) => {
+      seen.push(channel.channelAccessToken);
+      // OA แรกตอบช้าสุด ผลลัพธ์ยังต้องเรียงตามลำดับ channel
+      await new Promise((resolve) => setTimeout(resolve, channel.id === 1 ? 30 : 0));
+      return { userId: `U${channel.id}`, basicId: `@oa${channel.id}`, displayName: `VSQ ${channel.id}` };
+    },
+  });
+  assert.deepEqual(seen, ["tok-AAA", "tok-BBB", "tok-CCC"]);
+  assert.deepEqual(results, [
+    { id: 1, name: "OA 1", ok: true, basicId: "@oa1", displayName: "VSQ 1" },
+    { id: 2, name: "OA 2", ok: true, basicId: "@oa2", displayName: "VSQ 2" },
+    { id: 3, name: "OA 3", ok: true, basicId: "@oa3", displayName: "VSQ 3" },
+  ]);
+});
+
+test("checkChannelTokens: a rejected or throwing check is reported, never thrown", async () => {
+  const results = await checkChannelTokens(channels, {
+    getBotInfo: (channel) => {
+      if (channel.id === 1) throw new Error("boom");
+      if (channel.id === 2) return Promise.reject(new Error("Request failed with status code 401"));
+      return Promise.resolve({ basicId: "@oa3", displayName: "VSQ 3" });
+    },
+  });
+  assert.deepEqual(results, [
+    { id: 1, name: "OA 1", ok: false, error: "boom" },
+    { id: 2, name: "OA 2", ok: false, error: "Request failed with status code 401" },
+    { id: 3, name: "OA 3", ok: true, basicId: "@oa3", displayName: "VSQ 3" },
+  ]);
+  assert.deepEqual(await checkChannelTokens([], { getBotInfo: () => { throw new Error("unused"); } }), []);
 });
