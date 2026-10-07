@@ -1,6 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const crypto = require("crypto");
+const util = require("util");
 const express = require("express");
 const { createChatRouter } = require("../routes/chatRoute");
 
@@ -158,6 +159,33 @@ test("a failed reply is logged, the other events are still answered, and LINE ge
   assert.equal(res.status, 200);
   assert.deepEqual(sent, [{ channelId: 2, replyToken: "rt-good" }]);
   close();
+});
+
+test("a failed reply is logged without the access token carried inside the SDK error", async () => {
+  // รูปร่างเดียวกับ HTTPError ของ @line/bot-sdk: originalError คือ AxiosError ที่มี header Authorization อยู่ข้างใน
+  const sdkError = Object.assign(new Error("Request failed with status code 400"), {
+    statusCode: 400,
+    originalError: {
+      request: { _header: "POST /v2/bot/message/reply HTTP/1.1\r\nAuthorization: Bearer tok-BBB\r\n\r\n" },
+      response: { data: { message: "Invalid reply token" } },
+    },
+  });
+  const createClient = () => ({ replyMessage: async () => { throw sdkError; } });
+  const { post, close } = await startApp({ createClient });
+  const logged = [];
+  const originalError = console.error;
+  console.error = (...args) => { logged.push(util.format(...args)); };
+  try {
+    assert.equal((await post(payload(textEvent(TRIGGER)), { secret: "sec-BBB" })).status, 200);
+  } finally {
+    console.error = originalError;
+    close();
+  }
+  const output = logged.join("\n");
+  assert.ok(!output.includes("tok-BBB"), "the access token reached the log");
+  assert.match(output, /\[OA 2\]/);
+  assert.match(output, /HTTP 400/);
+  assert.match(output, /Invalid reply token/);
 });
 
 test("forwards the raw payload only for accounts with a forwardUrl, each to its own URL", async () => {

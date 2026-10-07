@@ -9,6 +9,16 @@ const defaultCreateClient = (channel) =>
 
 const defaultForward = (url, body) => axios.post(url, body, { headers: { "Content-Type": "application/json" } });
 
+// ข้อความสำหรับ log — ห้าม log error ของ LINE SDK ทั้ง object เพราะ originalError มี header Authorization (access token) อยู่ข้างใน
+function describeError(error) {
+  if (!error || typeof error !== "object") return String(error);
+  if (error.originalError || error.statusCode) {
+    const detail = error.originalError?.response?.data;
+    return `${error.message} (HTTP ${error.statusCode})${detail ? ` ${JSON.stringify(detail)}` : ""}`;
+  }
+  return error.stack || error.message || String(error);
+}
+
 function createChatRouter({ channels, messageTable, createClient = defaultCreateClient, forward = defaultForward }) {
   const router = express.Router();
 
@@ -27,7 +37,7 @@ function createChatRouter({ channels, messageTable, createClient = defaultCreate
       await clients.get(channel.id).replyMessage(event.replyToken, messages);
       return null;
     } catch (error) {
-      console.error(`[${channel.name}] เกิดข้อผิดพลาดในการจัดการอีเวนต์:`, error);
+      console.error(`[${channel.name}] เกิดข้อผิดพลาดในการจัดการอีเวนต์: ${describeError(error)}`);
       return null;
     }
   };
