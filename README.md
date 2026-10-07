@@ -14,6 +14,8 @@
 - `index.js` : ตั้งค่า Express, มิดเดิลแวร์, เมานต์เราท์ (`/webhook`, `/api/admin`, `/backoffice`) และเริ่มต้นเซิร์ฟเวอร์
 - `routes/chatRoute.js` : รับอีเวนต์จาก LINE, หาว่ามาจาก OA ไหนจากลายเซ็น, ค้นหาข้อความผู้ใช้ในตารางที่สร้างจาก `services/messageTable.js` แล้วตอบด้วย token ของ OA นั้น, (ออปชัน) ส่งต่ออีเวนต์ไปปลายทางภายนอก
 - `services/channels.js` : อ่านรายชื่อ LINE OA จาก `.env`, หา OA ต้นทางจากลายเซ็น, ตรวจ token ตอนเปิดแอป
+- `services/richMenuPlan.js`, `services/richMenuSync.js`, `services/lineRichMenuApi.js`, `services/richMenuImages.js`, `services/imageInfo.js` : คำนวณสถานะ, sync, เชื่อมกับ LINE และตรวจรูปของ Rich Menu
+- `routes/richMenuRoute.js` : API ของหน้า Rich Menu (อยู่ใต้ `/api/admin/richmenu`)
 - `routes/adminRoute.js`, `middlewares/adminAuth.js` : API ของหน้า Admin (login, อ่าน/แก้ไขข้อมูล) และมิดเดิลแวร์ตรวจสิทธิ์
 - `services/dataStore.js` : อ่าน/เขียนไฟล์ใน `data/*.json` (เขียนแบบ atomic, สำรองไฟล์เดิม, cache)
 - `services/messageTable.js` : สร้างตาราง trigger → Flex Message จากข้อมูลใน `data/*.json`
@@ -99,7 +101,7 @@ curl http://localhost:8080/
 2. restart เซิร์ฟเวอร์ แล้วดู log ตอนเปิดแอปว่ามีบัญชีใหม่และ token ใช้ได้
 3. ใน LINE Developers console ของ OA นั้น ใส่ Webhook URL เดียวกับ OA อื่น (`https://<your-domain>/webhook`) เปิด Use webhook แล้วกด Verify
 4. ใน LINE Official Account Manager ของ OA นั้น เปิด Webhook ใน Response settings
-5. สร้าง Rich Menu ของ OA นั้นให้ส่งข้อความ trigger ตรงกับ OA อื่นทุกตัวอักษร
+5. เปิดหน้า Rich Menu ใน `/backoffice` แล้วกด Sync ของ OA นั้น (ดูหัวข้อ Rich Menu ด้านล่าง)
 
 OA ที่เพิ่มมาจะไม่ส่งต่ออีเวนต์ไประบบภายนอก จนกว่าจะตั้ง `FORWARD_WEBHOOK_URL_<n>`
 
@@ -113,6 +115,9 @@ OA ที่เพิ่มมาจะไม่ส่งต่ออีเว�
 - `GET/PUT /api/admin/promotions`, `/api/admin/services`, `/api/admin/branches`, `/api/admin/regions` → อ่าน/แก้ไขข้อมูลแต่ละชุด (ต้องแนบ token)
 - `GET /api/admin/triggers` → รายการ trigger ทั้งหมดที่บอทตอบได้จริงในขณะนี้
 - `GET /api/admin/preview/:trigger` → ดูตัวอย่างข้อความ Flex ที่บอทจะตอบสำหรับ trigger นั้น
+- `GET/PUT /api/admin/richmenu` → อ่าน/แก้ไขชุด Rich Menu
+- `GET /api/admin/richmenu/status` → สถานะ Rich Menu ของแต่ละ LINE OA เทียบกับที่บันทึกไว้
+- `POST /api/admin/richmenu/sync/:channelId` → sync ชุด Rich Menu ไปยัง LINE OA หนึ่งบัญชี
 
 ## คำสั่งข้อความที่รองรับ (ตัวอย่าง)
 เมื่อผู้ใช้พิมพ์ข้อความด้านล่าง บอทจะตอบกลับ Flex Message ที่เกี่ยวข้องทันที (ตัวอย่างบางส่วน)
@@ -147,6 +152,23 @@ OA ที่เพิ่มมาจะไม่ส่งต่ออีเว�
 บันทึกแล้วบอทใช้ข้อมูลใหม่ทันที ไม่ต้อง restart ไฟล์เดิมถูกสำรองไว้ใน `data/backup/`
 
 สำหรับนักพัฒนา: `cd admin && npm run dev` เปิด http://localhost:5173/backoffice/ (proxy API ไปที่ :8080)
+
+## Rich Menu (แก้ที่เดียว ใช้ทุก OA)
+
+หน้า Rich Menu ใน `/backoffice` เก็บเมนูชุดเดียวสำหรับทุก LINE OA: ตั้งค่าร่วมและพื้นที่กด (ใช้ร่วมกันทุกระดับ) กับรูปของแต่ละระดับสมาชิก และเลือกหนึ่งระดับเป็นเมนูเริ่มต้นที่ทุกคนเห็น
+
+วิธีใช้:
+1. อัปโหลดรูปของแต่ละระดับขึ้น WordPress แล้วคัดลอก URL
+2. เปิดหน้า Rich Menu กด "+ เพิ่มเมนู" ใส่รหัส (เช่น `gold`) ชื่อ และ URL รูป เลือกเมนูเริ่มต้น แล้วบันทึก
+3. ดูส่วน "สถานะบน LINE OA" แล้วกด Sync ของ OA ที่ต้องการ
+
+ข้อกำหนดของรูป: JPEG หรือ PNG ไม่เกิน 1 MB กว้าง 800–2500 พิกเซล และสัดส่วนตรงกับขนาดเมนู (เมนู 2500x1686 ใช้รูป 1200x810 ได้) ถ้าเปลี่ยนรูปต้องใช้ URL ใหม่ เพราะการทับไฟล์ที่ URL เดิมแอปจะไม่รู้ว่ารูปเปลี่ยน
+
+สิ่งที่ควรรู้:
+- แอปแตะเฉพาะเมนูที่ตัวเองสร้าง OA ที่มี Rich Menu ซึ่งระบบอื่นสร้างผ่าน API ไว้จะขึ้นสถานะ "sync ไม่ได้" และจะไม่ถูกแก้ไขใด ๆ
+- แก้เมนูแล้ว sync: ลูกค้าที่ถูกผูกเมนูรายคนจะถูกย้ายไปเมนูใหม่ของระดับเดียวกัน
+- ลบระดับออกจากรายการแล้ว sync: ลูกค้าของระดับนั้นกลับไปเห็นเมนูเริ่มต้น
+- ถ้า sync ล้มเหลวกลางทาง กด Sync ซ้ำได้ แอปจะทำต่อจากจุดที่ค้าง
 
 ## การส่งต่อ Webhook ไปยังระบบภายนอก (Forward)
 การส่งต่อตั้งค่าแยกต่อ OA ใน `.env` (อ่านโดย `services/channels.js`)
