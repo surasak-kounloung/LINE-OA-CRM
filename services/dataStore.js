@@ -6,6 +6,8 @@ const fs = require("fs");
 const path = require("path");
 
 const DATA_NAMES = ["promotions", "services", "branches", "regions"];
+// ไฟล์ที่ไม่ใช่เนื้อหาคำตอบของบอท: อ่าน/เขียน/สำรองเหมือนกัน แต่ไม่อยู่ใน getAll() ที่ใช้สร้างตาราง trigger
+const EXTRA_NAMES = ["richmenu"];
 const MAX_BACKUPS = 20;
 
 function createDataStore(baseDir) {
@@ -14,7 +16,7 @@ function createDataStore(baseDir) {
   let backupCounter = 0;
 
   function filePath(name) {
-    if (!DATA_NAMES.includes(name)) {
+    if (!DATA_NAMES.includes(name) && !EXTRA_NAMES.includes(name)) {
       throw new Error(`unknown data name: ${name}`);
     }
     return path.join(baseDir, `${name}.json`);

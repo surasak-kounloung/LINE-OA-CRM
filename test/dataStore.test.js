@@ -76,3 +76,21 @@ test("set does not throw if a listener throws, and continues calling other liste
     console.error = orig;
   }
 });
+
+test("richmenu is read, written and backed up like the other files", () => {
+  const dir = tmpDir();
+  fs.writeFileSync(path.join(dir, "richmenu.json"), JSON.stringify({ menus: [] }));
+  const store = createDataStore(dir);
+  assert.deepEqual(store.get("richmenu"), { menus: [] });
+  store.set("richmenu", { menus: [{ key: "gold" }] });
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(dir, "richmenu.json"), "utf8")), { menus: [{ key: "gold" }] });
+  assert.deepEqual(store.get("richmenu"), { menus: [{ key: "gold" }] });
+  assert.equal(fs.readdirSync(path.join(dir, "backup")).filter((f) => f.startsWith("richmenu.")).length, 1);
+});
+
+test("getAll leaves richmenu out, so the trigger table never depends on it", () => {
+  // tmpDir() ไม่มี richmenu.json: getAll() ต้องไม่พยายามอ่านไฟล์นั้น
+  const store = createDataStore(tmpDir());
+  assert.deepEqual(Object.keys(store.getAll()).sort(), [...DATA_NAMES].sort());
+  assert.equal(DATA_NAMES.includes("richmenu"), false);
+});

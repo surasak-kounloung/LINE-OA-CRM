@@ -1,0 +1,51 @@
+{
+  "size": {
+    "width": 2500,
+    "height": 1686
+  },
+  "chatBarText": "Menu",
+  "selected": true,
+  "areas": [
+    {
+      "x": 1596,
+      "y": 0,
+      "width": 904,
+      "height": 1084,
+      "action": {
+        "type": "uri",
+        "uri": "https://liff.line.me/2007605538-yPqjO4RW"
+      }
+    },
+    {
+      "x": 0,
+      "y": 1082,
+      "width": 833,
+      "height": 604,
+      "action": {
+        "type": "message",
+        "text": "บริการทั้งหมด"
+      }
+    },
+    {
+      "x": 833,
+      "y": 1082,
+      "width": 833,
+      "height": 604,
+      "action": {
+        "type": "message",
+        "text": "โปรโมชั่นล่าสุด"
+      }
+    },
+    {
+      "x": 1666,
+      "y": 1082,
+      "width": 833,
+      "height": 604,
+      "action": {
+        "type": "message",
+        "text": "ตารางแพทย์"
+      }
+    }
+  ],
+  "menus": []
+}

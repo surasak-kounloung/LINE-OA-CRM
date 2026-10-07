@@ -157,7 +157,116 @@ function validateRegions(regions, branches) {
   return errors;
 }
 
+// ---------- Rich Menu ----------
+// data/richmenu.json เป็น object เดียว path จึงเทียบกับ object ราก เช่น "areas[1].action.text", "menus[2].image"
+const RICH_MENU_KEY = /^[a-z0-9-]{1,20}$/;
+const RICH_MENU_URI = /^(https?:\/\/|line:\/\/|tel:)\S+$/;
+const isInt = (v) => Number.isInteger(v);
+
+function validateRichMenu(value) {
+  const errors = [];
+  if (!isObject(value)) {
+    errors.push({ path: "", message: "รูปแบบไม่ถูกต้อง" });
+    return errors;
+  }
+
+  const size = isObject(value.size) ? value.size : {};
+  const widthOk = isInt(size.width) && size.width >= 800 && size.width <= 2500;
+  const heightOk = isInt(size.height) && size.height >= 250;
+  if (!widthOk) errors.push({ path: "size.width", message: "ต้องเป็นจำนวนเต็ม 800–2500" });
+  if (!heightOk) errors.push({ path: "size.height", message: "ต้องเป็นจำนวนเต็มตั้งแต่ 250" });
+  if (widthOk && heightOk && size.width / size.height < 1.45) {
+    errors.push({ path: "size.height", message: "สูงเกินไป: กว้างหารสูงต้องไม่น้อยกว่า 1.45" });
+  }
+
+  if (!isNonEmpty(value.chatBarText) || value.chatBarText.length > 14) {
+    errors.push({ path: "chatBarText", message: "ต้องระบุ ไม่เกิน 14 ตัวอักษร" });
+  }
+  checkBool(errors, "selected", value.selected);
+
+  const areas = Array.isArray(value.areas) ? value.areas : [];
+  if (!Array.isArray(value.areas) || areas.length < 1 || areas.length > 20) {
+    errors.push({ path: "areas", message: "ต้องมีพื้นที่กด 1–20 ช่อง" });
+  }
+  const okStart = (v) => isInt(v) && v >= 0;
+  const okLength = (v) => isInt(v) && v >= 1;
+  areas.forEach((area, i) => {
+    const p = `areas[${i}]`;
+    if (!isObject(area)) { errors.push({ path: p, message: "รูปแบบไม่ถูกต้อง" }); return; }
+    if (!okStart(area.x)) errors.push({ path: `${p}.x`, message: "ต้องเป็นจำนวนเต็มตั้งแต่ 0" });
+    if (!okStart(area.y)) errors.push({ path: `${p}.y`, message: "ต้องเป็นจำนวนเต็มตั้งแต่ 0" });
+    if (!okLength(area.width)) errors.push({ path: `${p}.width`, message: "ต้องเป็นจำนวนเต็มตั้งแต่ 1" });
+    if (!okLength(area.height)) errors.push({ path: `${p}.height`, message: "ต้องเป็นจำนวนเต็มตั้งแต่ 1" });
+    if (widthOk && okStart(area.x) && okLength(area.width) && area.x + area.width > size.width) {
+      errors.push({ path: `${p}.width`, message: "กรอบเลยขอบขวาของเมนู" });
+    }
+    if (heightOk && okStart(area.y) && okLength(area.height) && area.y + area.height > size.height) {
+      errors.push({ path: `${p}.height`, message: "กรอบเลยขอบล่างของเมนู" });
+    }
+
+    const action = isObject(area.action) ? area.action : {};
+    if (action.type === "message") {
+      if (!isNonEmpty(action.text) || action.text.length > 300) {
+        errors.push({ path: `${p}.action.text`, message: "ต้องระบุข้อความ ไม่เกิน 300 ตัวอักษร" });
+      }
+    } else if (action.type === "uri") {
+      if (typeof action.uri !== "string" || action.uri.length > 1000 || !RICH_MENU_URI.test(action.uri)) {
+        errors.push({ path: `${p}.action.uri`, message: "ต้องเป็นลิงก์ขึ้นต้นด้วย https://, http://, line:// หรือ tel: ไม่เกิน 1000 ตัวอักษร" });
+      }
+    } else {
+      errors.push({ path: `${p}.action.type`, message: "ต้องเป็น message หรือ uri" });
+    }
+  });
+
+  const menus = Array.isArray(value.menus) ? value.menus : [];
+  if (!Array.isArray(value.menus) || menus.length > 20) {
+    errors.push({ path: "menus", message: "ต้องเป็นรายการ ไม่เกิน 20 เมนู" });
+  }
+  const firstIndexOfKey = new Map();
+  menus.forEach((menu, i) => {
+    const p = `menus[${i}]`;
+    if (!isObject(menu)) { errors.push({ path: p, message: "รูปแบบไม่ถูกต้อง" }); return; }
+    if (typeof menu.key !== "string" || !RICH_MENU_KEY.test(menu.key)) {
+      errors.push({ path: `${p}.key`, message: "ใช้ได้เฉพาะ a-z, 0-9 และ - ยาว 1–20 ตัว" });
+    } else if (firstIndexOfKey.has(menu.key)) {
+      errors.push({ path: `${p}.key`, message: `รหัสซ้ำกับรายการที่ ${firstIndexOfKey.get(menu.key) + 1}` });
+    } else {
+      firstIndexOfKey.set(menu.key, i);
+    }
+    if (!isNonEmpty(menu.label) || menu.label.length > 50) {
+      errors.push({ path: `${p}.label`, message: "ต้องระบุ ไม่เกิน 50 ตัวอักษร" });
+    }
+    if (typeof menu.image !== "string" || !/^https:\/\/\S+$/.test(menu.image)) {
+      errors.push({ path: `${p}.image`, message: "ต้องเป็น URL ขึ้นต้นด้วย https://" });
+    }
+    checkBool(errors, `${p}.isDefault`, menu.isDefault);
+  });
+  const defaults = menus.filter((menu) => isObject(menu) && menu.isDefault === true).length;
+  if (menus.length > 0 && defaults !== 1) {
+    errors.push({ path: "menus", message: "ต้องเลือกเมนูเริ่มต้น 1 อันพอดี" });
+  }
+  return errors;
+}
+
+// เก็บเฉพาะฟิลด์ที่รู้จัก ไฟล์จึงสะอาดและ hash ของเมนูไม่เปลี่ยนเพราะฟิลด์แปลกปลอม (เรียกหลัง validateRichMenu ผ่านแล้ว)
+function normalizeRichMenu(value) {
+  return {
+    size: { width: value.size.width, height: value.size.height },
+    chatBarText: value.chatBarText,
+    selected: value.selected,
+    areas: value.areas.map((area) => ({
+      x: area.x,
+      y: area.y,
+      width: area.width,
+      height: area.height,
+      action: area.action.type === "message" ? { type: "message", text: area.action.text } : { type: "uri", uri: area.action.uri },
+    })),
+    menus: value.menus.map((menu) => ({ key: menu.key, label: menu.label, image: menu.image, isDefault: menu.isDefault })),
+  };
+}
+
 module.exports = {
   validatePromotions, validateServices, validateBranches, validateRegions,
+  validateRichMenu, normalizeRichMenu,
   sectionNames, DAYS, MENUS, MAX_PRICE_IMAGES,
 };
