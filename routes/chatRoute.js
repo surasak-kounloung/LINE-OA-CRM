@@ -1,69 +1,73 @@
+// Webhook ของ LINE (รองรับหลาย OA): หา OA ต้นทางจาก signature → ส่งต่อ payload ถ้าตั้งค่าไว้ → ตอบจากตาราง trigger
 const express = require("express");
 const line = require("@line/bot-sdk");
 const axios = require("axios");
-require("dotenv").config();
+const { findChannelBySignature } = require("../services/channels");
 
-const { getDefaultStore } = require("../services/dataStore");
-const { createMessageTable } = require("../services/messageTable");
+const defaultCreateClient = (channel) =>
+  new line.Client({ channelAccessToken: channel.channelAccessToken, channelSecret: channel.channelSecret });
 
-const router = express.Router();
+const defaultForward = (url, body) => axios.post(url, body, { headers: { "Content-Type": "application/json" } });
 
-const lineConfig = {
-  channelAccessToken: process.env.LINE_CHANNEL_TOKEN,
-  channelSecret: process.env.LINE_CHANNEL_SECRET,
-};
+function createChatRouter({ channels, messageTable, createClient = defaultCreateClient, forward = defaultForward }) {
+  const router = express.Router();
 
-// URL ปลายทางสำหรับส่งต่อข้อมูล
-const forwardUrl = process.env.FORWARD_WEBHOOK_URL;
-const processLocally = process.env.FORWARD_WEBHOOK_URL_PROCESS === "true";
+  // client ของแต่ละ OA สร้างครั้งเดียว — ต้องตอบด้วย token ของ OA ที่ลูกค้าทักมาเท่านั้น
+  const clients = new Map(channels.map((channel) => [channel.id, createClient(channel)]));
 
-// ตาราง trigger → ข้อความตอบ สร้างจาก data/*.json และสร้างใหม่อัตโนมัติเมื่อหน้า admin บันทึก
-const messageTable = createMessageTable(getDefaultStore());
-const lineClient = new line.Client(lineConfig);
-
-router.post("/", line.middleware(lineConfig), async (req, res) => {
-  try {
-    let forwardPromise = Promise.resolve(null);
-
-    // ส่งต่อ payload ดิบไป CRM ถ้าเปิดใช้งาน (ไม่บล็อกการตอบ)
-    if (processLocally === true && forwardUrl) {
-      forwardPromise = axios
-        .post(forwardUrl, req.body, { headers: { "Content-Type": "application/json" } })
-        .then((response) => {
-          console.log("ส่งต่อข้อมูลสำเร็จ:", response.status);
-          return response;
-        })
-        .catch((error) => {
-          console.error("เกิดข้อผิดพลาดในการส่งต่อข้อมูล:", error.message);
-          return null;
-        });
-    }
-
-    const handlePromise = Promise.all(req.body.events.map(handleEvents));
-    const [, handleResult] = await Promise.all([forwardPromise, handlePromise]);
-    res.json(handleResult);
-  } catch (error) {
-    console.error("เกิดข้อผิดพลาดในการดำเนินการ:", error.message);
-    res.status(500).end();
-  }
-});
-
-const handleEvents = async (event) => {
-  try {
-    if (event.type !== "message" || event.message.type !== "text") {
+  const handleEvent = async (channel, event) => {
+    try {
+      if (event.type !== "message" || event.message.type !== "text") {
+        return null;
+      }
+      const messages = messageTable.getTable().get(event.message.text);
+      if (!messages) {
+        return null;
+      }
+      await clients.get(channel.id).replyMessage(event.replyToken, messages);
+      return null;
+    } catch (error) {
+      console.error(`[${channel.name}] เกิดข้อผิดพลาดในการจัดการอีเวนต์:`, error);
       return null;
     }
-    const messages = messageTable.getTable().get(event.message.text);
-    if (!messages) {
-      return null;
-    }
-    await lineClient.replyMessage(event.replyToken, messages);
-    return null;
-  } catch (error) {
-    console.error("เกิดข้อผิดพลาดในการจัดการอีเวนต์:", error);
-    return null;
-  }
-};
+  };
 
-module.exports = router;
-module.exports.messageTable = messageTable;
+  router.post("/", async (req, res) => {
+    // req.rawBody มาจาก rawBodySaver ใน index.js — signature ของ LINE คำนวณจาก body ดิบ
+    const channel = findChannelBySignature(channels, req.rawBody, req.get("x-line-signature"));
+    if (!channel) {
+      console.warn("webhook: signature ไม่ตรงกับ LINE OA ใดที่ตั้งค่าไว้");
+      return res.status(401).json({ message: "invalid signature" });
+    }
+
+    try {
+      let forwardPromise = Promise.resolve(null);
+
+      // ส่งต่อ payload ดิบไป CRM ถ้า OA นี้ตั้งค่าไว้ (ไม่บล็อกการตอบ)
+      if (channel.forwardUrl) {
+        forwardPromise = Promise.resolve()
+          .then(() => forward(channel.forwardUrl, req.body))
+          .then((response) => {
+            console.log(`[${channel.name}] ส่งต่อข้อมูลสำเร็จ:`, response && response.status);
+            return response;
+          })
+          .catch((error) => {
+            console.error(`[${channel.name}] เกิดข้อผิดพลาดในการส่งต่อข้อมูล:`, error.message);
+            return null;
+          });
+      }
+
+      const events = Array.isArray(req.body.events) ? req.body.events : [];
+      const handlePromise = Promise.all(events.map((event) => handleEvent(channel, event)));
+      const [, handleResult] = await Promise.all([forwardPromise, handlePromise]);
+      return res.json(handleResult);
+    } catch (error) {
+      console.error(`[${channel.name}] เกิดข้อผิดพลาดในการดำเนินการ:`, error.message);
+      return res.status(500).end();
+    }
+  });
+
+  return router;
+}
+
+module.exports = { createChatRouter };
