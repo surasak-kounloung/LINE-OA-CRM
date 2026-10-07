@@ -34,7 +34,7 @@ Copy `.env.example` to `.env`. Required vars:
 - `ADMIN_PASSWORD` — required to enable the admin UI/API; if unset, every `/api/admin` endpoint returns 503
 - `ADMIN_TOKEN_SECRET` — optional; secret used to sign admin auth tokens (derived from `ADMIN_PASSWORD` if not set)
 
-The app refuses to start (exit 1; the message names the variable and never prints a secret) when the first OA is missing, a token/secret pair is incomplete, a suffix is `_0`, `_1` or zero-padded, a name or forward URL is set for an OA without credentials, or two OAs share a secret or a token.
+The app refuses to start (exit 1; the message names the variable and never prints a secret) when the first OA is missing, a token/secret pair is incomplete, a suffix is `_0`, `_1` or zero-padded, a name or forward URL is set for an OA without credentials, two OAs share a secret or a token, or `FORWARD_WEBHOOK_URL_PROCESS_<n>` is set (no such variable — it would look like forwarding is off while `FORWARD_WEBHOOK_URL_<n>` keeps it on).
 
 ## Architecture
 
@@ -59,7 +59,7 @@ Add `LINE_CHANNEL_TOKEN_<n>` / `LINE_CHANNEL_SECRET_<n>` (optionally `LINE_CHANN
 
 ## Tests
 
-`npm test` runs `node --test` over `test/*.test.js` (data store, validators, builders, message table, admin auth/routes, OA list, webhook route) — 84 tests, no test framework dependencies. `test/builders.test.js` compares Flex output against the frozen fixture `test/fixtures/menu-messages.json`; regenerate that fixture only when the Flex design changes intentionally.
+`npm test` runs `node --test` over `test/*.test.js` (data store, validators, builders, message table, admin auth/routes, OA list, webhook route, error handler) — 90 tests, no test framework dependencies. `test/builders.test.js` compares Flex output against the frozen fixture `test/fixtures/menu-messages.json`; regenerate that fixture only when the Flex design changes intentionally.
 
 ## Deploying
 
@@ -71,5 +71,7 @@ Add `LINE_CHANNEL_TOKEN_<n>` / `LINE_CHANNEL_SECRET_<n>` (optionally `LINE_CHANN
 
 ## Notes
 
+- Never log a LINE SDK error object as-is: its `originalError` carries the request's `Authorization: Bearer <token>` header. `routes/chatRoute.js` logs `describeError(error)` (message, HTTP status, LINE's error body) instead.
+- `middlewares/errorHandler.js` answers body-parser client errors with their own status (malformed JSON → 400, body over 2 MB → 413) and a one-line log without the body; anything else is logged in full and answered with 500, or with the status already set (e.g. 404).
 - `template_flexmessage/` is not imported by the running app.
 - Several dependencies in `package.json` (`mongoose`, `openai`, `cheerio`, `html-to-docx`, `turndown`) are unused leftovers.

@@ -147,6 +147,18 @@ test("loadChannels: later accounts forward only when their own URL is set", () =
   assert.deepEqual(off.map((c) => c.forwardUrl), [null, "https://crm.example/two"]);
 });
 
+test("loadChannels: FORWARD_WEBHOOK_URL_PROCESS_<n> is rejected instead of silently ignored", () => {
+  // คนที่ก๊อปรูปแบบของ OA แรกมาตั้ง _PROCESS_2=false จะเข้าใจว่าปิดส่งต่อแล้ว ทั้งที่ URL_2 ทำให้เปิดอยู่
+  assertConfigError(
+    { ...oa1, ...oa2, FORWARD_WEBHOOK_URL_PROCESS_2: "false", FORWARD_WEBHOOK_URL_2: "https://crm.example/two" },
+    /FORWARD_WEBHOOK_URL_PROCESS_2: ไม่มีตัวแปรนี้/
+  );
+  assertConfigError({ ...oa1, ...oa2, FORWARD_WEBHOOK_URL_PROCESS_2: "true" }, /FORWARD_WEBHOOK_URL_PROCESS_2: ไม่มีตัวแปรนี้/);
+  // เว้นว่างถือว่าไม่ได้ตั้ง และตัวแปรของ OA แรก (ไม่มีเลข) ยังใช้ได้ตามเดิม
+  const channels = loadChannels({ ...oa1, ...oa2, FORWARD_WEBHOOK_URL_PROCESS_2: "", FORWARD_WEBHOOK_URL_PROCESS: "false" });
+  assert.deepEqual(channels.map((c) => c.id), [1, 2]);
+});
+
 const sign = (rawBody, secret) => crypto.createHmac("sha256", secret).update(rawBody).digest("base64");
 const channels = loadChannels({ ...oa1, ...oa2, ...oa3 });
 const rawBody = JSON.stringify({

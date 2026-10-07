@@ -4,6 +4,8 @@ const line = require("@line/bot-sdk");
 // ตัวแปรที่มีเลขต่อท้ายสำหรับ OA ที่ 2 ขึ้นไป (OA แรกใช้ชื่อเดิมที่ไม่มีเลข)
 const SUFFIXED_KEY = /^(LINE_CHANNEL_TOKEN|LINE_CHANNEL_SECRET|LINE_CHANNEL_NAME|FORWARD_WEBHOOK_URL)_(\d+)$/;
 const VALID_SUFFIX = /^([2-9]|[1-9]\d+)$/;
+// OA ที่ 2 ขึ้นไปไม่มีตัวแปร _PROCESS — การมีหรือไม่มี FORWARD_WEBHOOK_URL_<n> คือสวิตช์
+const PROCESS_KEY = /^FORWARD_WEBHOOK_URL_PROCESS_\d+$/;
 
 // ค่าว่างหรือมีแต่ช่องว่างถือว่าไม่ได้ตั้ง
 function readValue(env, key) {
@@ -27,6 +29,11 @@ function loadChannels(env = process.env) {
   const ids = new Set([1]);
 
   for (const key of Object.keys(env)) {
+    if (PROCESS_KEY.test(key) && readValue(env, key) !== null) {
+      // ถ้าเมินเฉย คนที่ตั้ง _PROCESS_2=false จะเข้าใจว่าปิดส่งต่อแล้ว ทั้งที่ FORWARD_WEBHOOK_URL_2 ทำให้เปิดอยู่
+      errors.push(`${key}: ไม่มีตัวแปรนี้ — OA เพิ่มเติมเปิดส่งต่อด้วยการใส่ FORWARD_WEBHOOK_URL_<n> และปิดด้วยการเว้นว่าง`);
+      continue;
+    }
     const match = SUFFIXED_KEY.exec(key);
     if (!match || readValue(env, key) === null) continue;
     if (!VALID_SUFFIX.test(match[2])) {
