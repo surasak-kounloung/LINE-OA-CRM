@@ -173,3 +173,11 @@ test("describeChannel: a wrong or missing default menu is out of date", () => {
     assert.deepEqual(states(status), [["default", "ok"], ["gold", "ok"]]);
   }
 });
+
+test("describeChannel: a menu that any alias points at is never stale, even another system's alias", () => {
+  const def = definition();
+  const remote = remoteFor(def);
+  remote.menus.push({ richMenuId: "rm-kept", name: "vsq|gold|0000000000000000" });
+  remote.aliases.push({ richMenuAliasId: "crm-tab", richMenuId: "rm-kept" });
+  assert.deepEqual(describeChannel(def, remote).staleMenus, []);
+});

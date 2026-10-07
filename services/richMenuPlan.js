@@ -97,7 +97,8 @@ function describeChannel(definition, remote) {
   const removedKeys = removedAliases.map((aliasId) => aliasId.slice(ALIAS_PREFIX.length));
 
   // เมนูค้าง = เมนูของแอปนี้ที่ไม่มี alias ชี้อยู่ (รุ่นเก่าที่ถูกแทน หรือสร้างค้างไว้จากรอบที่ล้ม)
-  const aliased = new Set(aliasTargets.values());
+  // เมนูที่มี alias ใดก็ตามชี้อยู่ (รวม alias ของระบบอื่น) ยังมีคนใช้ จึงไม่นับเป็นเมนูค้าง
+  const aliased = new Set(remote.aliases.map((alias) => alias.richMenuId));
   const staleMenus = remote.menus
     .filter((menu) => !aliased.has(menu.richMenuId))
     .map((menu) => ({ richMenuId: menu.richMenuId, key: parseManagedName(menu.name).key }));

@@ -15,6 +15,8 @@ function createFakeLine({ menus = [], aliases = [], defaultRichMenuId = null, li
   let lostDefault = false; // เมนูเริ่มต้นถูกลบโดยยังไม่ได้ตั้งอันใหม่
   let batchOutcome = "succeeded";
   let nextId = 1;
+  let createdSinceRead = []; // ID ของเมนูที่สร้างหลังการอ่านสถานะครั้งล่าสุด
+  let lagOnce = false;
 
   const lineError = (status, message) => Object.assign(new Error(`${status} - ${message}`), { status, body: JSON.stringify({ message }) });
 
@@ -31,8 +33,12 @@ function createFakeLine({ menus = [], aliases = [], defaultRichMenuId = null, li
 
   const api = {
     async readState() {
+      // เมื่อสั่ง lagNextReadAfterCreate(): การอ่านครั้งถัดไปยังไม่เห็นเมนูที่เพิ่งสร้าง (alias และเมนูเริ่มต้นเห็นตามจริง)
+      const hidden = new Set(lagOnce ? createdSinceRead : []);
+      if (createdSinceRead.length) lagOnce = false;
+      createdSinceRead = [];
       return {
-        menus: [...state.menus.values()].map((menu) => ({ richMenuId: menu.richMenuId, name: menu.name })),
+        menus: [...state.menus.values()].filter((menu) => !hidden.has(menu.richMenuId)).map((menu) => ({ richMenuId: menu.richMenuId, name: menu.name })),
         aliases: [...state.aliases].map(([richMenuAliasId, richMenuId]) => ({ richMenuAliasId, richMenuId })),
         defaultRichMenuId: state.defaultRichMenuId,
       };
@@ -42,6 +48,7 @@ function createFakeLine({ menus = [], aliases = [], defaultRichMenuId = null, li
       const richMenuId = `richmenu-${nextId}`;
       nextId += 1;
       state.menus.set(richMenuId, { richMenuId, name: richMenu.name, richMenu, hasImage: false });
+      createdSinceRead.push(richMenuId);
       return richMenuId;
     },
     async uploadImage(richMenuId, buffer, contentType) {
@@ -119,6 +126,8 @@ function createFakeLine({ menus = [], aliases = [], defaultRichMenuId = null, li
     failNext(name) { failing.add(name); },
     // "succeeded" | "failed" | "ongoing" — ผลของคำสั่งย้ายลูกค้าที่จะถูกส่งหลังจากนี้
     setBatchOutcome(outcome) { batchOutcome = outcome; },
+    // LINE จริงอาจยังไม่แสดงเมนูที่เพิ่งสร้างในรายการทันที: ให้การอ่านครั้งแรกหลังมีการสร้างเมนูเป็นแบบนั้นหนึ่งครั้ง
+    lagNextReadAfterCreate() { lagOnce = true; },
     link(userId, richMenuId) { state.links.set(userId, richMenuId); },
     addMenu(richMenuId, name) { state.menus.set(richMenuId, { richMenuId, name, hasImage: true }); },
     idOfAlias(richMenuAliasId) { return state.aliases.get(richMenuAliasId) || null; },

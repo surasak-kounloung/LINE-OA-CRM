@@ -247,3 +247,35 @@ test("the wait for LINE to move customers is bounded by pollLimit", async () => 
   await run(fake, definition({ areas: editedAreas(before) }), { sleep: async (ms) => { naps.push(ms); }, pollLimit: 5 });
   assert.deepEqual(naps, [1000, 1000, 1000, 1000]);
 });
+
+test("a menu list that lags behind LINE's own writes never unlinks customers or loses the default", async () => {
+  const before = definition();
+  const fake = await syncedOa(before, { "u-default": "default", "u-gold": "gold", "u-silver": "silver" });
+  const after = definition({ areas: editedAreas(before) });
+  fake.lagNextReadAfterCreate();
+
+  const result = await run(fake, after);
+
+  const expected = names(after);
+  assert.deepEqual(fake.snapshot().links, { "u-default": expected.default, "u-gold": expected.gold, "u-silver": expected.silver });
+  assert.equal(fake.snapshot().defaultMenu, expected.default);
+  assert.deepEqual(fake.orphanedUsers, []);
+  assert.equal(fake.lostDefault, false);
+  assert.equal(result.ok, true, result.message);
+  assert.equal(await stateOf(fake, after), "in-sync");
+});
+
+test("a definition without exactly one default menu is never synced", async () => {
+  // ผ่านหน้าแอดมินไม่ได้เพราะมีการตรวจ แต่เกิดได้เมื่อแก้ data/richmenu.json ด้วยมือ
+  const before = definition();
+  const noDefault = before.menus.map((menu) => ({ ...menu, isDefault: false }));
+  const twoDefaults = before.menus.map((menu) => ({ ...menu, isDefault: menu.key !== "silver" }));
+  for (const menus of [noDefault, twoDefaults]) {
+    const fake = await syncedOa(before, { "u-gold": "gold" });
+    const result = await run(fake, definition({ areas: editedAreas(before), menus }));
+    assert.equal(result.ok, false);
+    assert.match(result.message, /เมนูเริ่มต้น 1 อันพอดี/);
+    assert.deepEqual(fake.calls, []);
+    assert.equal(fake.snapshot().defaultMenu, names(before).default);
+  }
+});

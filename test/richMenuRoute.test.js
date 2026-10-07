@@ -29,10 +29,11 @@ const twoLevels = () => richMenu({ menus: [level("default", "ก่อนสม�
 
 // OA 1 มีเมนูของระบบอื่น, OA 2 ว่าง, OA 3 เรียก LINE ไม่ได้
 // เซิร์ฟเวอร์ถูกปิดผ่าน t.after เสมอ: เทสต์ที่ล้มกลางทางต้องไม่ทิ้งเซิร์ฟเวอร์ไว้จน `node --test` ค้าง
-async function startApp(t, { saved = richMenu(), richMenuOptions = {} } = {}) {
+async function startApp(t, { saved = richMenu(), savedText, richMenuOptions = {} } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "vsq-richmenu-"));
   for (const name of ["promotions", "services", "branches", "regions"]) fs.writeFileSync(path.join(dir, `${name}.json`), "[]");
-  fs.writeFileSync(path.join(dir, "richmenu.json"), JSON.stringify(saved));
+  // savedText: เขียนเนื้อไฟล์ตรง ๆ เพื่อจำลองไฟล์ที่ถูกแก้ด้วยมือจนพัง
+  fs.writeFileSync(path.join(dir, "richmenu.json"), savedText === undefined ? JSON.stringify(saved) : savedText);
   const store = createDataStore(dir);
 
   const lines = new Map([
@@ -60,7 +61,9 @@ async function startApp(t, { saved = richMenu(), richMenuOptions = {} } = {}) {
   t.after(() => { server.closeAllConnections(); server.close(); });
 
   const base = `http://127.0.0.1:${server.address().port}/api/admin`;
+  // ทุก request มีเวลาจำกัด: route ที่ไม่ตอบต้องทำให้เทสต์ล้ม ไม่ใช่ค้าง
   const raw = (method, p, body, token) => fetch(base + p, {
+    signal: AbortSignal.timeout(5000),
     method,
     headers: { "content-type": "application/json", ...(token ? { authorization: `Bearer ${token}` } : {}) },
     body: body === undefined ? undefined : JSON.stringify(body),
@@ -223,4 +226,35 @@ test("only one sync runs at a time, and the lock is released afterwards", async 
   const again = await call("POST", "/richmenu/sync/2");
   assert.equal(again.status, 200);
   assert.match((await again.json()).message, /ตรงกับที่บันทึกไว้อยู่แล้ว/);
+});
+
+test("an unreadable richmenu.json answers 500 as JSON on every route, without its path, and the server lives on", async (t) => {
+  quiet(t);
+  const { call } = await startApp(t, { savedText: "{ this is not json" });
+  const requests = [["GET", "/richmenu"], ["GET", "/richmenu/status"], ["POST", "/richmenu/sync/2"], ["PUT", "/richmenu", twoLevels()], ["POST", "/richmenu/sync/2"]];
+  for (const [method, p, body] of requests) {
+    const res = await call(method, p, body);
+    assert.equal(res.status, 500, `${method} ${p}`);
+    assert.deepEqual(JSON.parse(await res.text()), { error: "เกิดข้อผิดพลาดภายในระบบ ดู log ของเซิร์ฟเวอร์" }, `${method} ${p}`);
+  }
+  // ส่วนอื่นของ admin API ยังตอบได้ตามปกติ
+  assert.equal((await call("GET", "/triggers")).status, 200);
+});
+
+test("a saved definition that breaks the rules is reported as invalid and nothing is sent to LINE", async (t) => {
+  quiet(t);
+  const noDefault = richMenu({ menus: [level("default", "ก่อนสมัคร", false), level("gold", "V Gold", false)] });
+  const { call, lines } = await startApp(t, { saved: noDefault });
+
+  const statuses = await (await call("GET", "/richmenu/status")).json();
+  assert.deepEqual(statuses.map((oa) => [oa.id, oa.state]), [[1, "invalid"], [2, "invalid"], [3, "invalid"]]);
+  assert.match(statuses[1].message, /ข้อมูล Rich Menu ที่บันทึกไว้ไม่ถูกต้อง/);
+  assert.match(statuses[1].message, /เมนูเริ่มต้น 1 อันพอดี/);
+
+  const res = await call("POST", "/richmenu/sync/2");
+  assert.equal(res.status, 200);
+  const result = await res.json();
+  assert.deepEqual([result.ok, result.steps], [false, []]);
+  assert.match(result.message, /ข้อมูล Rich Menu ที่บันทึกไว้ไม่ถูกต้อง/);
+  assert.deepEqual(lines.get(2).calls, []);
 });
