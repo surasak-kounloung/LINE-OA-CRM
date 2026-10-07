@@ -2072,7 +2072,8 @@ const richMenu = (over = {}) => ({
 const twoLevels = () => richMenu({ menus: [level("default", "ก่อนสมัคร", true), level("gold", "V Gold")] });
 
 // OA 1 มีเมนูของระบบอื่น, OA 2 ว่าง, OA 3 เรียก LINE ไม่ได้
-async function startApp({ saved = richMenu(), richMenuOptions = {} } = {}) {
+// เซิร์ฟเวอร์ถูกปิดผ่าน t.after เสมอ: เทสต์ที่ล้มกลางทางต้องไม่ทิ้งเซิร์ฟเวอร์ไว้จน `node --test` ค้าง
+async function startApp(t, { saved = richMenu(), richMenuOptions = {} } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "vsq-richmenu-"));
   for (const name of ["promotions", "services", "branches", "regions"]) fs.writeFileSync(path.join(dir, `${name}.json`), "[]");
   fs.writeFileSync(path.join(dir, "richmenu.json"), JSON.stringify(saved));
@@ -2100,6 +2101,8 @@ async function startApp({ saved = richMenu(), richMenuOptions = {} } = {}) {
     richMenu: { createApi: (channel) => (lines.has(channel.id) ? lines.get(channel.id).api : broken), loadImage, sleep: async () => {}, ...richMenuOptions },
   }));
   const server = await new Promise((resolve) => { const s = app.listen(0, () => resolve(s)); });
+  t.after(() => { server.closeAllConnections(); server.close(); });
+
   const base = `http://127.0.0.1:${server.address().port}/api/admin`;
   const raw = (method, p, body, token) => fetch(base + p, {
     method,
@@ -2109,7 +2112,7 @@ async function startApp({ saved = richMenu(), richMenuOptions = {} } = {}) {
   const token = (await (await raw("POST", "/login", { password: "pw" })).json()).token;
   const call = (method, p, body) => raw(method, p, body, token);
   const onDisk = () => JSON.parse(fs.readFileSync(path.join(dir, "richmenu.json"), "utf8"));
-  return { raw, call, lines, loaded, onDisk, close: () => server.close() };
+  return { raw, call, lines, loaded, onDisk };
 }
 
 // เงียบ log ที่เส้นทางเหล่านี้พิมพ์โดยตั้งใจ
@@ -2120,25 +2123,23 @@ function quiet(t) {
   t.after(() => Object.assign(console, original));
 }
 
-test("every rich menu route needs an admin token", async () => {
-  const { raw, close } = await startApp();
+test("every rich menu route needs an admin token", async (t) => {
+  const { raw } = await startApp(t);
   assert.equal((await raw("GET", "/richmenu")).status, 401);
   assert.equal((await raw("PUT", "/richmenu", twoLevels())).status, 401);
   assert.equal((await raw("GET", "/richmenu/status")).status, 401);
   assert.equal((await raw("POST", "/richmenu/sync/2")).status, 401);
-  close();
 });
 
-test("GET returns the saved definition", async () => {
-  const { call, close } = await startApp({ saved: twoLevels() });
+test("GET returns the saved definition", async (t) => {
+  const { call } = await startApp(t, { saved: twoLevels() });
   const res = await call("GET", "/richmenu");
   assert.equal(res.status, 200);
   assert.deepEqual(await res.json(), twoLevels());
-  close();
 });
 
-test("PUT rejects invalid data with field paths and saves nothing", async () => {
-  const { call, onDisk, loaded, close } = await startApp();
+test("PUT rejects invalid data with field paths and saves nothing", async (t) => {
+  const { call, onDisk, loaded } = await startApp(t);
   const res = await call("PUT", "/richmenu", richMenu({ chatBarText: "", menus: [level("Gold", "V Gold", true)] }));
   assert.equal(res.status, 400);
   const body = await res.json();
@@ -2146,11 +2147,10 @@ test("PUT rejects invalid data with field paths and saves nothing", async () => 
   assert.deepEqual(body.errors.map((e) => e.path).sort(), ["chatBarText", "menus[0].key"]);
   assert.deepEqual(onDisk(), richMenu());
   assert.deepEqual(loaded, []);
-  close();
 });
 
-test("PUT saves the normalized definition and checks only images it has not seen", async () => {
-  const { call, onDisk, loaded, close } = await startApp();
+test("PUT saves the normalized definition and checks only images it has not seen", async (t) => {
+  const { call, onDisk, loaded } = await startApp(t);
   const first = await call("PUT", "/richmenu", { ...twoLevels(), unknown: "dropped" });
   assert.equal(first.status, 200);
   assert.deepEqual(await first.json(), twoLevels());
@@ -2162,21 +2162,19 @@ test("PUT saves the normalized definition and checks only images it has not seen
   assert.equal((await call("PUT", "/richmenu", next)).status, 200);
   assert.deepEqual(loaded, ["https://img.example/silver.jpg"]);
   assert.deepEqual(onDisk(), next);
-  close();
 });
 
-test("PUT reports an image that fails its check on that menu's field and saves nothing", async () => {
-  const { call, onDisk, close } = await startApp({ saved: twoLevels() });
+test("PUT reports an image that fails its check on that menu's field and saves nothing", async (t) => {
+  const { call, onDisk } = await startApp(t, { saved: twoLevels() });
   const res = await call("PUT", "/richmenu", richMenu({ menus: [level("default", "ก่อนสมัคร", true), level("gold", "V Gold", false, "https://img.example/bad.jpg")] }));
   assert.equal(res.status, 400);
   assert.deepEqual(await res.json(), { error: "รูปไม่ผ่านการตรวจ", errors: [{ path: "menus[1].image", message: "ไฟล์รูปใหญ่เกิน 1 MB" }] });
   assert.deepEqual(onDisk(), twoLevels());
-  close();
 });
 
 test("status describes every OA: blocked by another system's menus, out of date, and unreachable", async (t) => {
   quiet(t);
-  const { call, close } = await startApp({ saved: twoLevels() });
+  const { call } = await startApp(t, { saved: twoLevels() });
   const res = await call("GET", "/richmenu/status");
   assert.equal(res.status, 200);
   const [legacy, fresh, broken] = await res.json();
@@ -2199,12 +2197,11 @@ test("status describes every OA: blocked by another system's menus, out of date,
   assert.deepEqual([broken.id, broken.state, broken.menus], [3, "error", []]);
   assert.match(broken.message, /HTTP 401/);
   assert.ok(!JSON.stringify([legacy, fresh, broken]).includes("tok-"), "a channel token reached the response");
-  close();
 });
 
 test("sync runs one OA and reports its steps; the status is then in sync", async (t) => {
   quiet(t);
-  const { call, lines, close } = await startApp({ saved: twoLevels() });
+  const { call, lines } = await startApp(t, { saved: twoLevels() });
   const res = await call("POST", "/richmenu/sync/2");
   assert.equal(res.status, 200);
   const body = await res.json();
@@ -2216,12 +2213,11 @@ test("sync runs one OA and reports its steps; the status is then in sync", async
   assert.equal(statuses[1].state, "in-sync");
   // OA อื่นไม่ถูกแตะ
   assert.deepEqual(lines.get(1).calls, []);
-  close();
 });
 
 test("sync of a blocked or unreachable OA answers 200 with ok false and writes nothing", async (t) => {
   quiet(t);
-  const { call, lines, close } = await startApp({ saved: twoLevels() });
+  const { call, lines } = await startApp(t, { saved: twoLevels() });
   const blocked = await call("POST", "/richmenu/sync/1");
   assert.equal(blocked.status, 200);
   const body = await blocked.json();
@@ -2232,13 +2228,15 @@ test("sync of a blocked or unreachable OA answers 200 with ok false and writes n
   const broken = await (await call("POST", "/richmenu/sync/3")).json();
   assert.equal(broken.ok, false);
   assert.match(broken.message, /HTTP 401/);
-  close();
 });
 
-test("sync of an unknown OA is 404", async () => {
-  const { call, close } = await startApp({ saved: twoLevels() });
-  for (const id of ["9", "abc", "2x"]) assert.equal((await call("POST", `/richmenu/sync/${id}`)).status, 404, id);
-  close();
+test("sync of an unknown OA is 404 with a JSON error", async (t) => {
+  const { call } = await startApp(t, { saved: twoLevels() });
+  for (const id of ["9", "abc", "2x"]) {
+    const res = await call("POST", `/richmenu/sync/${id}`);
+    assert.equal(res.status, 404, id);
+    assert.deepEqual(await res.json(), { error: "ไม่พบ LINE OA นี้" }, id);
+  }
 });
 
 test("only one sync runs at a time, and the lock is released afterwards", async (t) => {
@@ -2252,10 +2250,14 @@ test("only one sync runs at a time, and the lock is released afterwards", async 
     await gate;
     return { buffer: Buffer.from(url), contentType: "image/jpeg" };
   };
-  const { call, close } = await startApp({ saved: twoLevels(), richMenuOptions: { loadImage } });
+  const { call } = await startApp(t, { saved: twoLevels(), richMenuOptions: { loadImage } });
+  t.after(() => release());
 
   const first = call("POST", "/richmenu/sync/2");
-  await started;
+  // ถ้า sync แรกจบไปก่อนจะถึงขั้นโหลดรูป เทสต์ต้องล้มทันที ไม่ใช่รอไปเรื่อย ๆ
+  const reachedImages = await Promise.race([started.then(() => true), first.then(() => false)]);
+  assert.equal(reachedImages, true, "the first sync finished without ever loading an image");
+
   const second = await call("POST", "/richmenu/sync/2");
   assert.equal(second.status, 409);
   assert.match((await second.json()).error, /sync อื่นกำลังทำงานอยู่/);
@@ -2265,7 +2267,6 @@ test("only one sync runs at a time, and the lock is released afterwards", async 
   const again = await call("POST", "/richmenu/sync/2");
   assert.equal(again.status, 200);
   assert.match((await again.json()).message, /ตรงกับที่บันทึกไว้อยู่แล้ว/);
-  close();
 });
 ```
 

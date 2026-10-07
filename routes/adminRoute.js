@@ -2,6 +2,7 @@
 const express = require("express");
 const { requireAdmin, isAdminEnabled, passwordMatches, createToken } = require("../middlewares/adminAuth");
 const { validatePromotions, validateServices, validateBranches, validateRegions } = require("../services/validate");
+const { createRichMenuRouter } = require("./richMenuRoute");
 
 const LOGIN_MAX_FAILURES = 5;
 const LOGIN_WINDOW_MS = 15 * 60 * 1000;
@@ -9,6 +10,8 @@ const LOGIN_WINDOW_MS = 15 * 60 * 1000;
 function createAdminRouter({
   store,
   messageTable,
+  channels = [],
+  richMenu = {},
   loginFailureDelayMs = 1000,
   loginMaxFailures = LOGIN_MAX_FAILURES,
   loginWindowMs = LOGIN_WINDOW_MS,
@@ -61,6 +64,9 @@ function createAdminRouter({
   });
 
   router.use(requireAdmin);
+
+  // Rich Menu: ข้อมูลเมนู + สถานะและการ sync ของแต่ละ LINE OA (richMenu ใช้ส่งตัวจำลอง LINE เข้ามาในเทสต์)
+  router.use("/richmenu", createRichMenuRouter({ store, channels, ...richMenu }));
 
   // validator ของแต่ละ resource (บางตัวต้องดูข้อมูลอีกไฟล์ประกอบ)
   const validators = {

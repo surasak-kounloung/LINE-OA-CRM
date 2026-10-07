@@ -54,7 +54,7 @@ app.use("/webhook", cors());
 app.use("/webhook", createChatRouter({ channels, messageTable }));
 
 // หน้า admin + API (ต้องอยู่ก่อน app.get("/"))
-app.use("/api/admin", createAdminRouter({ store, messageTable }));
+app.use("/api/admin", createAdminRouter({ store, messageTable, channels }));
 // path ของหน้า admin UI — ต้องตรงกับ `base` ใน admin/vite.config.js (ต้อง build ใหม่ทุกครั้งที่เปลี่ยน)
 const ADMIN_UI_PATH = "/backoffice";
 const adminDist = path.join(__dirname, "admin", "dist");
