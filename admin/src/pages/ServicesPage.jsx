@@ -49,7 +49,7 @@ export default function ServicesPage() {
                   </td>
                   <td className="muted">{s.actionText}</td>
                   <td className="num">
-                    {n === 0 ? <span className="badge muted" style={{ margin: 0 }}>ตอบข้อความอย่างเดียว</span>
+                    {n === 0 ? <span className="badge muted" style={{ margin: 0 }}>ตอบข้อความต่อท้ายอย่างเดียว</span>
                       : n > MAX_PRICE_IMAGES ? <span className="badge" style={{ margin: 0 }}>{n} รูป เกิน {MAX_PRICE_IMAGES}</span>
                       : <span className="badge info" style={{ margin: 0 }}>{n} รูป</span>}
                   </td>

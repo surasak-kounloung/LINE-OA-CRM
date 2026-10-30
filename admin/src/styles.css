@@ -261,3 +261,14 @@ label.check { display: flex; align-items: center; font-weight: 500; }
   .form-grid, .edit-grid { grid-template-columns: 1fr; }
   .unsaved-bar { top: 3.6rem; }
 }
+
+/* ข้อความต่อท้าย */
+.mode-picker { display: inline-flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 0.6rem; }
+.mode-picker button { border: none; border-radius: 0; background: var(--surface); box-shadow: none; }
+.mode-picker button + button { border-left: 1px solid var(--border); }
+.mode-picker button.active { background: var(--primary); color: #fff; }
+.follow-up-field textarea { margin-bottom: 0.6rem; }
+.follow-up-row { padding: 0.8rem 0; border-top: 1px solid var(--border); }
+.follow-up-row:first-of-type { border-top: none; }
+.effective { background: #e6f6ee; color: #1f7a4d; border-radius: 10px; padding: 0.55rem 0.8rem; font-size: 0.85rem; white-space: pre-wrap; }
+.effective.none { background: var(--danger-soft); color: var(--danger); }

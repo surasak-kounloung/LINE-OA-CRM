@@ -11,6 +11,8 @@ import BranchesPage from "./pages/BranchesPage";
 import BranchEditPage from "./pages/BranchEditPage";
 import RegionsPage from "./pages/RegionsPage";
 import RichMenuPage from "./pages/RichMenuPage";
+import FollowUpsPage from "./pages/FollowUpsPage";
+import FollowUpEditPage from "./pages/FollowUpEditPage";
 
 function Private({ children }) {
   return getToken() ? <Layout>{children}</Layout> : <Navigate to="/login" replace />;
@@ -41,6 +43,8 @@ export default function App() {
         <Route path="/branches/*" element={<Section name="branches" List={BranchesPage} Edit={BranchEditPage} withRegions />} />
         <Route path="/regions" element={<Private><RegionsPage /></Private>} />
         <Route path="/richmenu" element={<Private><RichMenuPage /></Private>} />
+        <Route path="/followups" element={<Private><FollowUpsPage /></Private>} />
+        <Route path="/followups/:id" element={<Private><FollowUpEditPage /></Private>} />
         <Route path="*" element={<Navigate to="/promotions" replace />} />
       </Routes>
     </HashRouter>

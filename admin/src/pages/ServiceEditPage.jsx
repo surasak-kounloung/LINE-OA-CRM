@@ -38,7 +38,7 @@ export default function ServiceEditPage() {
             <div className="card-title">ข้อมูลการ์ดบริการ</div>
             <div className="form-grid">
               <label>ชื่อโปรแกรม<input value={s.title} onChange={(e) => update({ title: e.target.value })} /><FieldError errors={errors} path={path("title")} /></label>
-              <label>id<input value={s.id} onChange={(e) => update({ id: e.target.value })} /><span className="hint">ตัวพิมพ์เล็ก a-z, 0-9 และ - เท่านั้น ห้ามซ้ำ</span><FieldError errors={errors} path={path("id")} /></label>
+              <label>id<input value={s.id} onChange={(e) => update({ id: e.target.value })} /><span className="hint">ตัวพิมพ์เล็ก a-z, 0-9 และ - เท่านั้น ห้ามซ้ำ · เปลี่ยน id แล้วข้อความต่อท้ายที่ตั้งแยกให้บริการนี้จะถูกล้าง</span><FieldError errors={errors} path={path("id")} /></label>
               <label>ข้อความรอง (ใต้หัวข้อ)<input value={s.subtitle} onChange={(e) => update({ subtitle: e.target.value })} /><FieldError errors={errors} path={path("subtitle")} /></label>
               <label>ข้อความเมื่อกดปุ่ม<input value={s.actionText} onChange={(e) => update({ actionText: e.target.value })} /><span className="hint">เป็น trigger ของรูปราคา ห้ามซ้ำกับบริการอื่น</span><FieldError errors={errors} path={path("actionText")} /></label>
               <label className="full">URL รูปหัวการ์ด<input value={s.image} onChange={(e) => update({ image: e.target.value })} placeholder="https://..." /><FieldError errors={errors} path={path("image")} /></label>
@@ -47,7 +47,7 @@ export default function ServiceEditPage() {
           </div>
           <div className="card">
             <div className="card-title">รูปราคา ({prices.length}/{MAX_PRICE_IMAGES}) <FlexPreviewButton trigger={s.actionText} /></div>
-            {prices.length === 0 && <div className="notice">ไม่มีรูปราคา: เมื่อลูกค้ากดปุ่ม บอทจะตอบข้อความ "ปรึกษาหมอได้เลย หมอตอบเองครับ" อย่างเดียว</div>}
+            {prices.length === 0 && <div className="notice">ไม่มีรูปราคา: เมื่อลูกค้ากดปุ่ม บอทจะตอบเฉพาะข้อความต่อท้ายของ LINE OA นั้น (ตั้งในหน้า "ข้อความต่อท้าย") — OA ที่ตั้งเป็น "ไม่ส่ง" จะไม่ตอบปุ่มนี้</div>}
             {prices.length > MAX_PRICE_IMAGES && <div className="field-error" style={{ marginBottom: "0.6rem" }}>เกิน {MAX_PRICE_IMAGES} รูป LINE แสดงได้ไม่ครบ</div>}
             <FieldError errors={errors} path={path("priceImages")} />
             <div className="inline-list">
