@@ -36,7 +36,7 @@ function createChatRouter({ channels, messageTable, createClient = defaultCreate
       if (event.type !== "message" || event.message?.type !== "text") {
         return null;
       }
-      const messages = messageTable.getTable().get(event.message.text);
+      const messages = messageTable.getReply(event.message.text, channel.id);
       if (!messages) {
         return null;
       }

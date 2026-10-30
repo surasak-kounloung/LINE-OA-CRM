@@ -1,5 +1,6 @@
 // สร้างตาราง trigger → ข้อความตอบ จากข้อมูลใน data/*.json
 // build() เป็น pure function; createMessageTable() ผูกกับ dataStore และสร้างใหม่เมื่อข้อมูลเปลี่ยน
+const { readFollowUps, resolveFollowUpText } = require("./followUps");
 const { FlexMessageBranchMap } = require("../flexmessage/flexMessageBranchMap");
 const { FlexMessageIconTable } = require("../flexmessage/flexMessageIconTable");
 const { FlexMessageDoctorSchedules } = require("../flexmessage/flexMessageDoctorSchedules");
@@ -15,6 +16,11 @@ const MAX_BUBBLES = 12; // LINE จำกัด 12 bubble ต่อ carousel
 
 const createFlexMessage = (altText, contents) => ({ type: "flex", altText, contents });
 const createTextMessage = (text) => ({ type: "text", text });
+
+// array คำตอบของบริการ → service id (ใช้ตอน getReply เพื่อรู้ว่าต้องต่อท้ายข้อความ)
+// entry ที่สาขาเขียนทับภายหลังเป็น array ใหม่ จึงไม่ถูก tag
+const serviceIds = new WeakMap();
+const serviceIdOf = (messages) => serviceIds.get(messages);
 
 function chunk(list, size) {
   const out = [];
@@ -83,16 +89,13 @@ function build(data) {
     table.set("ตารางแพทย์สาขาทองหล่อ", [createFlexMessage("ตารางแพทย์สาขาทองหล่อ", FlexMessageTableDoctorsThonglorBubble(thonglor))]);
   }
 
+  // ข้อความต่อท้ายไม่ใส่ที่นี่ — ขึ้นกับ OA จึงต่อใน getReply; trigger ต้องมีเสมอแม้ไม่มีรูปราคา (/triggers ใช้แสดงรายการ)
   services.forEach((service) => {
-    const followUp = createTextMessage(FOLLOW_UP_TEXT);
-    if (service.priceImages && service.priceImages.length) {
-      table.set(service.actionText, [
-        createFlexMessage(service.actionText, FlexMessageServicePrices({ imagePriceUrl: service.priceImages })),
-        followUp,
-      ]);
-    } else {
-      table.set(service.actionText, [followUp]);
-    }
+    const messages = service.priceImages && service.priceImages.length
+      ? [createFlexMessage(service.actionText, FlexMessageServicePrices({ imagePriceUrl: service.priceImages }))]
+      : [];
+    serviceIds.set(messages, service.id);
+    table.set(service.actionText, messages);
   });
 
   branches.filter((b) => b.enabled).forEach((branch) => {
@@ -120,6 +123,7 @@ function build(data) {
 
 function createMessageTable(store, { logError = (msg) => console.error(msg) } = {}) {
   let table = build(store.getAll());
+  let lastProblem = null; // log ปัญหาเดิมซ้ำทุกข้อความไม่ได้
   function rebuild() {
     try {
       table = build(store.getAll());
@@ -128,7 +132,30 @@ function createMessageTable(store, { logError = (msg) => console.error(msg) } = 
     }
   }
   store.onChange(rebuild);
-  return { getTable: () => table, rebuild };
+
+  // ข้อความตอบของ OA นี้: ของบริการ + ข้อความต่อท้ายตาม OA/บริการ; null = ไม่ตอบ
+  function getReply(trigger, channelId) {
+    const entry = table.get(trigger);
+    if (!entry) return null;
+    const serviceId = serviceIdOf(entry);
+    let messages = entry;
+    if (serviceId !== undefined) {
+      const { value, problem } = readFollowUps(store);
+      if (problem) {
+        if (problem !== lastProblem) {
+          lastProblem = problem;
+          logError(`ข้อความต่อท้าย: ${problem} — บอทตอบโดยไม่มีข้อความต่อท้ายจนกว่าจะแก้ไฟล์`);
+        }
+      } else {
+        lastProblem = null;
+        const text = resolveFollowUpText(value, channelId, serviceId);
+        if (text) messages = [...entry, createTextMessage(text)];
+      }
+    }
+    return messages.length ? messages : null;
+  }
+
+  return { getTable: () => table, rebuild, getReply };
 }
 
-module.exports = { build, createMessageTable, scheduleTrigger, FOLLOW_UP_TEXT, SCHEDULE_PREFIX, MAX_BUBBLES };
+module.exports = { build, createMessageTable, scheduleTrigger, serviceIdOf, SCHEDULE_PREFIX, MAX_BUBBLES };

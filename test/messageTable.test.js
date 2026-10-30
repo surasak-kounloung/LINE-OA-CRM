@@ -1,7 +1,9 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const path = require("path");
-const { build, createMessageTable, scheduleTrigger, FOLLOW_UP_TEXT } = require("../services/messageTable");
+const fs = require("fs");
+const os = require("os");
+const { build, createMessageTable, scheduleTrigger, serviceIdOf } = require("../services/messageTable");
 const { createDataStore } = require("../services/dataStore");
 
 const doctor = (n) => ({ day: "วันจันทร์", name: `หมอ${n}`, license: `ว.${n}`, imageUrl: `https://x/${n}.png` });
@@ -29,14 +31,76 @@ test("fixed menu triggers and service triggers exist", () => {
   assert.equal(t.get("โปรโมชั่นล่าสุด")[0].altText, "โปรโมชั่นล่าสุด");
 });
 
-test("service with price images replies carousel + follow-up; without replies follow-up only", () => {
+const DOCTOR = "👨‍⚕️ปรึกษาหมอได้เลย หมอตอบเองครับ";
+const STAFF = "✨ สนใจโปรโมชัน ทำนัดคิว หรือสอบถามข้อมูลเพิ่มเติม สามารถแจ้งได้เลยค่ะ";
+const seedFollowUps = { defaultText: STAFF, channels: { "1": { text: DOCTOR }, "4": { text: "" } } };
+
+// store จริงบนโฟลเดอร์ชั่วคราว: followups = object | สตริงดิบ | undefined (ไม่มีไฟล์)
+function storeWith(followups, over = {}) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "vsq-mt-"));
+  for (const [name, value] of Object.entries(data(over))) fs.writeFileSync(path.join(dir, `${name}.json`), JSON.stringify(value));
+  if (followups !== undefined) {
+    fs.writeFileSync(path.join(dir, "followups.json"), typeof followups === "string" ? followups : JSON.stringify(followups));
+  }
+  return createDataStore(dir);
+}
+
+test("build: a service entry holds only its price carousel (or nothing) and is tagged with its service id", () => {
   const t = build(data());
   const withImages = t.get("สอบถามบริการ");
-  assert.equal(withImages.length, 2);
-  assert.equal(withImages[0].type, "flex");
+  assert.equal(withImages.length, 1);
   assert.equal(withImages[0].altText, "สอบถามบริการ");
-  assert.deepEqual(withImages[1], { type: "text", text: FOLLOW_UP_TEXT });
-  assert.deepEqual(t.get("สอบถามอื่น"), [{ type: "text", text: FOLLOW_UP_TEXT }]);
+  assert.equal(serviceIdOf(withImages), "s");
+  assert.deepEqual(t.get("สอบถามอื่น"), []);
+  assert.equal(serviceIdOf(t.get("สอบถามอื่น")), "o");
+  assert.equal(serviceIdOf(t.get("สยาม")), undefined);
+});
+
+test("getReply: each OA gets its own follow-up after the price carousel", () => {
+  const mt = createMessageTable(storeWith(seedFollowUps));
+  const main = mt.getReply("สอบถามบริการ", 1);
+  assert.equal(main.length, 2);
+  assert.equal(main[0].type, "flex");
+  assert.deepEqual(main[1], { type: "text", text: DOCTOR });
+  assert.deepEqual(mt.getReply("สอบถามบริการ", 2)[1], { type: "text", text: STAFF });
+  assert.equal(mt.getReply("สอบถามบริการ", 4).length, 1);
+});
+
+test("getReply: a service without price images answers with the follow-up only, or not at all", () => {
+  const mt = createMessageTable(storeWith(seedFollowUps));
+  assert.deepEqual(mt.getReply("สอบถามอื่น", 2), [{ type: "text", text: STAFF }]);
+  assert.equal(mt.getReply("สอบถามอื่น", 4), null);
+});
+
+test("getReply: non-service triggers are unchanged; unknown text is null", () => {
+  const mt = createMessageTable(storeWith(seedFollowUps));
+  assert.deepEqual(mt.getReply("สยาม", 1), mt.getTable().get("สยาม"));
+  assert.equal(mt.getReply("ไม่มี", 1), null);
+});
+
+test("getReply: a save to followups applies to the next reply", () => {
+  const store = storeWith(seedFollowUps);
+  const mt = createMessageTable(store);
+  store.set("followups", { defaultText: "ใหม่", channels: {} });
+  assert.deepEqual(mt.getReply("สอบถามบริการ", 1)[1], { type: "text", text: "ใหม่" });
+});
+
+test("getReply: missing, broken or invalid followups.json → no follow-up, logged once", () => {
+  for (const followups of [undefined, "{not json", { defaultText: 5, channels: {} }]) {
+    const logs = [];
+    const mt = createMessageTable(storeWith(followups), { logError: (m) => logs.push(m) });
+    assert.equal(mt.getReply("สอบถามบริการ", 1).length, 1);
+    assert.equal(mt.getReply("สอบถามอื่น", 1), null);
+    assert.equal(mt.getReply("สอบถามบริการ", 2).length, 1);
+    assert.equal(logs.length, 1);
+  }
+});
+
+test("getReply: a branch whose trigger equals a service actionText gets no follow-up", () => {
+  const mt = createMessageTable(storeWith(seedFollowUps, { branches: [branch({ trigger: "สอบถามบริการ" })] }));
+  const reply = mt.getReply("สอบถามบริการ", 1);
+  assert.equal(reply.length, 2);
+  assert.ok(reply.every((m) => m.type === "flex"));
 });
 
 test("branch trigger replies map + icon table; schedule trigger replies doctor carousel", () => {

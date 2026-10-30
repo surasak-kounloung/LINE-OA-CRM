@@ -7,7 +7,7 @@ const path = require("path");
 
 const DATA_NAMES = ["promotions", "services", "branches", "regions"];
 // ไฟล์ที่ไม่ใช่เนื้อหาคำตอบของบอท: อ่าน/เขียน/สำรองเหมือนกัน แต่ไม่อยู่ใน getAll() ที่ใช้สร้างตาราง trigger
-const EXTRA_NAMES = ["richmenu"];
+const EXTRA_NAMES = ["richmenu", "followups"];
 const MAX_BACKUPS = 20;
 
 function createDataStore(baseDir) {

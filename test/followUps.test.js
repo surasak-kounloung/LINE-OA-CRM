@@ -90,3 +90,11 @@ test("pruneServices: drops removed ids everywhere and entries left empty, withou
   assert.deepEqual(before, file());
   assert.deepEqual(pruneServices({ defaultText: "", channels: { "5": { services: { gone: "x" } } } }, []).channels, {});
 });
+
+test("data/followups.json in the repo is valid: Main gets the doctor text, every other OA the staff text", () => {
+  const value = require("../data/followups.json");
+  assert.deepEqual(validateFollowUps(value), []);
+  assert.equal(resolveFollowUpText(value, 1, "botox"), DOCTOR);
+  assert.equal(resolveFollowUpText(value, 2, "botox"), STAFF);
+  assert.equal(resolveFollowUpText(value, 32, "service-other"), STAFF);
+});

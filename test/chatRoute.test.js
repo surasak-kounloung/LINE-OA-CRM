@@ -7,7 +7,7 @@ const { createChatRouter } = require("../routes/chatRoute");
 
 const TRIGGER = "โปรโมชั่นล่าสุด";
 const REPLY = [{ type: "text", text: "👨‍⚕️ปรึกษาหมอได้เลย หมอตอบเองครับ" }];
-const messageTable = { getTable: () => new Map([[TRIGGER, REPLY]]) };
+const messageTable = { getReply: (text) => (text === TRIGGER ? REPLY : null) };
 
 const channels = [
   { id: 1, name: "OA 1", channelSecret: "sec-AAA", channelAccessToken: "tok-AAA", forwardUrl: "https://crm.example/one" },
@@ -305,5 +305,17 @@ test("one client is created per account, not per request", async () => {
   await post(payload(textEvent(TRIGGER)), { secret: "sec-AAA" });
   await post(payload(textEvent(TRIGGER)), { secret: "sec-AAA" });
   assert.deepEqual(created, [1, 2, 3]);
+  close();
+});
+
+test("asks for the reply of the OA that sent the event, and stays silent when there is none", async () => {
+  const asked = [];
+  const { replies, post, close } = await startApp({
+    messageTable: { getReply: (text, channelId) => { asked.push([text, channelId]); return channelId === 3 ? null : REPLY; } },
+  });
+  assert.equal((await post(payload(textEvent(TRIGGER)), { secret: "sec-CCC" })).status, 200);
+  assert.equal((await post(payload(textEvent(TRIGGER)), { secret: "sec-BBB" })).status, 200);
+  assert.deepEqual(asked, [[TRIGGER, 3], [TRIGGER, 2]]);
+  assert.deepEqual(replies.map((r) => r.channelId), [2]);
   close();
 });

@@ -93,7 +93,24 @@ function pruneServices(followUps, serviceIds) {
   return { ...followUps, channels };
 }
 
+// อ่านและตรวจ data/followups.json ผ่าน store — ไม่ throw: ถ้าเสียให้คืน problem ไว้ให้ผู้เรียก log
+// ข้อความ problem ไม่มี path ของระบบไฟล์นอกจาก data/followups.json
+function readFollowUps(store) {
+  let value;
+  try {
+    value = store.get("followups");
+  } catch {
+    return { value: null, problem: "ไฟล์ data/followups.json ไม่มี หรือไม่ใช่ JSON ที่ถูกต้อง" };
+  }
+  const [first] = validateFollowUps(value);
+  if (first) {
+    return { value: null, problem: `ข้อมูลใน data/followups.json ไม่ถูกต้อง (${first.path || "รูปแบบ"}: ${first.message})` };
+  }
+  return { value, problem: null };
+}
+
 module.exports = {
+  readFollowUps,
   MAX_FOLLOW_UP_LENGTH,
   resolveFollowUpText,
   validateFollowUpText,
