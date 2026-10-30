@@ -4,7 +4,7 @@ const { requireAdmin, isAdminEnabled, passwordMatches, createToken } = require("
 const { validatePromotions, validateServices, validateBranches, validateRegions } = require("../services/validate");
 const { createRichMenuRouter } = require("./richMenuRoute");
 const { createFollowUpRouter } = require("./followUpRoute");
-const { pruneStoredFollowUps } = require("../services/followUps");
+const { pruneStoredFollowUps, readFollowUps } = require("../services/followUps");
 
 const LOGIN_MAX_FAILURES = 5;
 const LOGIN_WINDOW_MS = 15 * 60 * 1000;
@@ -112,6 +112,8 @@ function createAdminRouter({
     }
     const messages = messageTable.getReply(req.params.trigger, channel ? channel.id : null);
     if (!messages) {
+      const { problem } = readFollowUps(store);
+      if (problem) return res.status(404).json({ error: `ไม่มีข้อความตอบ เพราะ ${problem}` });
       return res.status(404).json({ error: "LINE OA นี้ไม่ตอบ trigger นี้ (ไม่มีรูปราคา และตั้งข้อความต่อท้ายเป็นไม่ส่ง)" });
     }
     return res.json(messages);

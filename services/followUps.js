@@ -104,7 +104,7 @@ function readFollowUps(store) {
   }
   const [first] = validateFollowUps(value);
   if (first) {
-    return { value: null, problem: `ข้อมูลใน data/followups.json ไม่ถูกต้อง (${first.path || "รูปแบบ"}: ${first.message})` };
+    return { value: null, problem: `ข้อมูลใน data/followups.json ไม่ถูกต้อง (${first.path || "รูปแบบ"}: ${first.message}) — แก้ไฟล์แล้วต้อง restart เซิร์ฟเวอร์ (ระบบจำค่าเดิมไว้)` };
   }
   return { value, problem: null };
 }

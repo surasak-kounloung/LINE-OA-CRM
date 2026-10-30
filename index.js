@@ -11,6 +11,7 @@ const { createMessageTable } = require("./services/messageTable");
 const { loadChannels, checkChannelTokens } = require("./services/channels");
 const { createChatRouter } = require("./routes/chatRoute");
 const { createAdminRouter } = require("./routes/adminRoute");
+const { readFollowUps } = require("./services/followUps");
 
 const PORT = process.env.PORT || 8080;
 
@@ -77,6 +78,9 @@ app.listen(PORT, () => {
   for (const channel of channels) {
     console.log(`- [${channel.id}] ${channel.name} (ส่งต่อ webhook: ${channel.forwardUrl ? "เปิด" : "ปิด"})`);
   }
+  // ไฟล์ข้อความต่อท้ายเสีย/หาย: บอทยังตอบได้ แต่ไม่มีข้อความต่อท้าย — แจ้งใน log ตั้งแต่เปิดแอป
+  const followUpProblem = readFollowUps(store).problem;
+  if (followUpProblem) console.warn(`ข้อความต่อท้าย: ${followUpProblem}`);
   // ตรวจ token ของทุก OA กับ LINE — แค่เตือนใน log ไม่หยุดแอป
   checkChannelTokens(channels).then((results) => {
     for (const result of results) {

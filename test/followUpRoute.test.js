@@ -133,3 +133,11 @@ test("preview shows what one OA would send: Main by default, ?channel= for anoth
   assert.match((await none.json()).error, /ไม่ตอบ/);
   close();
 });
+
+test("preview names the broken followups file instead of blaming the empty text", async () => {
+  const { call, token, close } = await startApp({ followups: "{ not json", services: [service("other", [])] });
+  const res = await call("GET", `/preview/${encodeURIComponent("สอบถาม other")}`, undefined, token);
+  assert.equal(res.status, 404);
+  assert.match((await res.json()).error, /data\/followups\.json/);
+  close();
+});
