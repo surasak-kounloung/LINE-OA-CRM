@@ -109,7 +109,24 @@ function readFollowUps(store) {
   return { value, problem: null };
 }
 
+// ล้าง service id ที่ถูกลบออกจากไฟล์ followups หลังบันทึกบริการ — ไม่ throw (การบันทึกบริการสำเร็จไปแล้ว)
+// ไฟล์เสีย = ไม่แตะต้อง แค่ log
+function pruneStoredFollowUps(store, serviceIds, { logError = console.error } = {}) {
+  try {
+    const { value, problem } = readFollowUps(store);
+    if (problem) {
+      logError(`ข้อความต่อท้าย: ข้ามการล้างค่าของบริการที่ถูกลบ เพราะ ${problem}`);
+      return;
+    }
+    const next = pruneServices(value, serviceIds);
+    if (JSON.stringify(next) !== JSON.stringify(value)) store.set("followups", next);
+  } catch (error) {
+    logError(`ข้อความต่อท้าย: ล้างค่าของบริการที่ถูกลบไม่สำเร็จ: ${error && error.message}`);
+  }
+}
+
 module.exports = {
+  pruneStoredFollowUps,
   readFollowUps,
   MAX_FOLLOW_UP_LENGTH,
   resolveFollowUpText,

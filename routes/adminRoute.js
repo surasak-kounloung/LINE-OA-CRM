@@ -3,6 +3,8 @@ const express = require("express");
 const { requireAdmin, isAdminEnabled, passwordMatches, createToken } = require("../middlewares/adminAuth");
 const { validatePromotions, validateServices, validateBranches, validateRegions } = require("../services/validate");
 const { createRichMenuRouter } = require("./richMenuRoute");
+const { createFollowUpRouter } = require("./followUpRoute");
+const { pruneStoredFollowUps } = require("../services/followUps");
 
 const LOGIN_MAX_FAILURES = 5;
 const LOGIN_WINDOW_MS = 15 * 60 * 1000;
@@ -12,6 +14,7 @@ function createAdminRouter({
   messageTable,
   channels = [],
   richMenu = {},
+  logError = console.error,
   loginFailureDelayMs = 1000,
   loginMaxFailures = LOGIN_MAX_FAILURES,
   loginWindowMs = LOGIN_WINDOW_MS,
@@ -68,6 +71,9 @@ function createAdminRouter({
   // Rich Menu: ข้อมูลเมนู + สถานะและการ sync ของแต่ละ LINE OA (richMenu ใช้ส่งตัวจำลอง LINE เข้ามาในเทสต์)
   router.use("/richmenu", createRichMenuRouter({ store, channels, ...richMenu }));
 
+  // ข้อความต่อท้ายของแต่ละ LINE OA
+  router.use("/followups", createFollowUpRouter({ store, channels }));
+
   // validator ของแต่ละ resource (บางตัวต้องดูข้อมูลอีกไฟล์ประกอบ)
   const validators = {
     promotions: (value) => validatePromotions(value),
@@ -89,15 +95,25 @@ function createAdminRouter({
         console.error(error);
         return res.status(500).json({ error: "บันทึกไฟล์ไม่สำเร็จ" });
       }
+      if (name === "services") pruneStoredFollowUps(store, req.body.map((s) => s.id), { logError });
       return res.json(store.get(name));
     });
   }
 
   router.get("/triggers", (req, res) => res.json([...messageTable.getTable().keys()]));
 
+  // ?channel=<เลข OA> ดูสิ่งที่ OA นั้นจะส่ง; ไม่ระบุ = OA แรกที่โหลด
   router.get("/preview/:trigger", (req, res) => {
-    const messages = messageTable.getTable().get(req.params.trigger);
-    if (!messages) return res.status(404).json({ error: "ไม่พบ trigger นี้" });
+    if (!messageTable.getTable().has(req.params.trigger)) return res.status(404).json({ error: "ไม่พบ trigger นี้" });
+    let channel = channels[0];
+    if (req.query.channel !== undefined) {
+      channel = channels.find((c) => String(c.id) === String(req.query.channel));
+      if (!channel) return res.status(404).json({ error: "ไม่พบ LINE OA นี้" });
+    }
+    const messages = messageTable.getReply(req.params.trigger, channel ? channel.id : null);
+    if (!messages) {
+      return res.status(404).json({ error: "LINE OA นี้ไม่ตอบ trigger นี้ (ไม่มีรูปราคา และตั้งข้อความต่อท้ายเป็นไม่ส่ง)" });
+    }
     return res.json(messages);
   });
 
