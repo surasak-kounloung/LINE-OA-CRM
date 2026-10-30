@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../api";
-import { setDirty } from "../dirtyState";
+import { confirmDiscard } from "../dirtyState";
+import { useDirtyGuard } from "../useDirtyGuard";
 import { fieldFrom, valueFrom, resolveFollowUp } from "../followUps";
 import PageHeader from "../components/PageHeader";
 import UnsavedBar from "../components/UnsavedBar";
@@ -46,14 +47,7 @@ export default function FollowUpEditPage() {
 
   const dirty = draft !== null && JSON.stringify(draft) !== JSON.stringify(saved);
 
-  useEffect(() => {
-    if (!dirty) return undefined;
-    const handler = (e) => { e.preventDefault(); e.returnValue = ""; };
-    window.addEventListener("beforeunload", handler);
-    return () => window.removeEventListener("beforeunload", handler);
-  }, [dirty]);
-
-  useEffect(() => { setDirty(dirty); return () => setDirty(false); }, [dirty]);
+  useDirtyGuard(dirty);
 
   async function save() {
     setStatus("saving");
@@ -102,6 +96,7 @@ export default function FollowUpEditPage() {
         crumbs={[{ to: "/followups", label: "ข้อความต่อท้าย" }, { label: `${oa.name} (OA ${oa.id})` }]}
         title={oa.name}
         subtitle={`OA ${oa.id}`}
+        guardCrumbs
       />
       <UnsavedBar resource={{ dirty, save, reset, status, message }} />
       <div className="card">
@@ -133,7 +128,7 @@ export default function FollowUpEditPage() {
         ))}
       </div>
       <div className="edit-foot">
-        <Link to="/followups" className="btn">← กลับไปรายการ</Link>
+        <Link to="/followups" className="btn" onClick={(e) => { if (!confirmDiscard()) e.preventDefault(); }}>← กลับไปรายการ</Link>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export default function FlexPreviewButton({ trigger, label = "ดู Flex JSON" 
       const messages = await api.get(`/preview/${encodeURIComponent(trigger)}`);
       setJson(JSON.stringify(messages, null, 2));
     } catch (e) {
-      setError(e.status === 404 ? "ยังไม่มีข้อความสำหรับ trigger นี้ (บันทึกก่อน)" : e.message);
+      setError(e.status === 404 && e.message === "ไม่พบ trigger นี้" ? "ยังไม่มีข้อความสำหรับ trigger นี้ (บันทึกก่อน)" : e.message);
     }
   }
 
