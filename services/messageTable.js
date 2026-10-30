@@ -10,7 +10,6 @@ const { FlexMessagePromotionBubble } = require("../flexmessage/promotion");
 const { FlexMessageTableDoctorsBubble } = require("../flexmessage/tabledoctors");
 const { FlexMessageTableDoctorsThonglorBubble } = require("../flexmessage/tabledoctorsThonglor");
 
-const FOLLOW_UP_TEXT = "👨‍⚕️ปรึกษาหมอได้เลย หมอตอบเองครับ";
 const SCHEDULE_PREFIX = "สอบถามตารางแพทย์ สาขา";
 const MAX_BUBBLES = 12; // LINE จำกัด 12 bubble ต่อ carousel
 
