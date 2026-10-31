@@ -1,0 +1,2193 @@
+[
+  {
+    "id": "siam",
+    "trigger": "สยาม สแควร์ วัน",
+    "displayName": "สยามสแควร์วัน",
+    "region": "กรุงเทพฯ ในเมือง",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://g.page/VSQSiam?share",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/สยามสแควร์วัน.jpg",
+    "phoneNumber": "093 110 9000",
+    "lineId": "@VsqSQR",
+    "lineUrl": "https://line.me/R/ti/p/%40vsqsqr",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.พีรพล สุทธิภาศิลป์",
+        "license": "ว.28602",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%B4%E0%B8%A3%E0%B9%8C%E0%B8%94_429x429.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.รวี ทองนพคุณ",
+        "license": "ว.47010",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A3%E0%B8%A7%E0%B8%B5_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.สาธิต พณิชย์พิบูลย์",
+        "license": "ว.38684",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9A%E0%B8%B2%E0%B8%AA_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.เอกชัย โสภณพงษ์",
+        "license": "ว.30444",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%81_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.กันต์ สุวรรณรัต",
+        "license": "ว.35257",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%95%E0%B9%8C_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.วันรวี แซ่อู",
+        "license": "ว.46187",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%9E%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.สาธิต พณิชย์พิบูลย์",
+        "license": "ว.38684",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9A%E0%B8%B2%E0%B8%AA_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.สาธิต พณิชย์พิบูลย์",
+        "license": "ว.38684",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9A%E0%B8%B2%E0%B8%AA_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "central-world",
+    "trigger": "เซ็นทรัล เวิล์ด",
+    "displayName": "เซ็นทรัลเวิลด์",
+    "region": "กรุงเทพฯ ในเมือง",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://maps.app.goo.gl/Whv5z8TsxCTsTYw77",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัลเวิลด์.jpg",
+    "phoneNumber": "085 599 6000",
+    "lineId": "@VsqCTW",
+    "lineUrl": "https://lin.ee/USDXorz",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.วันรวี แซ่อู",
+        "license": "ว.46187",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%9E%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.ธนภัทร จิตร์ไทย",
+        "license": "ว.49640",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%99%E0%B8%8B%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.กรกนก กันทา",
+        "license": "ว.48666",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%AD%E0%B8%A1_429x429px.webp"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.รวี ทองนพคุณ",
+        "license": "ว.47010",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A3%E0%B8%A7%E0%B8%B5_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.นพัช วุฒิธรรมคณาพร",
+        "license": "ว.38656",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%A7%E0%B8%B2%E0%B8%87_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.อภันตรี ทองคำวงศ์",
+        "license": "ว.43417",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%99%E0%B8%99_429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.ชินวัฒน์ เหรียญมณี",
+        "license": "ว.35282",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8A%E0%B8%B4%E0%B8%99_429x429px.png"
+      }
+    ]
+  },
+  {
+    "id": "terminal-asoke",
+    "trigger": "เทอร์มินอล อโศก",
+    "displayName": "เทอร์มินอล อโศก",
+    "region": "กรุงเทพฯ ในเมือง",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/yrk3zv55g1ppTHGf6",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เทอร์มินอล-อโศก.jpg",
+    "phoneNumber": "092 879 9000",
+    "lineId": "@VsqTMA",
+    "lineUrl": "https://page.line.me/VsqTMA",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.ณัฐฐาน์ บัลลังก์โพธิ์",
+        "license": "ว.42796",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B8%E0%B9%8A%E0%B8%81_429x429px.webp"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.พิมพ์สวาท วัชรกาฬ",
+        "license": "ว.42572",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9E%E0%B8%B4%E0%B8%A1-429x429px_0-1.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.คัทลียา จินดาสมบัติเจริญ",
+        "license": "ว.36226",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%84%E0%B8%97_429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.นพัช วุฒิธรรมคณาพร",
+        "license": "ว.38656",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%A7%E0%B8%B2%E0%B8%87_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.นฤมล จิตณรงค์",
+        "license": "ว.48015",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A3%E0%B8%B8%E0%B9%89%E0%B8%87_429x429-1.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.สุขสุภา บุญชู",
+        "license": "ว.50409",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%81%E0%B8%94429x429px_0.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.อิษฎา ตระกูลสุข",
+        "license": "ว.55673",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/05/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B9%89%E0%B8%AD%E0%B8%99_429x429px-1.png"
+      }
+    ]
+  },
+  {
+    "id": "rama9",
+    "trigger": "พระราม 9",
+    "displayName": "พระราม 9",
+    "region": "กรุงเทพฯ ในเมือง",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://maps.app.goo.gl/JRVhcdCzWwugroEcA",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/พระราม-9.jpg",
+    "phoneNumber": "098 964 9000",
+    "lineId": "@VsqCPN",
+    "lineUrl": "https://lin.ee/Z5gJDiS",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.ชญานิษฐ์ ศรีทองดี",
+        "license": "ว.47214",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B8%B9%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.อรรถโชติ ชนวีระยุทธ",
+        "license": "ว.61359",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%A3%E0%B8%A3%E0%B8%96_429x429px-1.png"
+      },
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.ชินวัฒน์ เหรียญมณี",
+        "license": "ว.35282",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8A%E0%B8%B4%E0%B8%99_429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.พัชร์สิตา อัครศศิพัชร์",
+        "license": "ว.69114",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/05/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9A%E0%B8%B9%E0%B8%A1-429x429px_0.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.สุขสุภา บุญชู",
+        "license": "ว.50409",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%81%E0%B8%94429x429px_0.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.นฤมล จิตณรงค์",
+        "license": "ว.48015",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A3%E0%B8%B8%E0%B9%89%E0%B8%87_429x429-1.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.ศศิวิมล คล้ายคลึง",
+        "license": "ว.63349",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%B4%E0%B9%8A%E0%B8%9B_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.อภันตรี ทองคำวงศ์",
+        "license": "ว.43417",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%99%E0%B8%99_429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.ธนภัทร จิตร์ไทย",
+        "license": "ว.49640",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%99%E0%B8%8B%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.วัลยรัตน์ สัจจะสกุลชัย",
+        "license": "ว.47920",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%A1%E0%B8%A2%E0%B9%8C_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.พัชร์สิตา อัครศศิพัชร์",
+        "license": "ว.69114",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/05/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9A%E0%B8%B9%E0%B8%A1-429x429px_0.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.สุจินันท์ เรืองชยจตุพร",
+        "license": "ว.63495",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/12/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A2%E0%B9%89%E0%B8%87%E0%B8%A2%E0%B8%B5%E0%B9%89_429x429px.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.ชินวัฒน์ เหรียญมณี",
+        "license": "ว.35282",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8A%E0%B8%B4%E0%B8%99_429x429px.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.ธนภัทร จิตร์ไทย",
+        "license": "ว.49640",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%99%E0%B8%8B%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.กรกนก กันทา",
+        "license": "ว.48666",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%AD%E0%B8%A1_429x429px.webp"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.เกตวดี เรืองฤทธิเดช",
+        "license": "ว.54461",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2026/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%84%E0%B8%B4%E0%B8%A1-429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.ธนภัทร จิตร์ไทย",
+        "license": "ว.49640",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%99%E0%B8%8B%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.พัชร์สิตา อัครศศิพัชร์",
+        "license": "ว.69114",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/05/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9A%E0%B8%B9%E0%B8%A1-429x429px_0.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.อรรถโชติ ชนวีระยุทธ",
+        "license": "ว.61359",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%A3%E0%B8%A3%E0%B8%96_429x429px-1.png"
+      }
+    ]
+  },
+  {
+    "id": "esplanade-ratchada",
+    "trigger": "เอสพลานาด รัชดาภิเษก",
+    "displayName": "เอสพลานาด รัชดาภิเษก",
+    "region": "กรุงเทพฯ ในเมือง",
+    "menu": "main",
+    "enabled": false,
+    "fontSize": "xl",
+    "mapUrl": "https://maps.app.goo.gl/xqz79arFEgeFrjYz7",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เอสพลานาด-รัชดา.jpg",
+    "phoneNumber": "092 208 3000",
+    "lineId": "@VsqESP",
+    "lineUrl": "",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "ไม่มีหมอ",
+        "license": "-",
+        "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/doctors-empty.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.ธิติวัฒน์ ตระกูลทอง",
+        "license": "ว.51517",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B4%E0%B8%A7-429x429px_0.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "ไม่มีหมอ",
+        "license": "-",
+        "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/doctors-empty.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.ธิติวัฒน์ ตระกูลทอง",
+        "license": "ว.51517",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B4%E0%B8%A7-429x429px_0.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.ศิริศักดิ์ รัตนะนวล",
+        "license": "ว.71965",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%AA-429x429px.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "ไม่มีหมอ",
+        "license": "-",
+        "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/doctors-empty.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.ธิติวัฒน์ ตระกูลทอง",
+        "license": "ว.51517",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B4%E0%B8%A7-429x429px_0.png"
+      }
+    ]
+  },
+  {
+    "id": "central-ladprao",
+    "trigger": "เซ็นทรัล ลาดพร้าว",
+    "displayName": "เซ็นทรัล ลาดพร้าว",
+    "region": "กรุงเทพฯ ตอนเหนือ",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/3JVgq9heeEjxsFro6",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-ลาดพร้าว.jpg",
+    "phoneNumber": "091 905 7000",
+    "lineId": "@VsqCLP",
+    "lineUrl": "https://line.me/R/ti/p/%40vsqclp",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.ธนิสา สุภัทรกุล",
+        "license": "ว.47870",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%9E%E0%B8%A3_429x429.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.สิทธินันท์ มะโนปีน",
+        "license": "ว.40440",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%82%E0%B8%95%E0%B9%89%E0%B8%87_429x429px.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.ธนภัทร จิตร์ไทย",
+        "license": "ว.49640",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%99%E0%B8%8B%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.อุษา ตั้นตระกูล",
+        "license": "ว.63350",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9B%E0%B9%89_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.สาธิต พณิชย์พิบูลย์",
+        "license": "ว.38684",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9A%E0%B8%B2%E0%B8%AA_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.อุษา ตั้นตระกูล",
+        "license": "ว.63350",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9B%E0%B9%89_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.ธนิสา สุภัทรกุล",
+        "license": "ว.47870",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%9E%E0%B8%A3_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "major-ratchayothin",
+    "trigger": "เมเจอร์ รัชโยธิน",
+    "displayName": "เมเจอร์ รัชโยธิน",
+    "region": "กรุงเทพฯ ตอนเหนือ",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/Mr7aGiMYFUp",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เมเจอร์-รัชโยธิน.jpg",
+    "phoneNumber": "093 001 9000",
+    "lineId": "@VsqRCT",
+    "lineUrl": "https://line.me/ti/p/@VsqRCT",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.โชติกา หาญนรเศรษฐ์",
+        "license": "ว.40716",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%AB%E0%B8%A1%E0%B8%AD_429x429-1.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.ศิริศักดิ์ รัตนะนวล",
+        "license": "ว.71965",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%AA-429x429px.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.กิติพัฒน์ รื่นรุจิกร",
+        "license": "ว.37781",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%95%E0%B9%89%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.อรรถโชติ ชนวีระยุทธ",
+        "license": "ว.61359",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%A3%E0%B8%A3%E0%B8%96_429x429px-1.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.กรกนก กันทา",
+        "license": "ว.48666",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%AD%E0%B8%A1_429x429px.webp"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.ณภัค ดำรงภัคศิริ",
+        "license": "ว.63342",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B9_429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.ชญานิษฐ์ ศรีทองดี",
+        "license": "ว.47214",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B8%B9%E0%B8%99_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "central-ramindra",
+    "trigger": "เซ็นทรัล รามอินทรา",
+    "displayName": "เซ็นทรัล รามอินทรา",
+    "region": "กรุงเทพฯ ตอนเหนือ",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/z7RMt1bH4Vb6zbhY7",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-รามอินทรา.jpg",
+    "phoneNumber": "092 628 9000",
+    "lineId": "@VsqCRA",
+    "lineUrl": "https://page.line.me/VsqCRA",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.ศิริศักดิ์ รัตนะนวล",
+        "license": "ว.71965",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%AA-429x429px.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.ศิริศักดิ์ รัตนะนวล",
+        "license": "ว.71965",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%AA-429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.ศิริศักดิ์ รัตนะนวล",
+        "license": "ว.71965",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%AA-429x429px.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.ศิษฏิศา รัตนเสนีย์",
+        "license": "ว.53152",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%B4%E0%B9%8A%E0%B8%87%E0%B8%84%E0%B9%8C-429x429px_0.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.ศิษฏิศา รัตนเสนีย์",
+        "license": "ว.53152",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%B4%E0%B9%8A%E0%B8%87%E0%B8%84%E0%B9%8C-429x429px_0.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.พิชชา ธนุภาพรังสรรค์",
+        "license": "ว.63467",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/06/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9E%E0%B8%B4%E0%B8%8A_429x429px.png"
+      }
+    ]
+  },
+  {
+    "id": "the-mall-ngamwongwan",
+    "trigger": "เดอะมอลล์ งามวงศ์วาน",
+    "displayName": "เดอะมอลล์ งามวงศ์วาน",
+    "region": "กรุงเทพฯ ตอนเหนือ",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xl",
+    "mapUrl": "https://maps.app.goo.gl/VnVFsD2DJoaNh91L8",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เดอะมอลล์-งามวงศ์วาน.jpg",
+    "phoneNumber": "082 632 3000",
+    "lineId": "@VsqMNG",
+    "lineUrl": "https://lin.ee/ppU0e1X",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.อิษฎา ตระกูลสุข",
+        "license": "ว.55673",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/05/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B9%89%E0%B8%AD%E0%B8%99_429x429px-1.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.ผาณิต หนุนภักดี",
+        "license": "ว.30365",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B8%E0%B9%8B%E0%B8%A2_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.พัชร์สิตา อัครศศิพัชร์",
+        "license": "ว.69114",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/05/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9A%E0%B8%B9%E0%B8%A1-429x429px_0.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.โชติกา หาญนรเศรษฐ์",
+        "license": "ว.40716",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%AB%E0%B8%A1%E0%B8%AD_429x429-1.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.ศศิวิมล คล้ายคลึง",
+        "license": "ว.63349",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%B4%E0%B9%8A%E0%B8%9B_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.อรรถโชติ ชนวีระยุทธ",
+        "license": "ว.61359",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%A3%E0%B8%A3%E0%B8%96_429x429px-1.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.รวี ทองนพคุณ",
+        "license": "ว.47010",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A3%E0%B8%A7%E0%B8%B5_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "central-eastville",
+    "trigger": "เซ็นทรัล อีสวิลล์",
+    "displayName": "เซ็นทรัล อีสวิลล์",
+    "region": "กรุงเทพฯ ตอนเหนือ",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://g.page/VSQESV?share",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-อีสวิลล์.jpg",
+    "phoneNumber": "093 012 9000",
+    "lineId": "@VsqESV",
+    "lineUrl": "https://line.me/R/ti/p/%40vsqesv",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.สุพิมนต์ ส่องแสงวัฒนากิจ",
+        "license": "ว.54195",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/12/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%99%E0%B8%B1%E0%B8%99-429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.ชญานิษฐ์ ศรีทองดี",
+        "license": "ว.47214",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B8%B9%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.พิมพ์สวาท วัชรกาฬ",
+        "license": "ว.42572",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9E%E0%B8%B4%E0%B8%A1-429x429px_0-1.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.ธิติวัฒน์ ตระกูลทอง",
+        "license": "ว.51517",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B4%E0%B8%A7-429x429px_0.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.ธนภัทร จิตร์ไทย",
+        "license": "ว.49640",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%99%E0%B8%8B%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.โชติกา หาญนรเศรษฐ์",
+        "license": "ว.40716",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%AB%E0%B8%A1%E0%B8%AD_429x429-1.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.ศศิวิมล คล้ายคลึง",
+        "license": "ว.63349",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%B4%E0%B9%8A%E0%B8%9B_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "liab-duan",
+    "trigger": "เลียบด่วน",
+    "displayName": "เลียบด่วน",
+    "region": "กรุงเทพฯ ตอนเหนือ",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://maps.app.goo.gl/kKhJsub1NhnarXj59",
+    "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2026/05/เลียบด่วน.jpg",
+    "phoneNumber": "093 012 9000",
+    "lineId": "@VsqCDR",
+    "lineUrl": "https://lin.ee/NyMs0tn",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.วารุณี โพธินามทอง",
+        "license": "ว.30044",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B2_429x429.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.วรรณศิลป์ สุขสมานพันธ์",
+        "license": "ว.49758",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9E%E0%B8%A5%E0%B8%B4%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.ณภัค ดำรงภัคศิริ",
+        "license": "ว.63342",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B9_429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.วารุณี โพธินามทอง",
+        "license": "ว.30044",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B2_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.อุษา ตั้นตระกูล",
+        "license": "ว.63350",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9B%E0%B9%89_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.ธนิสา สุภัทรกุล",
+        "license": "ว.47870",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%9E%E0%B8%A3_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.วารุณี โพธินามทอง",
+        "license": "ว.30044",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B2_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "the-promenade",
+    "trigger": "เดอะ พรอมานาด",
+    "displayName": "เดอะ พรอมานาด",
+    "region": "กรุงเทพฯ ฝั่งตะวันออก",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://g.page/VsqPRM?share",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เดอะพรอมมานาด.jpg",
+    "phoneNumber": "091 905 8000",
+    "lineId": "@VsqPRM",
+    "lineUrl": "https://line.me/R/ti/p/%40VsqPRM",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.สิทธินันท์ มะโนปีน",
+        "license": "ว.40440",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%82%E0%B8%95%E0%B9%89%E0%B8%87_429x429px.png"
+      },
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.พัชร์สิตา อัครศศิพัชร์",
+        "license": "ว.69114",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/05/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9A%E0%B8%B9%E0%B8%A1-429x429px_0.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.ธนิสา สุภัทรกุล",
+        "license": "ว.47870",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%9E%E0%B8%A3_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.กันต์ สุวรรณรัต",
+        "license": "ว.35257",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%95%E0%B9%8C_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.ชญานิษฐ์ ศรีทองดี",
+        "license": "ว.47214",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B8%B9%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.เกตวดี เรืองฤทธิเดช",
+        "license": "ว.54461",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2026/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%84%E0%B8%B4%E0%B8%A1-429x429px.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.ธนิสา สุภัทรกุล",
+        "license": "ว.47870",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%9E%E0%B8%A3_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.พีรพล สุทธิภาศิลป์",
+        "license": "ว.28602",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%B4%E0%B8%A3%E0%B9%8C%E0%B8%94_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.กันต์ สุวรรณรัต",
+        "license": "ว.35257",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%95%E0%B9%8C_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.พีรพล สุทธิภาศิลป์",
+        "license": "ว.28602",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%B4%E0%B8%A3%E0%B9%8C%E0%B8%94_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.สุจินันท์ เรืองชยจตุพร",
+        "license": "ว.63495",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/12/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A2%E0%B9%89%E0%B8%87%E0%B8%A2%E0%B8%B5%E0%B9%89_429x429px.png"
+      }
+    ]
+  },
+  {
+    "id": "the-mall-bangkapi",
+    "trigger": "เดอะมอลล์ บางกะปิ",
+    "displayName": "เดอะมอลล์ บางกะปิ",
+    "region": "กรุงเทพฯ ฝั่งตะวันออก",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/F4xbv6HNeTG2",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เดอะมอลล์-บางกะปิ.jpg",
+    "phoneNumber": "091 903 9000",
+    "lineId": "@VsqBKP",
+    "lineUrl": "https://line.me/ti/p/@VsqBKP",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.คัทลียา จินดาสมบัติเจริญ",
+        "license": "ว.36226",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%84%E0%B8%97_429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.กรกนก กันทา",
+        "license": "ว.48666",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%AD%E0%B8%A1_429x429px.webp"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.ณัฐฐาน์ บัลลังก์โพธิ์",
+        "license": "ว.42796",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B8%E0%B9%8A%E0%B8%81_429x429px.webp"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.กิติพัฒน์ รื่นรุจิกร",
+        "license": "ว.37781",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%95%E0%B9%89%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.อภันตรี ทองคำวงศ์",
+        "license": "ว.43417",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%99%E0%B8%99_429x429px.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.เอกชัย โสภณพงษ์",
+        "license": "ว.30444",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%81_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.อภันตรี ทองคำวงศ์",
+        "license": "ว.43417",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%99%E0%B8%99_429x429px.png"
+      }
+    ]
+  },
+  {
+    "id": "seacon-srinakarin",
+    "trigger": "ซีคอน สแควร์ ศรีนครินทร์",
+    "displayName": "ซีคอน สแควร์ ศรีนครินทร์",
+    "region": "กรุงเทพฯ ฝั่งตะวันออก",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xl",
+    "mapUrl": "https://goo.gl/maps/YSp732HxAHn",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/ซีคอน-ศรีนครินทร์.jpg",
+    "phoneNumber": "091 916 9000",
+    "lineId": "@VsqSCN",
+    "lineUrl": "https://line.me/ti/p/@VsqSCN",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.เอกชัย โสภณพงษ์",
+        "license": "ว.30444",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%81_429x429.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.วัลยรัตน์ สัจจะสกุลชัย",
+        "license": "ว.47920",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%A1%E0%B8%A2%E0%B9%8C_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.วารุณี โพธินามทอง",
+        "license": "ว.30044",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B2_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.ณัฐฐาน์ บัลลังก์โพธิ์",
+        "license": "ว.42796",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B8%E0%B9%8A%E0%B8%81_429x429px.webp"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.เอกชัย โสภณพงษ์",
+        "license": "ว.30444",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%81_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.นพัช วุฒิธรรมคณาพร",
+        "license": "ว.38656",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%A7%E0%B8%B2%E0%B8%87_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.วัลยรัตน์ สัจจะสกุลชัย",
+        "license": "ว.47920",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%A1%E0%B8%A2%E0%B9%8C_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "mega-bangna",
+    "trigger": "เมกา บางนา",
+    "displayName": "เมกา บางนา",
+    "region": "กรุงเทพฯ ฝั่งตะวันออก",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://maps.app.goo.gl/rDYCZBcFgTLhhpzT6",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เมกา-บางนา.jpg",
+    "phoneNumber": "065 156 1000",
+    "lineId": "@VsqMGA",
+    "lineUrl": "https://lin.ee/JLcFrR4",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.อิทธิพัทธ์ ผลวาวแวว",
+        "license": "ว.44261",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%AD%E0%B8%A5%E0%B9%8C%E0%B8%9F_429x429-1.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.อิทธิพัทธ์ ผลวาวแวว",
+        "license": "ว.44261",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%AD%E0%B8%A5%E0%B9%8C%E0%B8%9F_429x429-1.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.รมณ นันทธเนศ",
+        "license": "ว.46283",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8B%E0%B8%B5_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.สาธิต พณิชย์พิบูลย์",
+        "license": "ว.38684",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9A%E0%B8%B2%E0%B8%AA_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.รมณ นันทธเนศ",
+        "license": "ว.46283",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8B%E0%B8%B5_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.อิทธิพัทธ์ ผลวาวแวว",
+        "license": "ว.44261",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%AD%E0%B8%A5%E0%B9%8C%E0%B8%9F_429x429-1.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.กันต์ สุวรรณรัต",
+        "license": "ว.35257",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%95%E0%B9%8C_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "central-bangna",
+    "trigger": "เซ็นทรัล บางนา",
+    "displayName": "เซ็นทรัล บางนา",
+    "region": "กรุงเทพฯ ฝั่งตะวันออก",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/ZnDuQ2Ldkm23vLMS7",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-บางนา.jpg",
+    "phoneNumber": "099 105 9000",
+    "lineId": "@VsqBNA",
+    "lineUrl": "https://line.me/R/ti/p/%40vsqbna",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.อภันตรี ทองคำวงศ์",
+        "license": "ว.43417",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%99%E0%B8%99_429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.รมณ นันทธเนศ",
+        "license": "ว.46283",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8B%E0%B8%B5_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.นพัช วุฒิธรรมคณาพร",
+        "license": "ว.38656",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%A7%E0%B8%B2%E0%B8%87_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.อิทธิพัทธ์ ผลวาวแวว",
+        "license": "ว.44261",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%AD%E0%B8%A5%E0%B9%8C%E0%B8%9F_429x429-1.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.วัลยรัตน์ สัจจะสกุลชัย",
+        "license": "ว.47920",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%A1%E0%B8%A2%E0%B9%8C_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.พีรพล สุทธิภาศิลป์",
+        "license": "ว.28602",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%B4%E0%B8%A3%E0%B9%8C%E0%B8%94_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.กิติพัฒน์ รื่นรุจิกร",
+        "license": "ว.37781",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%95%E0%B9%89%E0%B8%99_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "central-pinklao",
+    "trigger": "เซ็นทรัล ปิ่นเกล้า",
+    "displayName": "เซ็นทรัล ปิ่นเกล้า",
+    "region": "กรุงเทพฯ ฝั่งธนบุรี",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://www.google.com/maps/place/V+Square+Clinic+%E0%B9%80%E0%B8%8B%E0%B9%87%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B8%B1%E0%B8%A5%E0%B8%9B%E0%B8%B4%E0%B9%88%E0%B8%99%E0%B9%80%E0%B8%81%E0%B8%A5%E0%B9%89%E0%B8%B2+Botox+Filler+%E0%B8%A3%E0%B9%89%E0%B8%AD%E0%B8%A2%E0%B9%84%E0%B8%AB%E0%B8%A1+%E0%B9%82%E0%B8%9A%E0%B8%97%E0%B9%87%E0%B8%AD%E0%B8%81%E0%B8%8B%E0%B9%8C+%E0%B8%9F%E0%B8%B4%E0%B8%A5%E0%B9%80%E0%B8%A5%E0%B8%AD%E0%B8%A3%E0%B9%8C+%E0%B8%9B%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2/@13.7775808,100.4734057,15.39z/data=!4m5!3m4!1s0x30e29986940e81b5:0xb003687ab208356f!8m2!3d13.7779355!4d100.4773313",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-ปิ่นเกล้า.jpg",
+    "phoneNumber": "099 006 7000",
+    "lineId": "@VsqPNK",
+    "lineUrl": "https://line.me/ti/p/@VsqPNK",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.รวี ทองนพคุณ",
+        "license": "ว.47010",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A3%E0%B8%A7%E0%B8%B5_429x429.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.คณาวุฒิ จุฑาวรกุล",
+        "license": "ว.33547",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%82%E0%B8%99%E0%B9%8A%E0%B8%95_429x429px.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.วรรณศิลป์ สุขสมานพันธ์",
+        "license": "ว.49758",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9E%E0%B8%A5%E0%B8%B4%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.สิทธินันท์ มะโนปีน",
+        "license": "ว.40440",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%82%E0%B8%95%E0%B9%89%E0%B8%87_429x429px.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.คณาวุฒิ จุฑาวรกุล",
+        "license": "ว.33547",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%82%E0%B8%99%E0%B9%8A%E0%B8%95_429x429px.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.วรรณศิลป์ สุขสมานพันธ์",
+        "license": "ว.49758",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9E%E0%B8%A5%E0%B8%B4%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.สิทธินันท์ มะโนปีน",
+        "license": "ว.40440",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%82%E0%B8%95%E0%B9%89%E0%B8%87_429x429px.png"
+      }
+    ]
+  },
+  {
+    "id": "the-mall-thapra",
+    "trigger": "เดอะมอลล์ ท่าพระ",
+    "displayName": "เดอะมอลล์ ท่าพระ",
+    "region": "กรุงเทพฯ ฝั่งธนบุรี",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/DpytzbYqm66ACxrCA",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เดอะมอลล์-ท่าพระ.jpg",
+    "phoneNumber": "080 453 4000",
+    "lineId": "@VsqMTA",
+    "lineUrl": "https://lin.ee/yZBZmgY",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.พิชชา ธนุภาพรังสรรค์",
+        "license": "ว.63467",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/06/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9E%E0%B8%B4%E0%B8%8A_429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.ชินวัฒน์ เหรียญมณี",
+        "license": "ว.35282",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8A%E0%B8%B4%E0%B8%99_429x429px.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.อิษฎา ตระกูลสุข",
+        "license": "ว.55673",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/05/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B9%89%E0%B8%AD%E0%B8%99_429x429px-1.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.ศิษฏิศา รัตนเสนีย์",
+        "license": "ว.53152",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%B4%E0%B9%8A%E0%B8%87%E0%B8%84%E0%B9%8C-429x429px_0.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.พิชชา ธนุภาพรังสรรค์",
+        "license": "ว.63467",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/06/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9E%E0%B8%B4%E0%B8%8A_429x429px.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.คัทลียา จินดาสมบัติเจริญ",
+        "license": "ว.36226",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%84%E0%B8%97_429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.คัทลียา จินดาสมบัติเจริญ",
+        "license": "ว.36226",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%84%E0%B8%97_429x429px.png"
+      }
+    ]
+  },
+  {
+    "id": "central-rama2",
+    "trigger": "เซ็นทรัล พระราม 2",
+    "displayName": "เซ็นทรัล พระราม 2",
+    "region": "กรุงเทพฯ ฝั่งธนบุรี",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/NkeVGFo34W52",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-พระราม-2.jpg",
+    "phoneNumber": "091 914 9000",
+    "lineId": "@VsqCTR",
+    "lineUrl": "https://line.me/ti/p/@VsqCTR",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.ผาณิต หนุนภักดี",
+        "license": "ว.30365",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B8%E0%B9%8B%E0%B8%A2_429x429.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.นพัช วุฒิธรรมคณาพร",
+        "license": "ว.38656",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%A7%E0%B8%B2%E0%B8%87_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.เอกชัย โสภณพงษ์",
+        "license": "ว.30444",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%81_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.วันรวี แซ่อู",
+        "license": "ว.46187",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%9E%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.ผาณิต หนุนภักดี",
+        "license": "ว.30365",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B8%E0%B9%8B%E0%B8%A2_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.นฤมล จิตณรงค์",
+        "license": "ว.48015",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A3%E0%B8%B8%E0%B9%89%E0%B8%87_429x429-1.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.นพัช วุฒิธรรมคณาพร",
+        "license": "ว.38656",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%A7%E0%B8%B2%E0%B8%87_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "the-mall-bangkae",
+    "trigger": "เดอะมอลล์ บางแค",
+    "displayName": "เดอะมอลล์ บางแค",
+    "region": "กรุงเทพฯ ฝั่งธนบุรี",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/bmHJcKbMso6tCd1D6",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เดอะมอลล์-บางแค.jpg",
+    "phoneNumber": "092 245 2000",
+    "lineId": "@VsqMBA",
+    "lineUrl": "https://lin.ee/QjQxSSp",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.สุจินันท์ เรืองชยจตุพร",
+        "license": "ว.63495",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/12/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A2%E0%B9%89%E0%B8%87%E0%B8%A2%E0%B8%B5%E0%B9%89_429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.โชติกา หาญนรเศรษฐ์",
+        "license": "ว.40716",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%AB%E0%B8%A1%E0%B8%AD_429x429-1.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.ปัณณ์ธีรา อรุณศิริธนภรณ์",
+        "license": "ว.44020",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B1%E0%B8%93%E0%B8%93%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.สุพิมนต์ ส่องแสงวัฒนากิจ",
+        "license": "ว.54195",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/12/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%99%E0%B8%B1%E0%B8%99-429x429px.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.สุพิมนต์ ส่องแสงวัฒนากิจ",
+        "license": "ว.54195",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/12/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%99%E0%B8%B1%E0%B8%99-429x429px.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.สุจินันท์ เรืองชยจตุพร",
+        "license": "ว.63495",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/12/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A2%E0%B9%89%E0%B8%87%E0%B8%A2%E0%B8%B5%E0%B9%89_429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.สุพิมนต์ ส่องแสงวัฒนากิจ",
+        "license": "ว.54195",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/12/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%99%E0%B8%B1%E0%B8%99-429x429px.png"
+      }
+    ]
+  },
+  {
+    "id": "paseo-kanchanapisek",
+    "trigger": "พาซิโอ กาญจนา",
+    "displayName": "พาซิโอ กาญจนา",
+    "region": "กรุงเทพฯ ฝั่งธนบุรี",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://g.page/VSQPSO",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/พาซิโอ-กาญจนา.jpg",
+    "phoneNumber": "084 242 4000",
+    "lineId": "@VsqPSO",
+    "lineUrl": "https://lin.ee/QkCCisW",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.ปัณณ์ธีรา อรุณศิริธนภรณ์",
+        "license": "ว.44020",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B1%E0%B8%93%E0%B8%93%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.เกตวดี เรืองฤทธิเดช",
+        "license": "ว.54461",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2026/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%84%E0%B8%B4%E0%B8%A1-429x429px.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.สุขสุภา บุญชู",
+        "license": "ว.50409",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%81%E0%B8%94429x429px_0.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.พิชชา ธนุภาพรังสรรค์",
+        "license": "ว.63467",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/06/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9E%E0%B8%B4%E0%B8%8A_429x429px.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.ปัณณ์ธีรา อรุณศิริธนภรณ์",
+        "license": "ว.44020",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B1%E0%B8%93%E0%B8%93%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.ปัณณ์ธีรา อรุณศิริธนภรณ์",
+        "license": "ว.44020",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B1%E0%B8%93%E0%B8%93%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.ศิษฏิศา รัตนเสนีย์",
+        "license": "ว.53152",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%B4%E0%B9%8A%E0%B8%87%E0%B8%84%E0%B9%8C-429x429px_0.png"
+      }
+    ]
+  },
+  {
+    "id": "dusit-central-park",
+    "trigger": "ดุสิต เซ็นทรัล พาร์ค",
+    "displayName": "ดุสิต เซ็นทรัล พาร์ค",
+    "region": "กรุงเทพฯ ตอนใต้",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://maps.app.goo.gl/rPdBQbqVhrxQarHNA",
+    "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/11/เซ็นทรัล-พาร์ค.jpg",
+    "phoneNumber": "091 081 5000",
+    "lineId": "@VsqDCP",
+    "lineUrl": "https://lin.ee/wahYfcc",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.ศิษฏิศา รัตนเสนีย์",
+        "license": "ว.53152",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%B4%E0%B9%8A%E0%B8%87%E0%B8%84%E0%B9%8C-429x429px_0.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.ธิติวัฒน์ ตระกูลทอง",
+        "license": "ว.51517",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B4%E0%B8%A7-429x429px_0.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.ธิติวัฒน์ ตระกูลทอง",
+        "license": "ว.51517",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B4%E0%B8%A7-429x429px_0.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.ปัณณ์ธีรา อรุณศิริธนภรณ์",
+        "license": "ว.44020",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B1%E0%B8%93%E0%B8%93%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.เกตวดี เรืองฤทธิเดช",
+        "license": "ว.54461",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2026/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%84%E0%B8%B4%E0%B8%A1-429x429px.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.พิชชา ธนุภาพรังสรรค์",
+        "license": "ว.63467",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/06/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9E%E0%B8%B4%E0%B8%8A_429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.โชติกา หาญนรเศรษฐ์",
+        "license": "ว.40716",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%AB%E0%B8%A1%E0%B8%AD_429x429-1.png"
+      }
+    ]
+  },
+  {
+    "id": "one-bangkok",
+    "trigger": "วัน แบงค็อก",
+    "displayName": "วัน แบงค็อก",
+    "region": "กรุงเทพฯ ตอนใต้",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://maps.app.goo.gl/AJ9jhVLFxDJGZb6P9",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/One-Bangkok.jpg",
+    "phoneNumber": "082 252 5000",
+    "lineId": "@VsqONE",
+    "lineUrl": "https://lin.ee/l57Qmbp",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.ธิติวัฒน์ ตระกูลทอง",
+        "license": "ว.51517",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B4%E0%B8%A7-429x429px_0.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.คัทลียา จินดาสมบัติเจริญ",
+        "license": "ว.36226",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%84%E0%B8%97_429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.สุขสุภา บุญชู",
+        "license": "ว.50409",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%81%E0%B8%94429x429px_0.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.สุขสุภา บุญชู",
+        "license": "ว.50409",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%81%E0%B8%94429x429px_0.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.ศิริศักดิ์ รัตนะนวล",
+        "license": "ว.71965",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%AA-429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.ศิริศักดิ์ รัตนะนวล",
+        "license": "ว.71965",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%AA-429x429px.png"
+      }
+    ]
+  },
+  {
+    "id": "thonglor",
+    "trigger": "ทองหล่อ",
+    "displayName": "ทองหล่อ",
+    "region": "กรุงเทพฯ ตอนใต้",
+    "menu": "both",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://maps.app.goo.gl/22aY7rSw27FruSyw6",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/ทองหล่อ.jpg",
+    "phoneNumber": "095 697 9000",
+    "lineId": "@VsqTLR",
+    "lineUrl": "https://lin.ee/PMwPl30",
+    "mainMenuActionText": "ตารางแพทย์สาขาทองหล่อ",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.นฤมล จิตณรงค์",
+        "license": "ว.48015",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A3%E0%B8%B8%E0%B9%89%E0%B8%87_429x429-1.png"
+      },
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.กิติพัฒน์ รื่นรุจิกร",
+        "license": "ว.37781",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%95%E0%B9%89%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.ปัณณ์ธีรา อรุณศิริธนภรณ์",
+        "license": "ว.44020",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B1%E0%B8%93%E0%B8%93%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.วารุณี โพธินามทอง",
+        "license": "ว.30044",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B2_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.วัลยรัตน์ สัจจะสกุลชัย",
+        "license": "ว.47920",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%A1%E0%B8%A2%E0%B9%8C_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.ชญานิษฐ์ ศรีทองดี",
+        "license": "ว.47214",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B8%B9%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.อภันตรี ทองคำวงศ์",
+        "license": "ว.43417",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%99%E0%B8%99_429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.สุจินันท์ เรืองชยจตุพร",
+        "license": "ว.63495",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/12/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A2%E0%B9%89%E0%B8%87%E0%B8%A2%E0%B8%B5%E0%B9%89_429x429px.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.วารุณี โพธินามทอง",
+        "license": "ว.30044",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B2_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.ชญานิษฐ์ ศรีทองดี",
+        "license": "ว.47214",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B8%B9%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.รมณ นันทธเนศ",
+        "license": "ว.46283",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8B%E0%B8%B5_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.พัชร์สิตา อัครศศิพัชร์",
+        "license": "ว.69114",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/05/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9A%E0%B8%B9%E0%B8%A1-429x429px_0.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.กรกนก กันทา",
+        "license": "ว.48666",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%AD%E0%B8%A1_429x429px.webp"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.ธิติวัฒน์ ตระกูลทอง",
+        "license": "ว.51517",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B4%E0%B8%A7-429x429px_0.png"
+      }
+    ]
+  },
+  {
+    "id": "thonglor-laser",
+    "trigger": "ทองหล่อ เลเซอร์เซ็นเตอร์",
+    "displayName": "ทองหล่อ เลเซอร์เซ็นเตอร์",
+    "region": "กรุงเทพฯ ตอนใต้",
+    "menu": "thonglor",
+    "enabled": true,
+    "fontSize": "xl",
+    "mapUrl": "https://maps.app.goo.gl/22aY7rSw27FruSyw6",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/ทองหล่อ.jpg",
+    "phoneNumber": "095 697 9000",
+    "lineId": "@VsqTLR",
+    "lineUrl": "https://lin.ee/PMwPl30",
+    "doctors": [
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.สุรนาถ ดีสุวรรณ์",
+        "license": "ว.46313",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/06/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%95_429x429px_0.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.สุรนาถ ดีสุวรรณ์",
+        "license": "ว.46313",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/06/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%95_429x429px_0.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.สุรนาถ ดีสุวรรณ์",
+        "license": "ว.46313",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/06/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%95_429x429px_0.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.สุรนาถ ดีสุวรรณ์",
+        "license": "ว.46313",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/06/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%95_429x429px_0.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.สุรนาถ ดีสุวรรณ์",
+        "license": "ว.46313",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/06/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%95_429x429px_0.png"
+      }
+    ]
+  },
+  {
+    "id": "thonglor-wellness",
+    "trigger": "ทองหล่อ เวลเนสเช็นเตอร์",
+    "displayName": "ทองหล่อ เวลเนสเช็นเตอร์",
+    "region": "กรุงเทพฯ ตอนใต้",
+    "menu": "thonglor",
+    "enabled": true,
+    "fontSize": "xl",
+    "mapUrl": "https://maps.app.goo.gl/22aY7rSw27FruSyw6",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/ทองหล่อ.jpg",
+    "phoneNumber": "095 697 9000",
+    "lineId": "@VsqTLR",
+    "lineUrl": "https://lin.ee/PMwPl30",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.วีราภรณ์ พุฒิวงศ์รักษ์",
+        "license": "ว.35549",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B5-429x429px.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.วีราภรณ์ พุฒิวงศ์รักษ์",
+        "license": "ว.35549",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A7%E0%B8%B5-429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.ศิรวิชญ์ หิรัญนิรมล",
+        "license": "ว.69270",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%97%E0%B8%AD%E0%B8%A1_429x429px_0.png"
+      }
+    ]
+  },
+  {
+    "id": "em-quartier",
+    "trigger": "เอ็มควอเทียร์",
+    "displayName": "เอ็มควอเทียร์",
+    "region": "กรุงเทพฯ ตอนใต้",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://g.page/r/CW8lI8JcDplzEAE",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เอ็มควอเทียร์.jpg",
+    "phoneNumber": "081 712 5000",
+    "lineId": "@VsqEMQ",
+    "lineUrl": "https://lin.ee/ct1WXMe",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.พิมพ์สวาท วัชรกาฬ",
+        "license": "ว.42572",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9E%E0%B8%B4%E0%B8%A1-429x429px_0-1.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.ณัฐฐาน์ บัลลังก์โพธิ์",
+        "license": "ว.42796",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B8%E0%B9%8A%E0%B8%81_429x429px.webp"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.ชินวัฒน์ เหรียญมณี",
+        "license": "ว.35282",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8A%E0%B8%B4%E0%B8%99_429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.นฤมล จิตณรงค์",
+        "license": "ว.48015",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A3%E0%B8%B8%E0%B9%89%E0%B8%87_429x429-1.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.กันต์ สุวรรณรัต",
+        "license": "ว.35257",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%95%E0%B9%8C_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.ชินวัฒน์ เหรียญมณี",
+        "license": "ว.35282",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8A%E0%B8%B4%E0%B8%99_429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.พิมพ์สวาท วัชรกาฬ",
+        "license": "ว.42572",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9E%E0%B8%B4%E0%B8%A1-429x429px_0-1.png"
+      }
+    ]
+  },
+  {
+    "id": "gateway-ekamai",
+    "trigger": "เกตเวย์ เอกมัย",
+    "displayName": "เกตเวย์ เอกมัย",
+    "region": "กรุงเทพฯ ตอนใต้",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://www.google.com/maps/place/V+Square+Clinic+Gateway+%E0%B9%80%E0%B8%AD%E0%B8%81%E0%B8%A1%E0%B8%B1%E0%B8%A2+Botox+Filler+Center+%E0%B8%A8%E0%B8%B9%E0%B8%99%E0%B8%A2%E0%B9%8C%E0%B8%A3%E0%B9%89%E0%B8%AD%E0%B8%A2%E0%B9%84%E0%B8%AB%E0%B8%A1+%E0%B9%82%E0%B8%9A%E0%B8%97%E0%B9%87%E0%B8%AD%E0%B8%81%E0%B8%8B%E0%B9%8C+%E0%B8%9F%E0%B8%B4%E0%B8%A5%E0%B9%80%E0%B8%A5%E0%B8%AD%E0%B8%A3%E0%B9%8C+%E0%B8%9B%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2/@13.719769,100.5857395,15.54z/data=!4m5!3m4!1s0x30e29fa52fdbb469:0xe380d3d0e76e4c0b!8m2!3d13.719028!4d100.585232",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เกตเวย์-เอกมัย.jpg",
+    "phoneNumber": "099 005 9000",
+    "lineId": "@VSqGTW",
+    "lineUrl": "https://lin.ee/A5ldAZp",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.รมณ นันทธเนศ",
+        "license": "ว.46283",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8B%E0%B8%B5_429x429.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.กิติพัฒน์ รื่นรุจิกร",
+        "license": "ว.37781",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%95%E0%B9%89%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.อิทธิพัทธ์ ผลวาวแวว",
+        "license": "ว.44261",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%AD%E0%B8%A5%E0%B9%8C%E0%B8%9F_429x429-1.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.รมณ นันทธเนศ",
+        "license": "ว.46283",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8B%E0%B8%B5_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.อิทธิพัทธ์ ผลวาวแวว",
+        "license": "ว.44261",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%AD%E0%B8%A5%E0%B9%8C%E0%B8%9F_429x429-1.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.วันรวี แซ่อู",
+        "license": "ว.46187",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%9E%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.เอกชัย โสภณพงษ์",
+        "license": "ว.30444",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%81_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "central-rama3",
+    "trigger": "เซ็นทรัล พระราม 3",
+    "displayName": "เซ็นทรัล พระราม 3",
+    "region": "กรุงเทพฯ ตอนใต้",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/6JN6SeNtWp4UGcL36",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-พระราม-3.jpg",
+    "phoneNumber": "092 236 2000",
+    "lineId": "@VsqCRM",
+    "lineUrl": "https://line.me/R/ti/p/%40427natjj",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.ณภัค ดำรงภัคศิริ",
+        "license": "ว.63342",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B9_429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.สุพิมนต์ ส่องแสงวัฒนากิจ",
+        "license": "ว.54195",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/12/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%99%E0%B8%B1%E0%B8%99-429x429px.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.เกตวดี เรืองฤทธิเดช",
+        "license": "ว.54461",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2026/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%84%E0%B8%B4%E0%B8%A1-429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.อิษฎา ตระกูลสุข",
+        "license": "ว.55673",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/05/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B9%89%E0%B8%AD%E0%B8%99_429x429px-1.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.อิษฎา ตระกูลสุข",
+        "license": "ว.55673",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/05/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B9%89%E0%B8%AD%E0%B8%99_429x429px-1.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.พิมพ์สวาท วัชรกาฬ",
+        "license": "ว.42572",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9E%E0%B8%B4%E0%B8%A1-429x429px_0-1.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.ณัฐฐาน์ บัลลังก์โพธิ์",
+        "license": "ว.42796",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B8%E0%B9%8A%E0%B8%81_429x429px.webp"
+      }
+    ]
+  },
+  {
+    "id": "future-park-rangsit",
+    "trigger": "ฟิวเจอร์พาร์ค รังสิต",
+    "displayName": "ฟิวเจอร์พาร์ค รังสิต",
+    "region": "กรุงเทพฯ-ปทุมธานี",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://www.google.com/maps/place/V+Square+Clinic+%E0%B8%9F%E0%B8%B4%E0%B8%A7%E0%B9%80%E0%B8%88%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%9E%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%87%E0%B8%AA%E0%B8%B4%E0%B8%95+Botox+Filler+%E0%B8%A3%E0%B9%89%E0%B8%AD%E0%B8%A2%E0%B9%84%E0%B8%AB%E0%B8%A1+%E0%B9%82%E0%B8%9A%E0%B8%97%E0%B9%87%E0%B8%AD%E0%B8%81%E0%B8%8B%E0%B9%8C+%E0%B8%9F%E0%B8%B4%E0%B8%A5%E0%B9%80%E0%B8%A5%E0%B8%AD%E0%B8%A3%E0%B9%8C+%E0%B8%9B%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2/@13.9692304,100.6030853,14z/data=!4m5!3m4!1s0x30e281d8e125cacb:0x35a61db5d8e83ca!8m2!3d13.9899887!4d100.6171303",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/ฟิวเจอร์พาร์ค-รังสิต.jpg",
+    "phoneNumber": "093 030 9000",
+    "lineId": "@VsqRST",
+    "lineUrl": "https://line.me/ti/p/@VsqRST",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.คณาวุฒิ จุฑาวรกุล",
+        "license": "ว.33547",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%82%E0%B8%99%E0%B9%8A%E0%B8%95_429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.พีรพล สุทธิภาศิลป์",
+        "license": "ว.28602",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%B4%E0%B8%A3%E0%B9%8C%E0%B8%94_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.สิทธินันท์ มะโนปีน",
+        "license": "ว.40440",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%82%E0%B8%95%E0%B9%89%E0%B8%87_429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.คณาวุฒิ จุฑาวรกุล",
+        "license": "ว.33547",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%82%E0%B8%99%E0%B9%8A%E0%B8%95_429x429px.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.รวี ทองนพคุณ",
+        "license": "ว.47010",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A3%E0%B8%A7%E0%B8%B5_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.รวี ทองนพคุณ",
+        "license": "ว.47010",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A3%E0%B8%A7%E0%B8%B5_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.ผาณิต หนุนภักดี",
+        "license": "ว.30365",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B8%E0%B9%8B%E0%B8%A2_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "central-westville",
+    "trigger": "เซ็นทรัล เวสต์วิลล์",
+    "displayName": "เซ็นทรัล เวสต์วิลล์",
+    "region": "กรุงเทพฯ-นนทบุรี",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://maps.app.goo.gl/L8wq3pamoTEfLtVt6?g_st=ic",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-เวสต์วิลล์.jpg",
+    "phoneNumber": "099 005 7000",
+    "lineId": "@VsqRCP",
+    "lineUrl": "https://lin.ee/ASqi4XV",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.วรรณศิลป์ สุขสมานพันธ์",
+        "license": "ว.49758",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9E%E0%B8%A5%E0%B8%B4%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.วรรษชล รัตนแสนสุข",
+        "license": "ว.30951",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%AD%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.วรรษชล รัตนแสนสุข",
+        "license": "ว.30951",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%AD%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.วรรษชล รัตนแสนสุข",
+        "license": "ว.30951",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%AD%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.วรรษชล รัตนแสนสุข",
+        "license": "ว.30951",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%AD%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.วรรษชล รัตนแสนสุข",
+        "license": "ว.30951",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%AD%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.วันรวี แซ่อู",
+        "license": "ว.46187",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%81%E0%B8%9E%E0%B8%99_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "central-westgate",
+    "trigger": "เซ็นทรัล เวสต์เกต",
+    "displayName": "เซ็นทรัล เวสต์เกต",
+    "region": "กรุงเทพฯ-นนทบุรี",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/pLmPLNJ89FVHWAfC7",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-เวสต์เกต.jpg",
+    "phoneNumber": "084 404 0400",
+    "lineId": "@VsqCWG",
+    "lineUrl": "https://lin.ee/7lfUeIS",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.ธนภัทร จิตร์ไทย",
+        "license": "ว.49640",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/01/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9A%E0%B8%99%E0%B8%8B%E0%B9%8C_429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.กันต์ สุวรรณรัต",
+        "license": "ว.35257",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%95%E0%B9%8C_429x429.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.อุษา ตั้นตระกูล",
+        "license": "ว.63350",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9B%E0%B9%89_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.ผาณิต หนุนภักดี",
+        "license": "ว.30365",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B8%E0%B9%8B%E0%B8%A2_429x429.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "นพ.ชินวัฒน์ เหรียญมณี",
+        "license": "ว.35282",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%8A%E0%B8%B4%E0%B8%99_429x429px.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.วรรณศิลป์ สุขสมานพันธ์",
+        "license": "ว.49758",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9E%E0%B8%A5%E0%B8%B4%E0%B8%99_429x429.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "นพ.คณาวุฒิ จุฑาวรกุล",
+        "license": "ว.33547",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%82%E0%B8%99%E0%B9%8A%E0%B8%95_429x429px.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.อุษา ตั้นตระกูล",
+        "license": "ว.63350",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%9B%E0%B9%89_429x429.png"
+      }
+    ]
+  },
+  {
+    "id": "central-chaengwattana",
+    "trigger": "เซ็นทรัล แจ้งวัฒนะ",
+    "displayName": "เซ็นทรัล แจ้งวัฒนะ",
+    "region": "กรุงเทพฯ-นนทบุรี",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://g.page/VSQCWT",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-แจ้งวัฒนะ.jpg",
+    "phoneNumber": "093 007 9000",
+    "lineId": "@VsqCWT",
+    "lineUrl": "https://line.me/ti/p/@vsqcwt",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.วัลยรัตน์ สัจจะสกุลชัย",
+        "license": "ว.47920",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%A1%E0%B8%A2%E0%B9%8C_429x429.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.ณภัค ดำรงภัคศิริ",
+        "license": "ว.63342",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B9_429x429px.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.สุจินันท์ เรืองชยจตุพร",
+        "license": "ว.63495",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/12/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%A2%E0%B9%89%E0%B8%87%E0%B8%A2%E0%B8%B5%E0%B9%89_429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.ศศิวิมล คล้ายคลึง",
+        "license": "ว.63349",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%B4%E0%B9%8A%E0%B8%9B_429x429.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.พิมพ์สวาท วัชรกาฬ",
+        "license": "ว.42572",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9E%E0%B8%B4%E0%B8%A1-429x429px_0-1.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.ศศิวิมล คล้ายคลึง",
+        "license": "ว.63349",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2022/07/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%81%E0%B8%B4%E0%B9%8A%E0%B8%9B_429x429.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.ณภัค ดำรงภัคศิริ",
+        "license": "ว.63342",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/10/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9B%E0%B8%B9_429x429px.png"
+      }
+    ]
+  },
+  {
+    "id": "central-salaya",
+    "trigger": "เซ็นทรัล ศาลายา",
+    "displayName": "เซ็นทรัล ศาลายา",
+    "region": "กรุงเทพฯ-นครปฐม",
+    "menu": "main",
+    "enabled": false,
+    "fontSize": "xxl",
+    "mapUrl": "https://goo.gl/maps/Wa42Krot2h9H16hh9",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-ศาลายา.jpg",
+    "phoneNumber": "064 939 9000",
+    "lineId": "@VsqCSA",
+    "lineUrl": "https://page.line.me/VsqCSA",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "นพ.ศิริศักดิ์ รัตนะนวล",
+        "license": "ว.71965",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%AA-429x429px.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.สุขสุภา บุญชู",
+        "license": "ว.50409",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%81%E0%B8%94429x429px_0.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "พญ.โชติกา หาญนรเศรษฐ์",
+        "license": "ว.40716",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2023/02/%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%AB%E0%B8%A1%E0%B8%AD_429x429-1.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.สุขสุภา บุญชู",
+        "license": "ว.50409",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%81%E0%B8%94429x429px_0.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "นพ.อรรถโชติ ชนวีระยุทธ",
+        "license": "ว.61359",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%A3%E0%B8%A3%E0%B8%96_429x429px-1.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.จิตชยา ธารมรรค",
+        "license": "ว.61299",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B9%8B%E0%B8%B2_429x429px-1.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "นพ.ศิริศักดิ์ รัตนะนวล",
+        "license": "ว.71965",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%AA-429x429px.png"
+      }
+    ]
+  },
+  {
+    "id": "central-nakhonpathom",
+    "trigger": "เซ็นทรัล นครปฐม",
+    "displayName": "เซ็นทรัล นครปฐม",
+    "region": "กรุงเทพฯ-นครปฐม",
+    "menu": "main",
+    "enabled": true,
+    "fontSize": "xxl",
+    "mapUrl": "https://maps.app.goo.gl/HqyDVqgbHhU7sHJz6",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัล-นครปฐม.jpg",
+    "phoneNumber": "092 826 9000",
+    "lineId": "@VsqCNK",
+    "lineUrl": "https://lin.ee/k4OlKHm",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "พญ.จิตชยา ธารมรรค",
+        "license": "ว.61299",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B9%8B%E0%B8%B2_429x429px-1.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "นพ.อรรถโชติ ชนวีระยุทธ",
+        "license": "ว.61359",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%A3%E0%B8%A3%E0%B8%96_429x429px-1.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.อรรถโชติ ชนวีระยุทธ",
+        "license": "ว.61359",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%AD%E0%B8%A3%E0%B8%A3%E0%B8%96_429x429px-1.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "พญ.จิตชยา ธารมรรค",
+        "license": "ว.61299",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B9%8B%E0%B8%B2_429x429px-1.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.จิตชยา ธารมรรค",
+        "license": "ว.61299",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B9%8B%E0%B8%B2_429x429px-1.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.จิตชยา ธารมรรค",
+        "license": "ว.61299",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B9%8B%E0%B8%B2_429x429px-1.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "พญ.จิตชยา ธารมรรค",
+        "license": "ว.61299",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/03/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%88%E0%B9%8B%E0%B8%B2_429x429px-1.png"
+      }
+    ]
+  },
+  {
+    "id": "central-mahachai",
+    "trigger": "เซ็นทรัล มหาชัย",
+    "displayName": "เซ็นทรัล มหาชัย",
+    "region": "กรุงเทพฯ-นครปฐม",
+    "menu": "main",
+    "enabled": false,
+    "fontSize": "xxl",
+    "mapUrl": "https://maps.app.goo.gl/kKTDNxyCvQyaSR5b7",
+    "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/เซ็นทรัลมหาชัย.jpg",
+    "phoneNumber": "098 969 4000",
+    "lineId": "@VsqCMC",
+    "lineUrl": "https://lin.ee/i3vFTuM",
+    "doctors": [
+      {
+        "day": "วันจันทร์",
+        "name": "ไม่มีหมอ",
+        "license": "-",
+        "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/doctors-empty.png"
+      },
+      {
+        "day": "วันอังคาร",
+        "name": "พญ.สุขสุภา บุญชู",
+        "license": "ว.50409",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%81%E0%B8%94429x429px_0.png"
+      },
+      {
+        "day": "วันพุธ",
+        "name": "นพ.ศิริศักดิ์ รัตนะนวล",
+        "license": "ว.71965",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2025/09/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%AD%E0%B8%AA-429x429px.png"
+      },
+      {
+        "day": "วันพฤหัสบดี",
+        "name": "ไม่มีหมอ",
+        "license": "-",
+        "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/doctors-empty.png"
+      },
+      {
+        "day": "วันศุกร์",
+        "name": "พญ.สุขสุภา บุญชู",
+        "license": "ว.50409",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%81%E0%B8%94429x429px_0.png"
+      },
+      {
+        "day": "วันเสาร์",
+        "name": "พญ.สุขสุภา บุญชู",
+        "license": "ว.50409",
+        "imageUrl": "https://www.vsquareclinic.com/wp-content/uploads/2024/08/%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B9%80%E0%B8%81%E0%B8%94429x429px_0.png"
+      },
+      {
+        "day": "วันอาทิตย์",
+        "name": "ไม่มีหมอ",
+        "license": "-",
+        "imageUrl": "https://vsquareclinic.co/wp-content/uploads/2025/10/doctors-empty.png"
+      }
+    ]
+  }
+]

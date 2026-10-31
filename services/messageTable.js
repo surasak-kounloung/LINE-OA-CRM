@@ -1,0 +1,160 @@
+// สร้างตาราง trigger → ข้อความตอบ จากข้อมูลใน data/*.json
+// build() เป็น pure function; createMessageTable() ผูกกับ dataStore และสร้างใหม่เมื่อข้อมูลเปลี่ยน
+const { readFollowUps, resolveFollowUpText } = require("./followUps");
+const { FlexMessageBranchMap } = require("../flexmessage/flexMessageBranchMap");
+const { FlexMessageIconTable } = require("../flexmessage/flexMessageIconTable");
+const { FlexMessageDoctorSchedules } = require("../flexmessage/flexMessageDoctorSchedules");
+const { FlexMessageServicePrices } = require("../flexmessage/flexMessageServicePrices");
+const { FlexMessageServicesBubble } = require("../flexmessage/services");
+const { FlexMessagePromotionBubble } = require("../flexmessage/promotion");
+const { FlexMessageTableDoctorsBubble } = require("../flexmessage/tabledoctors");
+const { FlexMessageTableDoctorsThonglorBubble } = require("../flexmessage/tabledoctorsThonglor");
+
+const SCHEDULE_PREFIX = "สอบถามตารางแพทย์ สาขา";
+const MAX_BUBBLES = 12; // LINE จำกัด 12 bubble ต่อ carousel
+
+const createFlexMessage = (altText, contents) => ({ type: "flex", altText, contents });
+const createTextMessage = (text) => ({ type: "text", text });
+
+// array คำตอบของบริการ → service id (ใช้ตอน getReply เพื่อรู้ว่าต้องต่อท้ายข้อความ)
+// entry ที่สาขาเขียนทับภายหลังเป็น array ใหม่ จึงไม่ถูก tag
+const serviceIds = new WeakMap();
+const serviceIdOf = (messages) => serviceIds.get(messages);
+
+function chunk(list, size) {
+  const out = [];
+  for (let i = 0; i < list.length; i += size) out.push(list.slice(i, i + size));
+  return out;
+}
+
+function scheduleTrigger(branch) {
+  return SCHEDULE_PREFIX + branch.trigger;
+}
+
+const inMainMenu = (b) => b.enabled && (b.menu === "main" || b.menu === "both");
+const inThonglorMenu = (b) => b.enabled && (b.menu === "thonglor" || b.menu === "both");
+
+// เมนู "ตารางแพทย์": 1 region = 1 bubble, section แรกเป็นหัวข้อหลัก ที่เหลือเป็น extraSections
+// section ที่ไม่มีสาขาเปิดใช้เลย (0 rows) ต้องถูกตัดทิ้ง — LINE reject ทั้งข้อความถ้า box.contents ว่าง
+// ถ้า section หลักว่างแต่มี extraSection ที่มีข้อมูล ให้เลื่อน section แรกที่ไม่ว่างขึ้นมาเป็นหลักแทน
+// ถ้าทุก section ในภูมิภาคว่างหมด ให้ตัดทั้งกลุ่ม (region) นั้นออกจากเมนู
+function buildMainMenuGroups(regions, branches) {
+  const rowsFor = (section) =>
+    branches
+      .filter((b) => inMainMenu(b) && b.region === section)
+      .map((b) => ({ name: b.trigger, actionText: b.mainMenuActionText || b.trigger }));
+
+  const groups = regions.map((region) => {
+    const nonEmptySections = region.sections
+      .map((title) => ({ title, branches: rowsFor(title) }))
+      .filter((section) => section.branches.length > 0);
+    if (!nonEmptySections.length) return null;
+    const [main, ...rest] = nonEmptySections;
+    const group = { title: main.title, branches: main.branches };
+    if (rest.length) group.extraSections = rest;
+    return group;
+  });
+
+  return groups.filter(Boolean);
+}
+
+// เมนู "ตารางแพทย์สาขาทองหล่อ": bubble เดียว
+function buildThonglorGroup(branches) {
+  const list = branches.filter(inThonglorMenu);
+  if (!list.length) return null;
+  return { title: list[0].region, branches: list.map((b) => ({ name: b.trigger, actionText: b.trigger })) };
+}
+
+function build(data) {
+  const { promotions, services, branches, regions } = data;
+  if (![promotions, services, branches, regions].every(Array.isArray)) {
+    throw new Error("messageTable: ข้อมูลไม่ครบหรือไม่ใช่ array");
+  }
+  const table = new Map();
+
+  if (services.length) {
+    table.set("บริการทั้งหมด", [createFlexMessage("บริการทั้งหมด", FlexMessageServicesBubble(services))]);
+  }
+  if (promotions.length) {
+    table.set("โปรโมชั่นล่าสุด", [createFlexMessage("โปรโมชั่นล่าสุด", FlexMessagePromotionBubble(promotions))]);
+  }
+  const mainMenuGroups = buildMainMenuGroups(regions, branches);
+  if (mainMenuGroups.length) {
+    table.set("ตารางแพทย์", [createFlexMessage("ตารางแพทย์", FlexMessageTableDoctorsBubble(mainMenuGroups))]);
+  }
+
+  const thonglor = buildThonglorGroup(branches);
+  if (thonglor) {
+    table.set("ตารางแพทย์สาขาทองหล่อ", [createFlexMessage("ตารางแพทย์สาขาทองหล่อ", FlexMessageTableDoctorsThonglorBubble(thonglor))]);
+  }
+
+  // ข้อความต่อท้ายไม่ใส่ที่นี่ — ขึ้นกับ OA จึงต่อใน getReply; trigger ต้องมีเสมอแม้ไม่มีรูปราคา (/triggers ใช้แสดงรายการ)
+  services.forEach((service) => {
+    const messages = service.priceImages && service.priceImages.length
+      ? [createFlexMessage(service.actionText, FlexMessageServicePrices({ imagePriceUrl: service.priceImages }))]
+      : [];
+    serviceIds.set(messages, service.id);
+    table.set(service.actionText, messages);
+  });
+
+  branches.filter((b) => b.enabled).forEach((branch) => {
+    const trigger = scheduleTrigger(branch);
+    table.set(branch.trigger, [
+      createFlexMessage("สาขา" + branch.trigger, FlexMessageBranchMap({
+        branchName: branch.displayName,
+        fontSize: branch.fontSize,
+        mapUrl: branch.mapUrl,
+        imageUrl: branch.imageUrl,
+        phoneNumber: branch.phoneNumber,
+        lineId: branch.lineId,
+        lineUrl: branch.lineUrl || "",
+      })),
+      createFlexMessage(trigger, FlexMessageIconTable({ messageText: trigger })),
+    ]);
+    if (branch.doctors && branch.doctors.length) {
+      table.set(trigger, chunk(branch.doctors, MAX_BUBBLES).map((group) =>
+        createFlexMessage(trigger, FlexMessageDoctorSchedules(group))));
+    }
+  });
+
+  return table;
+}
+
+function createMessageTable(store, { logError = (msg) => console.error(msg) } = {}) {
+  let table = build(store.getAll());
+  let lastProblem = null; // log ปัญหาเดิมซ้ำทุกข้อความไม่ได้
+  function rebuild() {
+    try {
+      table = build(store.getAll());
+    } catch (error) {
+      logError(`messageTable: สร้างตารางใหม่ไม่สำเร็จ ใช้ตารางเดิมต่อ (${error.message})`);
+    }
+  }
+  store.onChange(rebuild);
+
+  // ข้อความตอบของ OA นี้: ของบริการ + ข้อความต่อท้ายตาม OA/บริการ; null = ไม่ตอบ
+  function getReply(trigger, channelId) {
+    const entry = table.get(trigger);
+    if (!entry) return null;
+    const serviceId = serviceIdOf(entry);
+    let messages = entry;
+    if (serviceId !== undefined) {
+      const { value, problem } = readFollowUps(store);
+      if (problem) {
+        if (problem !== lastProblem) {
+          lastProblem = problem;
+          logError(`ข้อความต่อท้าย: ${problem} — บอทตอบโดยไม่มีข้อความต่อท้ายจนกว่าจะแก้ไฟล์`);
+        }
+      } else {
+        lastProblem = null;
+        const text = resolveFollowUpText(value, channelId, serviceId);
+        if (text) messages = [...entry, createTextMessage(text)];
+      }
+    }
+    return messages.length ? messages : null;
+  }
+
+  return { getTable: () => table, rebuild, getReply };
+}
+
+module.exports = { build, createMessageTable, scheduleTrigger, serviceIdOf, SCHEDULE_PREFIX, MAX_BUBBLES };

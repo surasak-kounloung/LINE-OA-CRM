@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test",
+    "admin:build": "cd admin && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
